@@ -233,7 +233,9 @@ const LESSONS = {
 };
 
 export function getLessonData(worldId, lessonId) {
-  const key = `${worldId}/${lessonId}`;
+  // worldId from filesystem is e.g. 'world-02-memory-banks'; keys use 'world-02'
+  const shortWorld = worldId.replace(/^(world-\d+).*/, '$1');
+  const key = `${shortWorld}/${lessonId}`;
   return LESSONS[key] || null;
 }
 
