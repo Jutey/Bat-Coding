@@ -1,0 +1,73 @@
+// Lesson 44 — Loot Drops
+export default {
+  id: 'world-05/lesson-44-loot-drops',
+  title: 'Loot Drops',
+  world: 'SECTOR 5 — THE RANDOM SERVER',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'The Thrill of the Loot Drop',
+      body: 'Every great game has loot drops — random rewards for defeating enemies.\n\nCommon items drop often. Rare items drop rarely. Legendary items almost never.\n\nThis is called a **loot table**.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Building a Loot Table',
+      body: 'Roll a number and check which range it falls into.\n\nLarger ranges = more common. Smaller ranges = rarer.',
+      code: '@echo off\nset /a roll=%random% %% 100 + 1\nif %roll% LEQ 50 echo Common: Copper Coin\nif %roll% GTR 50 if %roll% LEQ 80 echo Uncommon: Iron Sword\nif %roll% GTR 80 if %roll% LEQ 95 echo Rare: Magic Ring\nif %roll% GTR 95 echo LEGENDARY: Dragon Armor',
+      output: '(50% common, 30% uncommon, 15% rare, 5% legendary)',
+    },
+    {
+      type: 'predict',
+      question: 'In this loot table, what percentage chance is "Rare"?',
+      code: 'if %roll% LEQ 60 echo Common\nif %roll% GTR 60 if %roll% LEQ 80 echo Uncommon\nif %roll% GTR 80 if %roll% LEQ 95 echo Rare\nif %roll% GTR 95 echo Legendary',
+      options: ['5%', '15%', '20%', '25%'],
+      correct: 1,
+      explanation: 'Rare is 81-95 — that\'s 15 numbers out of 100, so 15% chance.',
+    },
+    {
+      type: 'predict',
+      question: 'Why do we use `if %roll% GTR 60 if %roll% LEQ 80` for Uncommon?',
+      code: 'if %roll% GTR 60 if %roll% LEQ 80 echo Uncommon',
+      options: [
+        'This is two separate conditions that both must be true',
+        'Batch requires two ifs for every check',
+        'The second if is just decoration',
+        'This checks if roll is exactly 60 or 80',
+      ],
+      correct: 0,
+      explanation: 'Batch doesn\'t have AND operators, so you chain ifs. Both must be true: roll > 60 AND roll <= 80.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Add the Uncommon drop range (51-75%):',
+      template: '@echo off\nset /a roll=%random% %% 100 + 1\nif %roll% LEQ 50 echo Common: Coin\nif %roll% GTR 50 if %roll% ___ 75 echo Uncommon: Shield\nif %roll% GTR 75 echo Rare: Sword',
+      blank: '___',
+      answer: 'LEQ',
+      hint: 'Uncommon drops when roll is greater than 50 AND less than or equal to 75.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The legendary item never drops. Fix the range.',
+      code: '@echo off\nset /a roll=%random% %% 100 + 1\nif %roll% LEQ 80 echo Common\nif %roll% GTR 80 if %roll% LEQ 95 echo Rare\nif %roll% GTR 95 if %roll% LEQ 90 echo Legendary',
+      answer: '@echo off\nset /a roll=%random% %% 100 + 1\nif %roll% LEQ 80 echo Common\nif %roll% GTR 80 if %roll% LEQ 95 echo Rare\nif %roll% GTR 95 echo Legendary',
+      bugHint: 'The legendary check requires roll > 95 AND roll <= 90 — that\'s impossible. Remove the second condition.',
+      bugType: 'impossible_range',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a full enemy loot system.\n\nAsk the player which enemy they defeated (Goblin/Wolf/Dragon). Each enemy has its own loot table with different rarities. Display what dropped.',
+      starterCode: '@echo off\ncolor 0E\ntitle LOOT DROP\ncls\necho You defeated an enemy!\nset /p enemy=Which enemy? (Goblin/Wolf/Dragon): \nset /a roll=%random% %% 100 + 1',
+      minLines: 20,
+      achievement: 'loot_goblin',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'loot_goblin',
+      message: 'The Random Server distributes its treasures.\n\nSome rare. Some legendary. All random.',
+      storyUpdate: 'LOOT TABLE LOADED — DROP RATES CALIBRATED',
+    },
+  ],
+};

@@ -1,0 +1,67 @@
+// Lesson 43 — Dice Roller
+export default {
+  id: 'world-05/lesson-43-dice-roller',
+  title: 'Dice Roller',
+  world: 'SECTOR 5 — RANDOMNESS REACTOR',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Rolling Dice in Code',
+      body: 'Every tabletop RPG uses dice. As a coder, you can simulate ANY die:\n\n- d4: 4 sides (1–4)\n- d6: 6 sides (1–6)\n- d8: 8 sides (1–8)\n- d10: 10 sides (1–10)\n- d20: 20 sides (1–20)\n- d100: 100 sides (1–100)\n\nFormula: `%RANDOM% %% SIDES + 1`',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Rolling Multiple Dice',
+      body: 'Games often roll "2d6" (two 6-sided dice) and add them. Roll each die separately and add.',
+      code: '@echo off\nset /a die1=%RANDOM% %% 6 + 1\nset /a die2=%RANDOM% %% 6 + 1\nset /a total=die1+die2\necho Die 1: %die1%\necho Die 2: %die2%\necho Total: %total%',
+      output: 'Die 1: 3\nDie 2: 5\nTotal: 8',
+    },
+    {
+      type: 'predict',
+      question: 'What range does `%RANDOM% %% 8 + 1` produce?',
+      code: 'set /a d8=%RANDOM% %% 8 + 1',
+      options: ['0 to 8', '1 to 8', '0 to 7', '1 to 9'],
+      correct: 1,
+      explanation: '%% 8 gives 0-7. Adding 1 shifts to 1-8. That\'s a standard d8 die.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the d20 roll (1 to 20):',
+      template: '@echo off\nset /a d20=%RANDOM% %% ___ + 1\necho D20: %d20%',
+      blank: '___',
+      answer: '20',
+      hint: 'Modulo 20 gives 0-19. Add 1 for 1-20.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The 3d6 roller is broken — it only rolls one die. Fix it.',
+      code: '@echo off\nset /a die1=%RANDOM% %% 6 + 1\nset /a total=die1\necho 3d6 total: %total%',
+      answer: '@echo off\nset /a die1=%RANDOM% %% 6 + 1\nset /a die2=%RANDOM% %% 6 + 1\nset /a die3=%RANDOM% %% 6 + 1\nset /a total=die1+die2+die3\necho 3d6 total: %total%',
+      bugHint: '3d6 means roll three 6-sided dice. Add die2 and die3, then sum all three.',
+      bugType: 'missing_dice',
+    },
+    {
+      type: 'type',
+      prompt: 'Type the command to roll a d100 (1 to 100) into a variable called "roll":',
+      target: 'roll=%RANDOM% %% 100 + 1',
+      placeholder: 'set /a ...',
+      answer: 'set /a roll=%RANDOM% %% 100 + 1',
+      hint: 'set /a roll=%RANDOM% %% 100 + 1',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a full RPG dice roller.\n\nAsk the player which die to roll: d4, d6, d8, d10, d20, or d100.\nRoll the selected die and show the result.\nAlso roll 2d6 and 3d6 options.\nLet them roll again or quit.',
+      starterCode: '@echo off\ncolor 0B\ntitle RPG DICE ROLLER\n:menu\ncls\necho === DICE ROLLER ===\necho 1) d4   2) d6   3) d8\necho 4) d10  5) d20  6) d100\necho 7) 2d6  8) 3d6  9) Quit\necho.\nset /p choice=Choose a die: ',
+      minLines: 30,
+      achievement: 'dice_master',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'dice_master',
+      storyUpdate: 'PROBABILITY ENGINE CALIBRATED — ALL DICE SYSTEMS NOMINAL',
+    },
+  ],
+};

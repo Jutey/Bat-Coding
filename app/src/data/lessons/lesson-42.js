@@ -1,0 +1,66 @@
+// Lesson 42 — Coin Flip
+export default {
+  id: 'world-05/lesson-42-coin-flip',
+  title: 'Coin Flip',
+  world: 'SECTOR 5 — RANDOMNESS REACTOR',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Heads or Tails?',
+      body: 'The simplest random event: flip a coin.\n\nA coin has 2 sides. We need a random number that\'s either 0 or 1.\n\n`%RANDOM% %% 2` gives exactly that — either 0 or 1.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Coin Flip with If',
+      body: 'Generate 0 or 1, then use `if` to decide heads or tails.',
+      code: '@echo off\nset /a flip=%RANDOM% %% 2\nif %flip% EQU 0 echo HEADS!\nif %flip% EQU 1 echo TAILS!',
+      output: 'HEADS!',
+    },
+    {
+      type: 'learn',
+      title: 'Flipping Multiple Times',
+      body: 'Use a loop to flip the coin multiple times and count results.',
+      code: '@echo off\nset heads=0\nset tails=0\nset flips=10\nset i=1\n:fliploop\nset /a result=%RANDOM% %% 2\nif %result% EQU 0 set /a heads=heads+1\nif %result% EQU 1 set /a tails=tails+1\nset /a i=i+1\nif %i% LEQ %flips% goto fliploop\necho Heads: %heads%\necho Tails: %tails%',
+      output: 'Heads: 6\nTails: 4',
+    },
+    {
+      type: 'predict',
+      question: 'What does `%RANDOM% %% 2` produce?',
+      code: 'set /a flip=%RANDOM% %% 2',
+      options: ['0 to 2', '1 or 2', '0 or 1', '0 to 32767'],
+      correct: 2,
+      explanation: 'Modulo 2 gives remainders 0 and 1 only. Perfect for a two-outcome coin flip.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the coin flip — check for tails (result = 1):',
+      template: '@echo off\nset /a flip=%RANDOM% %% 2\nif %flip% EQU 0 echo Heads!\nif %flip% ___ 1 echo Tails!',
+      blank: '___',
+      answer: 'EQU',
+      hint: 'EQU means "equal to". Check if flip equals 1 for tails.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The coin flip always shows both Heads and Tails. Fix it.',
+      code: '@echo off\nset /a flip=%RANDOM% %% 2\necho Heads!\necho Tails!',
+      answer: '@echo off\nset /a flip=%RANDOM% %% 2\nif %flip% EQU 0 echo Heads!\nif %flip% EQU 1 echo Tails!',
+      bugHint: 'There are no if statements — both messages always print. Add `if %flip% EQU 0` before Heads and `if %flip% EQU 1` before Tails.',
+      bugType: 'missing_condition',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a coin flip challenge game.\n\nAsk the player to guess Heads (H) or Tails (T). Then flip the coin. Tell them if they were right or wrong. Keep score over 5 rounds. Show final score at the end.',
+      starterCode: '@echo off\ncolor 0E\ntitle COIN FLIP CHALLENGE\nset score=0\nset round=1\n:game\ncls\necho === COIN FLIP CHALLENGE ===\necho Round %round% of 5\necho.',
+      minLines: 25,
+      achievement: 'coin_flipper',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'coin_flipper',
+      storyUpdate: 'BINARY RANDOMIZER ONLINE — 50/50 PROBABILITY CONFIRMED',
+    },
+  ],
+};

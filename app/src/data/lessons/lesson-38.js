@@ -1,0 +1,66 @@
+// Lesson 38 — Loading Sequence
+export default {
+  id: 'world-04/lesson-38-loading-sequence',
+  title: 'Loading Sequence',
+  world: 'SECTOR 4 — THE LOOP ENGINE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Simulating a Loading Screen',
+      body: 'The Loop Engine\'s power cells need initializing.\n\nA loading sequence uses a loop to display progress step by step — printing dots, percentages, or status messages as each "module" loads.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Building a Loading Bar with Loops',
+      body: 'We can simulate loading by looping through a list of systems and printing each as it loads.',
+      code: '@echo off\ncolor 0A\ntitle LOADING...\nset step=1\n:load\ncls\necho INITIALIZING SYSTEM...\necho.\nif %step% EQU 1 echo [>>  ] 25%% - Loading core...\nif %step% EQU 2 echo [>>>>] 50%% - Loading memory...\nif %step% EQU 3 echo [>>>>>>>> ] 75%% - Loading modules...\nif %step% EQU 4 echo [>>>>>>>>>>] 100%% - Done!\nif %step% EQU 4 goto done\nset /a step=step+1\ngoto load\n:done\necho.\necho SYSTEM READY.',
+      output: '(shows loading progress bar steps)',
+    },
+    {
+      type: 'learn',
+      title: 'The %% Double Percent Trick',
+      body: 'Inside a Batch file, `%` is special — it marks variables. To print an actual percent sign, use `%%` (two percent signs).\n\nIn the command prompt you only need one `%`, but in .bat files you need `%%`.',
+      code: '@echo off\necho Loading: 50%%\necho Progress: 75%%',
+      output: 'Loading: 50%\nProgress: 75%',
+    },
+    {
+      type: 'predict',
+      question: 'What will this print?',
+      code: '@echo off\necho Complete: 100%%',
+      options: ['Complete: 100%%', 'Complete: 100%', 'Error', 'Complete: 1001'],
+      correct: 1,
+      explanation: 'In a .bat file, %% becomes a single %. So 100%% prints as 100%.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Make this print "Progress: 80%" correctly in a .bat file:',
+      template: '@echo off\necho Progress: 80__',
+      blank: '__',
+      answer: '%%',
+      hint: 'Inside a .bat file, use %% (two percent signs) to print one real % character.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The loading steps never advance past step 1. Fix it.',
+      code: '@echo off\nset step=1\n:load\necho Step %step%\nif %step% EQU 3 goto done\ngoto load\n:done\necho Done!',
+      answer: '@echo off\nset step=1\n:load\necho Step %step%\nset /a step=step+1\nif %step% GTR 3 goto done\ngoto load\n:done\necho Done!',
+      bugHint: 'The step variable never increases. Add `set /a step=step+1` to advance through the loading stages.',
+      bugType: 'missing_increment',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a dramatic system boot sequence for the Digital Repair Corps.\n\nShow at least 5 loading stages with messages like "Loading weapons...", "Connecting to network...", "Calibrating sensors...". End with "SYSTEM ONLINE — Welcome, Cadet."',
+      starterCode: '@echo off\ncolor 0A\ntitle DRC BOOT SEQUENCE\nset stage=1\n:boot\ncls\necho === DIGITAL REPAIR CORPS ===\necho.',
+      minLines: 20,
+      achievement: 'boot_sequence',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'boot_sequence',
+      storyUpdate: 'BOOT SEQUENCE DEPLOYED — LOOP ENGINE SECTOR AT 75%',
+    },
+  ],
+};
