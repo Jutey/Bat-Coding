@@ -1,0 +1,118 @@
+.fix-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fix-header {
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid #0f1f0f;
+  flex-shrink: 0;
+}
+
+.fix-label {
+  font-size: 11px;
+  color: #cc4400;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 8px;
+}
+
+.fix-prompt {
+  font-size: 15px;
+  color: #b0c0b0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.fix-editor-wrap {
+  flex: 1;
+  min-height: 0;
+  border-bottom: 1px solid #0f1f0f;
+}
+
+.fix-footer {
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  background: #050f05;
+}
+
+.fix-actions { flex: 1; }
+
+.fix-result {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fix-result.correct { color: #00ff41; }
+.fix-result.wrong   { color: #ff4141; }
+
+.fix-hint-box {
+  font-size: 12px;
+  color: #5a8a6a;
+  font-family: 'Courier New', monospace;
+  animation: slide-up 0.2s ease;
+}
+
+.aegis-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: #00ff41;
+  background: #001a00;
+  border: 1px solid #003a00;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}
+
+.fix-btns {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.hint-btn {
+  background: #1a0f00;
+  border: 1px solid #ff9900;
+  color: #ff9900;
+  padding: 7px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+}
+
+.hint-btn:hover { background: #2a1a00; }
+
+.check-btn {
+  background: #001a00;
+  border: 2px solid #00ff41;
+  color: #00ff41;
+  padding: 7px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.15s;
+}
+
+.check-btn:hover:not(:disabled) { background: #003a00; }
+.check-btn:disabled { opacity: 0.4; cursor: not-allowed; }

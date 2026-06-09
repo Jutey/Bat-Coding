@@ -1,0 +1,98 @@
+.interactive-lesson {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  transition: background 0.15s;
+}
+
+.interactive-lesson.wrong-flash {
+  background: #1a0000;
+  animation: flash-red 0.5s ease;
+}
+
+@keyframes flash-red {
+  0%   { background: #1a0000; }
+  100% { background: #0d0d0d; }
+}
+
+/* Top bar */
+.lesson-topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #0f1f0f;
+  flex-shrink: 0;
+}
+
+.exit-btn {
+  background: none;
+  border: 1px solid #1a2a1a;
+  color: #3a5a3a;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.exit-btn:hover { border-color: #ff4141; color: #ff4141; background: #1a0000; }
+
+.progress-track {
+  flex: 1;
+  height: 8px;
+  background: #0a1a0a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00aa2a, #00ff41);
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.hearts {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.heart {
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.heart.full  { color: #ff4466; filter: drop-shadow(0 0 4px rgba(255,68,102,0.5)); }
+.heart.empty { color: #2a1a1a; }
+
+.xp-counter {
+  font-size: 12px;
+  color: #00ff41;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Body */
+.lesson-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.step-area {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

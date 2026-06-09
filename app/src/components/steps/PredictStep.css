@@ -1,0 +1,195 @@
+.predict-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px 40px;
+  gap: 24px;
+}
+
+.predict-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.predict-label {
+  font-size: 10px;
+  color: #2a5a2a;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+}
+
+.predict-question {
+  font-size: 20px;
+  color: #c0d0c0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.predict-code {
+  background: #050f05;
+  border: 1px solid #1a3a1a;
+  border-radius: 5px;
+  padding: 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #00ff41;
+  white-space: pre;
+  line-height: 1.6;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #050f05;
+  border: 2px solid #0f2a0f;
+  border-radius: 6px;
+  padding: 12px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  width: 100%;
+}
+
+.option-btn:hover:not(:disabled) {
+  border-color: #2a5a2a;
+  background: #080f08;
+}
+
+.option-btn.selected {
+  border-color: #00aaff;
+  background: #001a2a;
+}
+
+.option-btn.correct {
+  border-color: #00ff41 !important;
+  background: #001a00 !important;
+  animation: flash-correct 0.4s ease;
+}
+
+.option-btn.wrong {
+  border-color: #ff4141 !important;
+  background: #1a0000 !important;
+  animation: shake 0.4s ease;
+}
+
+@keyframes flash-correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.option-letter {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #3a6a3a;
+  flex-shrink: 0;
+  font-family: 'Courier New', monospace;
+}
+
+.option-btn.selected .option-letter { background: #002a3a; border-color: #00aaff; color: #00aaff; }
+.option-btn.correct .option-letter  { background: #003a00; border-color: #00ff41; color: #00ff41; }
+.option-btn.wrong .option-letter    { background: #2a0000; border-color: #ff4141; color: #ff4141; }
+
+.option-text {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: #7a9a7a;
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.option-btn.correct .option-text { color: #00ff41; }
+.option-btn.wrong .option-text   { color: #ff4141; }
+
+.feedback-box {
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.feedback-box.correct { background: #001a00; border: 1px solid #00ff41; }
+.feedback-box.wrong   { background: #1a0000; border: 1px solid #ff4141; }
+
+.feedback-icon {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+}
+
+.feedback-box.correct .feedback-icon { color: #00ff41; }
+.feedback-box.wrong .feedback-icon   { color: #ff4141; }
+
+.feedback-box p {
+  font-size: 13px;
+  color: #7a9a7a;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.check-btn {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  background: #001a00;
+  border: 2px solid #00ff41;
+  color: #00ff41;
+  padding: 12px 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  transition: all 0.15s;
+}
+
+.check-btn:hover:not(:disabled) {
+  background: #003a00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,255,65,0.2);
+}
+
+.check-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: #1a3a1a;
+  color: #1a3a1a;
+}

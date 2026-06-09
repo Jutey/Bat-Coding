@@ -2,11 +2,26 @@ import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Editor from '@monaco-editor/react';
 import AegisPanel from './AegisPanel';
+import InteractiveLesson from './InteractiveLesson';
+import { getLessonData } from '../data/lessons/index.js';
 import './LessonView.css';
 
 const TABS = ['LESSON', 'EDITOR', 'CHALLENGE'];
 
 export default function LessonView({ lesson, progress, onBack, onComplete, onTriggerAchievement }) {
+  // Use interactive lesson if we have structured data for this lesson
+  const lessonData = getLessonData(lesson.worldId, lesson.id);
+  if (lessonData) {
+    return (
+      <InteractiveLesson
+        lessonData={lessonData}
+        progress={progress}
+        onBack={onBack}
+        onComplete={onComplete}
+        onTriggerAchievement={onTriggerAchievement}
+      />
+    );
+  }
   const [tab, setTab] = useState('LESSON');
   const [lessonMd, setLessonMd] = useState('');
   const [code, setCode] = useState('');

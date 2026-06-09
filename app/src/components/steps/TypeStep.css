@@ -1,0 +1,203 @@
+.type-step {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px 40px;
+  gap: 24px;
+}
+
+.type-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.type-label {
+  font-size: 10px;
+  color: #2a5a2a;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+}
+
+.type-question {
+  font-size: 20px;
+  color: #c0d0c0;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.type-target {
+  background: #050f05;
+  border: 1px solid #1a3a1a;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.target-label {
+  font-size: 9px;
+  color: #2a5a2a;
+  letter-spacing: 0.2em;
+  padding: 6px 14px;
+  border-bottom: 1px solid #0a1a0a;
+}
+
+.target-text {
+  padding: 12px 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  color: #7ab07a;
+  margin: 0;
+}
+
+.type-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.type-input {
+  width: 100%;
+  background: #050f05;
+  border: 2px solid #1a3a1a;
+  border-radius: 6px;
+  color: #00ff41;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  transition: border-color 0.15s;
+  letter-spacing: 0.02em;
+}
+
+.type-input:focus { border-color: #2a5a2a; }
+.type-input::placeholder { color: #1a3a1a; }
+.type-input:disabled { opacity: 0.8; }
+
+.type-input-wrap.correct .type-input { border-color: #00ff41; background: #001a00; }
+.type-input-wrap.wrong .type-input   { border-color: #ff4141; background: #1a0000; animation: shake 0.4s ease; }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.input-status {
+  position: absolute;
+  right: 14px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.type-input-wrap.correct .input-status { color: #00ff41; }
+.type-input-wrap.wrong .input-status   { color: #ff4141; }
+
+.type-feedback {
+  border-radius: 6px;
+  padding: 12px 16px;
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.type-feedback.correct { background: #001a00; border: 1px solid #00ff41; }
+.type-feedback.wrong   { background: #1a0000; border: 1px solid #ff4141; }
+
+.feedback-icon {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 4px;
+}
+
+.type-feedback.correct .feedback-icon { color: #00ff41; }
+.type-feedback.wrong .feedback-icon   { color: #ff4141; }
+
+.type-feedback p { font-size: 13px; color: #7a9a7a; margin: 0; }
+.type-feedback code {
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #00ff41;
+  font-size: 12px;
+}
+
+.hint-link {
+  background: none;
+  border: none;
+  color: #2a5a4a;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  text-decoration: underline;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.hint-link:hover { color: #5a9a7a; }
+
+.type-hint {
+  background: #030a08;
+  border: 1px solid #0a2a1a;
+  border-left: 3px solid #00ff41;
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #5a8a6a;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  animation: slide-up 0.2s ease;
+}
+
+.aegis-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: #00ff41;
+  background: #001a00;
+  border: 1px solid #003a00;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}
+
+.check-btn {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  background: #001a00;
+  border: 2px solid #00ff41;
+  color: #00ff41;
+  padding: 12px 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  transition: all 0.15s;
+}
+
+.check-btn:hover:not(:disabled) {
+  background: #003a00;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,255,65,0.2);
+}
+
+.check-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: #1a3a1a;
+  color: #1a3a1a;
+}
