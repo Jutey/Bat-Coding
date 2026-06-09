@@ -93,35 +93,92 @@ ipcMain.handle('read-bat', (_, p, filename) => {
 
 ipcMain.handle('run-bat', (_, code) => {
   return new Promise((resolve) => {
-    // Safety blocklist — reject dangerous commands
+    // Safety blocklist
     const BLOCKED = [
-      'del', 'erase', 'rd', 'rmdir', 'format', 'shutdown', 'reg', 'regedit',
-      'taskkill', 'powershell', 'diskpart', 'cipher', 'takeown', 'icacls',
-      'bcdedit', 'wmic', 'net user',
+      'format', 'shutdown', 'reg ', 'regedit', 'taskkill', 'powershell',
+      'diskpart', 'cipher', 'takeown', 'icacls', 'bcdedit', 'wmic', 'net user',
     ];
-    const lower = code.toLowerCase();
+    const lower = (code || '').toLowerCase();
     for (const cmd of BLOCKED) {
-      // Match whole word / command token to avoid false positives
-      const pattern = new RegExp('(^|\\s|&|\\|)' + cmd.replace(' ', '\\s+') + '(\\s|$|&|\\||/)', 'm');
+      const pattern = new RegExp('(^|\\s|&|\\|)' + cmd.trim().replace(/\s+/, '\\s+') + '(\\s|$|&|\\||/)', 'm');
       if (pattern.test(lower)) {
-        resolve({ output: '[BLOCKED] This command is restricted in CommandQuest for safety.', error: null });
+        resolve({ output: '[BLOCKED] This command is restricted in CommandQuest for safety.', error: null, exitCode: -1, debug: {} });
         return;
       }
     }
 
     if (process.platform !== 'win32') {
-      resolve({ output: '[Windows only]\n\nOn Windows, this opens a real cmd.exe window.\nFor now: read your code and predict the output.', error: null });
+      resolve({ output: '[Windows only]\n\nScript execution requires Windows.\nRead your code and predict the output manually.', error: null, exitCode: 0, debug: {} });
       return;
     }
-    const tmpFile = path.join(app.getPath('temp'), `bat_${Date.now()}.bat`);
-    fs.writeFileSync(tmpFile, code);
-    spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/k', tmpFile], { detached: true, stdio: 'ignore' }).unref();
-    const cap = spawn('cmd.exe', ['/c', tmpFile], { shell: true });
+
+    // Create unique temp file
+    const tmpFile = path.join(
+      app.getPath('temp'),
+      `cq_${Date.now()}_${Math.random().toString(36).slice(2, 8)}.bat`
+    );
+    const debug = { tmpFile, existsBeforeRun: false, spawnArgs: [], cwd: '', exitCode: null, cleanupOk: null };
+
+    // Write temp file
+    try {
+      fs.writeFileSync(tmpFile, code, 'utf8');
+    } catch (e) {
+      resolve({ output: '', error: `Failed to write script: ${e.message}`, exitCode: -1, debug });
+      return;
+    }
+
+    debug.existsBeforeRun = fs.existsSync(tmpFile);
+    if (!debug.existsBeforeRun) {
+      resolve({ output: '', error: 'Script file could not be created.', exitCode: -1, debug });
+      return;
+    }
+
+    const cwd = app.getPath('documents');
+    // Pass tmpFile as a separate argument — Node.js will quote it if it contains spaces
+    const spawnArgs = ['/d', '/c', tmpFile];
+    debug.spawnArgs = spawnArgs;
+    debug.cwd = cwd;
+
+    const cp = spawn('cmd.exe', spawnArgs, {
+      windowsHide: true,
+      shell: false,
+      cwd,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+
+    // Close stdin immediately so `pause` and `set /p` don't block forever
+    try { cp.stdin.end(); } catch {}
+
     let out = '', err = '';
-    cap.stdout.on('data', d => { out += d; });
-    cap.stderr.on('data', d => { err += d; });
-    cap.on('close', () => { try { fs.unlinkSync(tmpFile); } catch {} resolve({ output: out, error: err || null }); });
-    setTimeout(() => { cap.kill(); try { fs.unlinkSync(tmpFile); } catch {} resolve({ output: out || 'Execution stopped. This script appears to loop forever.', error: null }); }, 5000);
+    cp.stdout.on('data', d => { out += d.toString(); });
+    cp.stderr.on('data', d => { err += d.toString(); });
+
+    let settled = false;
+    let timeoutId;
+
+    function settle(result) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      try { fs.unlinkSync(tmpFile); debug.cleanupOk = true; } catch { debug.cleanupOk = false; }
+      resolve({ ...result, debug });
+    }
+
+    cp.on('close', (code) => {
+      debug.exitCode = code;
+      settle({ output: out, error: err || null, exitCode: code });
+    });
+
+    cp.on('error', (e) => {
+      settle({ output: out, error: `Launch failed: ${e.message}`, exitCode: -1 });
+    });
+
+    // 10 second timeout — kill process, let close event do final settle
+    timeoutId = setTimeout(() => {
+      try { cp.kill(); } catch {}
+      // settle here in case close never fires
+      settle({ output: out || 'Script timed out after 10 seconds.', error: err || 'Timeout', exitCode: -1 });
+    }, 10000);
   });
 });
 

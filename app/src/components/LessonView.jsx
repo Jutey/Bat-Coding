@@ -11,7 +11,9 @@ import './LessonView.css';
 const TABS = ['LESSON', 'EDITOR', 'CHALLENGE'];
 
 export default function LessonView({ lesson, progress, onBack, onComplete, onTriggerAchievement }) {
-  // Use interactive lesson if we have structured data for this lesson
+  // useGame must be called unconditionally before any early returns (Rules of Hooks)
+  const { trackStat } = useGame();
+
   const lessonData = getLessonData(lesson.worldId, lesson.id);
   if (lessonData) {
     return (
@@ -25,7 +27,6 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
     );
   }
 
-  // Use MissionView for lessons that have objectives or voiceIntro (free-build/sandbox mode)
   if (lesson.objectives || lesson.voiceIntro) {
     return (
       <MissionView
@@ -37,8 +38,6 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
       />
     );
   }
-
-  const { trackStat } = useGame();
   const [tab, setTab] = useState('LESSON');
   const [lessonMd, setLessonMd] = useState('');
   const [code, setCode] = useState('');
@@ -67,15 +66,20 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
   async function runCode(codeToRun) {
     setRunning(true);
     setOutput('Running...');
-    const result = await window.api.runBat(codeToRun);
-    const lines = (result.output || '').split('\n').length;
-    trackStat('linesWritten', lines);
-    trackStat('scriptsRun', 1);
-    setOutput(result.output + (result.error ? '\n\nERRORS:\n' + result.error : ''));
-    setRunning(false);
-
-    // First run achievement
-    onTriggerAchievement('first_signal');
+    try {
+      const result = await window.api.runBat(codeToRun);
+      const outText = result?.output ?? '';
+      const errText = result?.error ?? '';
+      const lines = outText.split('\n').length;
+      trackStat('linesWritten', lines);
+      trackStat('scriptsRun', 1);
+      setOutput(outText + (errText ? '\n\nERRORS:\n' + errText : '') || '(no output)');
+      onTriggerAchievement('first_signal');
+    } catch (err) {
+      setOutput('Runner error: ' + (err?.message ?? String(err)));
+    } finally {
+      setRunning(false);
+    }
   }
 
   async function markDone() {

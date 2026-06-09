@@ -18,12 +18,19 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
   async function handleRun() {
     setRunning(true);
     setOutput('Running...');
-    const result = await window.api.runBat(code);
-    setOutput(result.output + (result.error ? '\nERRORS:\n' + result.error : ''));
-    setRunning(false);
-    setHasRun(true);
-    trackStat('linesWritten', lineCount);
-    trackStat('scriptsRun', 1);
+    try {
+      const result = await window.api.runBat(code);
+      const outText = result?.output ?? '';
+      const errText = result?.error ?? '';
+      setOutput(outText + (errText ? '\n\nERRORS:\n' + errText : '') || '(no output)');
+      setHasRun(true);
+      trackStat('linesWritten', lineCount);
+      trackStat('scriptsRun', 1);
+    } catch (err) {
+      setOutput('Runner error: ' + (err?.message ?? String(err)));
+    } finally {
+      setRunning(false);
+    }
   }
 
   function handleDone() {

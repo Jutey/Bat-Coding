@@ -53,19 +53,19 @@ export default function Sandbox({ onRun }) {
     setOutput('Running...\n');
     try {
       const result = await window.api.runBat(code);
-      setOutput(result ?? '(no output)');
+      const outText = result?.output ?? '';
+      const errText = result?.error ?? '';
+      setOutput(outText + (errText ? '\n\nERRORS:\n' + errText : '') || '(no output)');
       if (onRun) {
-        const lineCount = code.split('\n').length;
+        const lineCount = code.split('\n').filter(l => l.trim()).length;
         onRun(lineCount);
       }
     } catch (err) {
-      setOutput(`Error: ${err?.message ?? String(err)}\n`);
+      setOutput('Runner error: ' + (err?.message ?? String(err)));
     } finally {
       setRunning(false);
       setTimeout(() => {
-        if (outputRef.current) {
-          outputRef.current.scrollTop = outputRef.current.scrollHeight;
-        }
+        if (outputRef.current) outputRef.current.scrollTop = outputRef.current.scrollHeight;
       }, 50);
     }
   }
