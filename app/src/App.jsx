@@ -32,6 +32,11 @@ function AppInner() {
   const [selectedWorld, setSelectedWorld] = useState(null);
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [secretBuffer, setSecretBuffer] = useState('');
+  const [worlds, setWorlds] = useState([]);
+
+  useEffect(() => {
+    window.api.getWorlds().then(setWorlds).catch(() => {});
+  }, []);
 
   // Apply theme
   useEffect(() => {
@@ -106,7 +111,7 @@ function AppInner() {
           <div className="app-content">
             {view === 'map' && (
               <WorldMap
-                worlds={[]}
+                worlds={worlds}
                 progress={game}
                 selectedWorld={selectedWorld}
                 onSelectWorld={setSelectedWorld}

@@ -103,7 +103,7 @@ const DEFAULT_STATE = {
   avatar: 'cadet',
   activePet: 'glitch',
   stats: { linesWritten: 0, scriptsRun: 0, bugsFixed: 0, predictionsCorrect: 0, secretsFound: 0 },
-  hallOfLegends: {},
+  hallOfLegends: [],
   dailyMissions: { date: null, missions: [], completed: [] },
   weeklyChallenge: null,
   bootComplete: false,
@@ -179,8 +179,8 @@ export function GameProvider({ children }) {
 
   const recordHallEntry = useCallback((key, entry) => {
     setState(prev => {
-      if (prev.hallOfLegends[key]) return prev;
-      const next = { ...prev, hallOfLegends: { ...prev.hallOfLegends, [key]: entry } };
+      if (prev.hallOfLegends.some(h => h.id === key)) return prev;
+      const next = { ...prev, hallOfLegends: [...prev.hallOfLegends, { id: key, ...entry }] };
       window.api.saveProgress(next);
       return next;
     });
