@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AEGIS_WORLD_INTROS } from '../data/aegis';
+import { isAdminMode } from './Settings/Settings';
 import './WorldMap.css';
 
 const WORLD_META = [
@@ -49,8 +50,20 @@ export default function WorldMap({ worlds, progress, selectedWorld, onSelectWorl
     return Math.round((count / 10) * 100);
   }
 
-  function isLessonComplete(lessonId) {
-    return progress.completedLessons.includes(lessonId);
+  function isLessonComplete(worldId, lessonId) {
+    const cls = progress.completedLessons;
+    // Try exact filesystem format: worldId/lessonId
+    if (cls.includes(worldId + '/' + lessonId)) return true;
+    // Try short world format: world-01/lessonId (strip suffix after world-XX)
+    const shortWorld = worldId.replace(/^(world-\d+).*/, '$1');
+    if (cls.includes(shortWorld + '/' + lessonId)) return true;
+    // Try lesson number substring match
+    const lNum = lessonId.match(/(\d+)/);
+    if (lNum) {
+      const ln = lNum[1].padStart(2, '0');
+      return cls.some(id => id.includes(`lesson-${ln}`) || id.includes(`-l${ln}`));
+    }
+    return false;
   }
 
   const worldKey = selectedWorld ? selectedWorld.id.replace('world-', 'world-') : null;
@@ -73,7 +86,7 @@ export default function WorldMap({ worlds, progress, selectedWorld, onSelectWorl
           {worlds.map((world, i) => {
             const meta = WORLD_META[i] || { sector: 'UNKNOWN', color: '#444', num: '??' };
             const pct = worldCompletionPct(world);
-            const isLocked = i > 0 && worldCompletionPct(worlds[i - 1]) < 50;
+            const isLocked = !isAdminMode() && i > 0 && worldCompletionPct(worlds[i - 1]) < 50;
 
             return (
               <div
@@ -120,7 +133,7 @@ export default function WorldMap({ worlds, progress, selectedWorld, onSelectWorl
         {loadingLessons ? (
           <div className="loading">LOADING SECTOR DATA...</div>
         ) : lessons.map((lesson, i) => {
-          const done = isLessonComplete(lesson.worldId + '/' + lesson.id);
+          const done = isLessonComplete(lesson.worldId, lesson.id);
           return (
             <div
               key={lesson.id}

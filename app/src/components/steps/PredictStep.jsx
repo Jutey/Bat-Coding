@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useGame } from '../../contexts/GameContext';
 import './PredictStep.css';
 
 function seededShuffle(arr, seed) {
@@ -24,6 +25,7 @@ function normalizeOptions(step) {
 }
 
 export default function PredictStep({ step, onCorrect, onWrong }) {
+  const { trackStat } = useGame();
   const rawOptions = useMemo(() => normalizeOptions(step), [step]);
 
   // Stable shuffle per step render — seed from question text length + option count
@@ -43,7 +45,10 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
   function handleCheck() {
     if (selected === null || locked) return;
     setLocked(true);
-    if (selected === correctIndex) setTimeout(() => onCorrect(), 1400);
+    if (selected === correctIndex) {
+      trackStat('predictionsCorrect', 1);
+      setTimeout(() => onCorrect(), 1400);
+    }
   }
 
   function handleRetry() {

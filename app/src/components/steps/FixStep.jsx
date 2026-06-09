@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { useEditorTheme, registerThemes } from '../../hooks/useEditorTheme';
+import { useGame } from '../../contexts/GameContext';
 import './FixStep.css';
 
 export default function FixStep({ step, onCorrect, onWrong }) {
@@ -9,6 +10,7 @@ export default function FixStep({ step, onCorrect, onWrong }) {
   const [hintLevel, setHintLevel] = useState(0);
   const [result, setResult] = useState(null);
   const { theme } = useEditorTheme();
+  const { trackStat } = useGame();
 
   const normalize = s => s.trim().replace(/\r\n/g, '\n').replace(/[ \t]+/g, ' ');
   // Support both hint and bugHint field names
@@ -20,6 +22,7 @@ export default function FixStep({ step, onCorrect, onWrong }) {
     setLocked(true);
     const ok = normalize(code) === normalize(step.answer || '');
     setResult(ok ? 'correct' : 'wrong');
+    if (ok) trackStat('bugsFixed', 1);
     setTimeout(() => {
       if (ok) onCorrect();
       else {

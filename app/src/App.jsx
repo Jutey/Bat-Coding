@@ -156,7 +156,16 @@ function AppInner() {
                 totalXP={game.totalXP}
                 levelInfo={game.levelInfo}
                 onSelectLesson={(worldNum, lessonNum) => {
-                  setView('map');
+                  // Find the matching world and lesson from the loaded worlds list, then open it
+                  const world = worlds.find(w => {
+                    const m = w.id.match(/world-(\d+)/);
+                    return m && parseInt(m[1]) === worldNum;
+                  });
+                  if (world) {
+                    setView('map');
+                    setSelectedWorld(world);
+                    // Lesson will be selected by user from the list — we've opened the right world
+                  }
                 }}
               />
             )}

@@ -8,6 +8,7 @@ import BuildStep from './steps/BuildStep';
 import RewardStep from './steps/RewardStep';
 import GuidePanel from './GuidePanel';
 import { useVoice } from '../hooks/useVoice';
+import { isAdminMode } from './Settings/Settings';
 import './InteractiveLesson.css';
 
 export default function InteractiveLesson({ lessonData, progress, onBack, onComplete, onTriggerAchievement }) {
@@ -31,8 +32,10 @@ export default function InteractiveLesson({ lessonData, progress, onBack, onComp
   }
 
   function handleFinish() {
-    // XP only awarded once — GameContext guards this, but pass canonical lesson XP
-    onComplete(lessonData.id, lessonData.xp || 100);
+    // Skip completion and XP in admin mode — view only
+    if (!isAdminMode()) {
+      onComplete(lessonData.id, lessonData.xp || 100);
+    }
     onBack();
   }
 

@@ -3,7 +3,7 @@ import { getDailyMissions, getWeeklyChallenge, getTodayDate } from '../../data/d
 import './DailyMissions.css';
 
 export default function DailyMissions() {
-  const { completedLessons, stats, claimMission, claimedMissions = {} } = useGame();
+  const { completedLessons, stats, dailyStats, claimMission, claimedMissions = {} } = useGame();
   const today = getTodayDate();
   const weekNum = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
   const daily = getDailyMissions(today);
@@ -14,7 +14,7 @@ export default function DailyMissions() {
   }
 
   function isEarned(mission) {
-    try { return mission.check(stats, completedLessons); } catch { return false; }
+    try { return mission.check(stats, completedLessons, dailyStats); } catch { return false; }
   }
 
   function handleClaim(mission) {

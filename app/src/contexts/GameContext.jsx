@@ -103,6 +103,7 @@ const DEFAULT_STATE = {
   avatar: 'cadet',
   activePet: 'glitch',
   stats: { linesWritten: 0, scriptsRun: 0, bugsFixed: 0, predictionsCorrect: 0, secretsFound: 0 },
+  dailyStats: { date: null, scriptsToday: 0, linesWrittenToday: 0, lessonsToday: 0, predictionsToday: 0, bossesThisWeek: 0, lessonsThisWeek: 0 },
   hallOfLegends: [],
   dailyMissions: { date: null, missions: [], completed: [] },
   claimedMissions: {},
@@ -159,22 +160,49 @@ export function GameProvider({ children }) {
   }, [state.achievements]);
 
   const completeLesson = useCallback((lessonId, xpEarned = 100) => {
-    // Guard against duplicate XP — only award once per lesson
     setState(prev => {
       if (prev.completedLessons.includes(lessonId)) return prev;
-      const next = { ...prev, completedLessons: [...prev.completedLessons, lessonId] };
+      const isBoss = lessonId.includes('boss');
+      const today = todayStr();
+      const ds = prev.dailyStats?.date === today
+        ? { ...prev.dailyStats }
+        : { date: today, scriptsToday: 0, linesWrittenToday: 0, lessonsToday: 0, predictionsToday: 0, bossesThisWeek: prev.dailyStats?.bossesThisWeek || 0, lessonsThisWeek: prev.dailyStats?.lessonsThisWeek || 0 };
+      ds.lessonsToday = (ds.lessonsToday || 0) + 1;
+      ds.lessonsThisWeek = (ds.lessonsThisWeek || 0) + 1;
+      if (isBoss) ds.bossesThisWeek = (ds.bossesThisWeek || 0) + 1;
+      const next = { ...prev, completedLessons: [...prev.completedLessons, lessonId], dailyStats: ds };
       window.api.saveProgress(next);
-      // Award XP inside the conditional so it only runs when lesson is newly completed
       setTimeout(() => addXP(xpEarned), 0);
       return next;
     });
   }, [addXP]);
 
+  function todayStr() { return new Date().toISOString().split('T')[0]; }
+
+  const incrementDailyStat = useCallback((key, amount = 1) => {
+    setState(prev => {
+      const today = todayStr();
+      const ds = prev.dailyStats?.date === today
+        ? { ...prev.dailyStats }
+        : { date: today, scriptsToday: 0, linesWrittenToday: 0, lessonsToday: 0, predictionsToday: 0, bossesThisWeek: prev.dailyStats?.bossesThisWeek || 0, lessonsThisWeek: prev.dailyStats?.lessonsThisWeek || 0 };
+      ds[key] = (ds[key] || 0) + amount;
+      const next = { ...prev, dailyStats: ds };
+      window.api.saveProgress(next);
+      return next;
+    });
+  }, []);
+
   const trackStat = useCallback((stat, amount = 1) => {
     setState(prev => {
-      const next = { ...prev, stats: { ...prev.stats, [stat]: (prev.stats[stat] || 0) + amount } };
+      const today = todayStr();
+      const ds = prev.dailyStats?.date === today
+        ? { ...prev.dailyStats }
+        : { date: today, scriptsToday: 0, linesWrittenToday: 0, lessonsToday: 0, predictionsToday: 0, bossesThisWeek: prev.dailyStats?.bossesThisWeek || 0, lessonsThisWeek: prev.dailyStats?.lessonsThisWeek || 0 };
+      if (stat === 'linesWritten') ds.linesWrittenToday = (ds.linesWrittenToday || 0) + amount;
+      if (stat === 'scriptsRun') ds.scriptsToday = (ds.scriptsToday || 0) + amount;
+      if (stat === 'predictionsCorrect') ds.predictionsToday = (ds.predictionsToday || 0) + amount;
+      const next = { ...prev, stats: { ...prev.stats, [stat]: (prev.stats[stat] || 0) + amount }, dailyStats: ds };
       window.api.saveProgress(next);
-      // 1000 lines achievement
       if (stat === 'linesWritten' && next.stats.linesWritten >= 1000) unlockAchievement('1000_lines');
       return next;
     });
@@ -252,6 +280,7 @@ export function GameProvider({ children }) {
       unlockAchievement,
       completeLesson,
       trackStat,
+      incrementDailyStat,
       claimMission,
       recordHallEntry,
       findSecret,
