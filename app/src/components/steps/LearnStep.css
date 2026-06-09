@@ -16,6 +16,33 @@
   width: 100%;
 }
 
+.learn-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.learn-speak-btn {
+  background: none;
+  border: 1px solid #1a3a1a;
+  color: #5a9a5a;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.learn-speak-btn:hover {
+  border-color: #00ff41;
+  color: #00ff41;
+}
+
 .learn-title {
   font-size: 22px;
   color: #00ff41;

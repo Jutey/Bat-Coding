@@ -14,11 +14,22 @@ function parseBody(text) {
   });
 }
 
-export default function LearnStep({ step, onContinue }) {
+export default function LearnStep({ step, onContinue, onSpeak }) {
   return (
     <div className="learn-step">
       <div className="learn-body">
-        <h2 className="learn-title">{step.title}</h2>
+        <div className="learn-title-row">
+          <h2 className="learn-title">{step.title}</h2>
+          {onSpeak && (
+            <button
+              className="learn-speak-btn"
+              onClick={() => onSpeak(step.body || step.title || '')}
+              title="Read aloud"
+            >
+              🔊
+            </button>
+          )}
+        </div>
         <div className="learn-text">{parseBody(step.body)}</div>
 
         {step.code && (

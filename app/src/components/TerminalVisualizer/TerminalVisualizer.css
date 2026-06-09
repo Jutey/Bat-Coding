@@ -1,0 +1,116 @@
+.terminal-visualizer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.viz-metaphors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.viz-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+}
+
+.viz-icon {
+  font-size: 14px;
+}
+
+.viz-label {
+  color: #5a9a5a;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+.viz-value {
+  color: #9ab09a;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viz-terminal {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #050f05;
+  border: 1px solid #1a3a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+.viz-terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #0a1a0a;
+  border-bottom: 1px solid #1a3a1a;
+  flex-shrink: 0;
+}
+
+.viz-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.viz-dot.red    { background: #ff4141; }
+.viz-dot.yellow { background: #ffaa00; }
+.viz-dot.green  { background: #00ff41; }
+
+.viz-terminal-label {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #3a6a3a;
+  text-transform: uppercase;
+}
+
+.viz-running-badge {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  color: #00ff41;
+  animation: viz-blink 1s step-end infinite;
+}
+
+@keyframes viz-blink {
+  50% { opacity: 0; }
+}
+
+.viz-output {
+  flex: 1;
+  padding: 10px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #9ab09a;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+.viz-scanning .viz-output {
+  animation: viz-scan 2s linear infinite;
+}
+
+@keyframes viz-scan {
+  0%   { border-left: 2px solid transparent; }
+  50%  { border-left: 2px solid #00ff4155; }
+  100% { border-left: 2px solid transparent; }
+}

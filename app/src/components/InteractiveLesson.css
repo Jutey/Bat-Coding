@@ -83,6 +83,27 @@
   flex-shrink: 0;
 }
 
+.narration-toggle {
+  background: none;
+  border: 1px solid #1a2a1a;
+  color: #5a9a5a;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.narration-toggle:hover {
+  border-color: #00ff41;
+  color: #00ff41;
+}
+
 /* Body */
 .lesson-body {
   flex: 1;

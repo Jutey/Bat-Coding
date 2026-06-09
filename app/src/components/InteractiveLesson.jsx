@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import LearnStep from './steps/LearnStep';
 import PredictStep from './steps/PredictStep';
 import TypeStep from './steps/TypeStep';
@@ -7,6 +7,7 @@ import FixStep from './steps/FixStep';
 import BuildStep from './steps/BuildStep';
 import RewardStep from './steps/RewardStep';
 import AegisPanel from './AegisPanel';
+import { useVoice } from '../hooks/useVoice';
 import './InteractiveLesson.css';
 
 const MAX_HEARTS = 3;
@@ -16,6 +17,26 @@ export default function InteractiveLesson({ lessonData, progress, onBack, onComp
   const [hearts, setHearts] = useState(MAX_HEARTS);
   const [xpEarned, setXpEarned] = useState(0);
   const [wrongFlash, setWrongFlash] = useState(false);
+  const [narrationEnabled, setNarrationEnabled] = useState(
+    () => localStorage.getItem('narration_enabled') !== 'false'
+  );
+
+  const { speak, cancelSpeech, isSupported } = useVoice();
+
+  function toggleNarration() {
+    const next = !narrationEnabled;
+    setNarrationEnabled(next);
+    localStorage.setItem('narration_enabled', String(next));
+    if (!next) cancelSpeech();
+  }
+
+  // Auto-speak learn steps when narration is enabled
+  useEffect(() => {
+    const step = steps[stepIndex];
+    if (narrationEnabled && isSupported && step && step.type === 'learn') {
+      speak(step.body || step.title || '');
+    }
+  }, [stepIndex, narrationEnabled]);
 
   const steps = lessonData.steps;
   const step = steps[stepIndex];
@@ -47,7 +68,7 @@ export default function InteractiveLesson({ lessonData, progress, onBack, onComp
   function renderStep() {
     switch (step.type) {
       case 'learn':
-        return <LearnStep step={step} onContinue={goNext} />;
+        return <LearnStep step={step} onContinue={goNext} onSpeak={isSupported ? speak : null} />;
       case 'predict':
         return <PredictStep step={step} onCorrect={handleCorrect} onWrong={handleWrong} />;
       case 'type':
@@ -84,6 +105,16 @@ export default function InteractiveLesson({ lessonData, progress, onBack, onComp
         </div>
 
         <div className="xp-counter">+{xpEarned} XP</div>
+
+        {isSupported && (
+          <button
+            className="narration-toggle"
+            onClick={toggleNarration}
+            title={narrationEnabled ? 'Disable narration' : 'Enable narration'}
+          >
+            {narrationEnabled ? '🔊' : '🔇'}
+          </button>
+        )}
       </div>
 
       {/* Step area + aegis */}

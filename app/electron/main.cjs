@@ -93,6 +93,22 @@ ipcMain.handle('read-bat', (_, p, filename) => {
 
 ipcMain.handle('run-bat', (_, code) => {
   return new Promise((resolve) => {
+    // Safety blocklist — reject dangerous commands
+    const BLOCKED = [
+      'del', 'erase', 'rd', 'rmdir', 'format', 'shutdown', 'reg', 'regedit',
+      'taskkill', 'powershell', 'diskpart', 'cipher', 'takeown', 'icacls',
+      'bcdedit', 'wmic', 'net user',
+    ];
+    const lower = code.toLowerCase();
+    for (const cmd of BLOCKED) {
+      // Match whole word / command token to avoid false positives
+      const pattern = new RegExp('(^|\\s|&|\\|)' + cmd.replace(' ', '\\s+') + '(\\s|$|&|\\||/)', 'm');
+      if (pattern.test(lower)) {
+        resolve({ output: '[BLOCKED] This command is restricted in CommandQuest for safety.', error: null });
+        return;
+      }
+    }
+
     if (process.platform !== 'win32') {
       resolve({ output: '[Windows only]\n\nOn Windows, this opens a real cmd.exe window.\nFor now: read your code and predict the output.', error: null });
       return;
@@ -105,7 +121,7 @@ ipcMain.handle('run-bat', (_, code) => {
     cap.stdout.on('data', d => { out += d; });
     cap.stderr.on('data', d => { err += d; });
     cap.on('close', () => { try { fs.unlinkSync(tmpFile); } catch {} resolve({ output: out, error: err || null }); });
-    setTimeout(() => { cap.kill(); try { fs.unlinkSync(tmpFile); } catch {} resolve({ output: out || '(running)', error: null }); }, 10000);
+    setTimeout(() => { cap.kill(); try { fs.unlinkSync(tmpFile); } catch {} resolve({ output: out || 'Execution stopped. This script appears to loop forever.', error: null }); }, 5000);
   });
 });
 
