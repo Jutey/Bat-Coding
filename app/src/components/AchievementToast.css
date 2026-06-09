@@ -1,0 +1,52 @@
+.achievement-toast {
+  background: #050f05;
+  border: 1px solid #00ff41;
+  border-left: 3px solid #00ff41;
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  animation: slide-in 0.3s ease-out;
+  box-shadow: 0 4px 24px rgba(0, 255, 65, 0.15);
+  min-width: 260px;
+  max-width: 320px;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.toast-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.toast-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toast-label {
+  font-size: 8px;
+  color: #00ff41;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+
+.toast-title {
+  font-size: 13px;
+  color: #c0d0c0;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+}
+
+.toast-desc {
+  font-size: 11px;
+  color: #5a7a5a;
+  font-family: 'Courier New', monospace;
+}

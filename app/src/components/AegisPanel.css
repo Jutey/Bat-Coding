@@ -1,0 +1,147 @@
+.aegis-panel {
+  width: 280px;
+  flex-shrink: 0;
+  background: #030a03;
+  border-left: 1px solid #0a1a0a;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.aegis-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #0a1a0a;
+  flex-shrink: 0;
+}
+
+.aegis-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #00ff41;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.aegis-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00ff41;
+  box-shadow: 0 0 8px #00ff41;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.aegis-subtitle {
+  font-size: 9px;
+  color: #1a3a1a;
+  letter-spacing: 0.1em;
+  margin-top: 3px;
+}
+
+.aegis-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.aegis-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.msg-label {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+}
+
+.aegis-msg.aegis .msg-label { color: #00ff41; }
+.aegis-msg.cadet .msg-label { color: #4488aa; }
+
+.aegis-msg p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  font-family: 'Courier New', monospace;
+}
+
+.aegis-msg.aegis p { color: #7a9a7a; }
+.aegis-msg.cadet p { color: #4a6a8a; }
+
+.aegis-quick {
+  padding: 8px 12px;
+  border-top: 1px solid #0a1a0a;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.aegis-quick button {
+  background: #050f05;
+  border: 1px solid #0f2a0f;
+  color: #3a5a3a;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+}
+
+.aegis-quick button:hover {
+  border-color: #00ff41;
+  color: #00ff41;
+}
+
+.aegis-input-row {
+  padding: 10px 12px;
+  border-top: 1px solid #0a1a0a;
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.aegis-input {
+  flex: 1;
+  background: #050f05;
+  border: 1px solid #0f2a0f;
+  border-radius: 4px;
+  color: #9ab09a;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.aegis-input:focus { border-color: #1a4a1a; }
+.aegis-input::placeholder { color: #1a3a1a; }
+
+.aegis-send {
+  background: #001a00;
+  border: 1px solid #00ff41;
+  color: #00ff41;
+  width: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aegis-send:hover { background: #003a00; }
