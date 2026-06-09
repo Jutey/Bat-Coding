@@ -1,19 +1,85 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
+
+export const VOICE_STYLES = [
+  { id: 'system',   label: 'System Voice',  desc: 'Calm, technical, neutral' },
+  { id: 'coach',    label: 'Coach',         desc: 'Encouraging, clear' },
+  { id: 'hacker',   label: 'Hacker',        desc: 'Slightly edgy, cyber' },
+  { id: 'silent',   label: 'Silent',        desc: 'No narration' },
+];
+
+const STYLE_PARAMS = {
+  system:  { rate: 0.9,  pitch: 1.0 },
+  coach:   { rate: 1.0,  pitch: 1.05 },
+  hacker:  { rate: 1.05, pitch: 0.9 },
+  silent:  { rate: 1.0,  pitch: 1.0 },
+};
 
 export function useVoice() {
+  const isSupported = typeof window !== 'undefined' && !!window.speechSynthesis;
+
+  const [narrationEnabled, setNarrationEnabled] = useState(
+    () => localStorage.getItem('narration_enabled') !== 'false'
+  );
+  const [voiceStyle, setVoiceStyleState] = useState(
+    () => localStorage.getItem('voice_style') || 'system'
+  );
+  const [selectedVoiceName, setSelectedVoiceNameState] = useState(
+    () => localStorage.getItem('voice_name') || ''
+  );
+  const [speechRate, setSpeechRateState] = useState(
+    () => parseFloat(localStorage.getItem('speech_rate') || '1')
+  );
+  const [availableVoices, setAvailableVoices] = useState([]);
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef(null);
 
-  const isSupported = typeof window !== 'undefined' && !!window.speechSynthesis;
-
-  function speak(text) {
+  // Load available voices
+  useEffect(() => {
     if (!isSupported) return;
+    function loadVoices() {
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length) setAvailableVoices(voices);
+    }
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }, [isSupported]);
+
+  function setVoiceStyle(id) {
+    setVoiceStyleState(id);
+    localStorage.setItem('voice_style', id);
+  }
+
+  function setSelectedVoiceName(name) {
+    setSelectedVoiceNameState(name);
+    localStorage.setItem('voice_name', name);
+  }
+
+  function setSpeechRate(rate) {
+    setSpeechRateState(rate);
+    localStorage.setItem('speech_rate', String(rate));
+  }
+
+  function toggleNarration() {
+    const next = !narrationEnabled;
+    setNarrationEnabled(next);
+    localStorage.setItem('narration_enabled', String(next));
+    if (!next) cancelSpeech();
+  }
+
+  const speak = useCallback((text) => {
+    if (!isSupported || voiceStyle === 'silent' || !narrationEnabled) return;
     cancelSpeech();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
+    const params = STYLE_PARAMS[voiceStyle] || STYLE_PARAMS.system;
+    utterance.rate = params.rate * speechRate;
+    utterance.pitch = params.pitch;
+
+    if (selectedVoiceName && availableVoices.length) {
+      const voice = availableVoices.find(v => v.name === selectedVoiceName);
+      if (voice) utterance.voice = voice;
+    }
     window.speechSynthesis.speak(utterance);
-  }
+  }, [isSupported, voiceStyle, narrationEnabled, speechRate, selectedVoiceName, availableVoices]);
 
   function cancelSpeech() {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -21,59 +87,33 @@ export function useVoice() {
     }
   }
 
-  function parseCommand(transcript) {
-    const t = transcript.toLowerCase().trim();
-
-    if (t === 'run it' || t === 'run code') return 'run';
-    if (t === 'check it' || t === 'check') return 'check';
-    if (t === 'hint' || t === 'give me a hint') return 'hint';
-    if (t === 'reset' || t === 'reset code') return 'reset';
-    if (t === 'stop' || t === 'stop program') return 'stop';
-    if (t === 'explain this' || t === 'explain code') return 'explain';
-    if (t === 'make it say hello') return { action: 'insert', code: 'echo hello' };
-    if (t === 'ask for my name' || t === 'ask for name') return { action: 'insert', code: 'set /p name=Enter name: ' };
-    if (t === 'set health to 100') return { action: 'insert', code: 'set health=100' };
-    if (t === 'add pause') return { action: 'insert', code: 'pause' };
-    if (t === 'clear screen') return { action: 'insert', code: 'cls' };
-    if (t === 'change color to green') return { action: 'insert', code: 'color 0A' };
-
-    return null;
-  }
-
   function startListening(onResult) {
     const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRec) return;
-
     const recognition = new SpeechRec();
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
-
-    recognition.onresult = (e) => {
-      const transcript = e.results[0][0].transcript;
-      onResult(transcript);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.onerror = () => {
-      setIsListening(false);
-    };
-
+    recognition.onresult = e => onResult(e.results[0][0].transcript);
+    recognition.onend = () => setIsListening(false);
+    recognition.onerror = () => setIsListening(false);
     recognitionRef.current = recognition;
     recognition.start();
     setIsListening(true);
   }
 
   function stopListening() {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      recognitionRef.current = null;
-    }
+    if (recognitionRef.current) { recognitionRef.current.stop(); recognitionRef.current = null; }
     setIsListening(false);
   }
 
-  return { speak, cancelSpeech, isSupported, startListening, stopListening, isListening, parseCommand };
+  return {
+    speak, cancelSpeech, isSupported,
+    narrationEnabled, toggleNarration,
+    voiceStyle, setVoiceStyle,
+    selectedVoiceName, setSelectedVoiceName,
+    speechRate, setSpeechRate,
+    availableVoices,
+    isListening, startListening, stopListening,
+  };
 }

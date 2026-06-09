@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import Editor from '@monaco-editor/react';
-import AegisPanel from './AegisPanel';
+import GuidePanel from './GuidePanel';
 import InteractiveLesson from './InteractiveLesson';
 import MissionView from './MissionView/MissionView';
 import { getLessonData } from '../data/lessons/index.js';
@@ -187,14 +187,7 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
         )}
       </div>
 
-      {/* Right panel — A.E.G.I.S. */}
-      <AegisPanel
-        visible={showAegis || true}
-        hintLevel={hintLevel}
-        lessonId={lesson.id}
-        isBoss={lesson.isBoss}
-        onClose={() => setShowAegis(false)}
-      />
+      <GuidePanel lessonId={lesson.id} isBoss={lesson.isBoss} />
     </div>
   );
 }

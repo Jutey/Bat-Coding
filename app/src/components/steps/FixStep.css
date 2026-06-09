@@ -6,8 +6,8 @@
 }
 
 .fix-header {
-  padding: 20px 24px 14px;
-  border-bottom: 1px solid #0f1f0f;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border, #0f1f0f);
   flex-shrink: 0;
 }
 
@@ -17,12 +17,12 @@
   letter-spacing: 0.15em;
   font-weight: 700;
   font-family: 'Courier New', monospace;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .fix-prompt {
-  font-size: 15px;
-  color: #b0c0b0;
+  font-size: 14px;
+  color: var(--text-bright, #b0c0b0);
   line-height: 1.5;
   margin: 0;
 }
@@ -30,101 +30,90 @@
 .fix-editor-wrap {
   flex: 1;
   min-height: 0;
-  border-bottom: 1px solid #0f1f0f;
+  border-bottom: 1px solid var(--border, #0f1f0f);
 }
-
-.feedback-banner {
-  padding: 12px 24px;
-  animation: slide-up 0.25s ease;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.feedback-banner.correct { background: #003300; border-top: 2px solid #00ff41; }
-.feedback-banner.wrong   { background: #220000; border-top: 2px solid #ff4141; }
-.feedback-title {
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  font-family: 'Courier New', monospace;
-}
-.feedback-banner.correct .feedback-title { color: #00ff41; }
-.feedback-banner.wrong .feedback-title   { color: #ff6666; }
-
-.fix-footer {
-  padding: 12px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-shrink: 0;
-  background: #050f05;
-}
-
-.fix-actions { flex: 1; }
-
-.fix-result {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  font-family: 'Courier New', monospace;
-  animation: slide-up 0.3s ease;
-}
-
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.fix-result.correct { color: #00ff41; }
-.fix-result.wrong   { color: #ff4141; }
 
 .fix-hint-box {
+  padding: 10px 20px;
   font-size: 12px;
-  color: #5a8a6a;
+  color: var(--text, #5a8a6a);
   font-family: 'Courier New', monospace;
+  background: var(--surface, #030a08);
+  border-bottom: 1px solid var(--border, #0a1a0a);
+  flex-shrink: 0;
   animation: slide-up 0.2s ease;
 }
 
-.aegis-tag {
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.guide-tag {
   font-size: 9px;
   font-weight: 700;
-  color: #00ff41;
-  background: #001a00;
-  border: 1px solid #003a00;
+  color: var(--primary, #00ff41);
+  background: color-mix(in srgb, var(--primary, #00ff41) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary, #00ff41) 30%, transparent);
   padding: 1px 5px;
   border-radius: 3px;
   letter-spacing: 0.1em;
   margin-right: 6px;
 }
 
-.fix-btns {
+.feedback-banner {
+  padding: 10px 20px;
+  flex-shrink: 0;
+  animation: slide-up 0.2s ease;
   display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.feedback-banner.correct { background: #002200; border-top: 2px solid #00ff41; }
+.feedback-banner.wrong   { background: #200000; border-top: 2px solid #ff4141; }
+
+.feedback-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+}
+
+.feedback-banner.correct .feedback-title { color: #00ff41; }
+.feedback-banner.wrong .feedback-title   { color: #ff6666; }
+
+.fix-footer {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   flex-shrink: 0;
+  background: var(--surface, #050f05);
 }
 
 .hint-btn {
-  background: #1a0f00;
+  background: transparent;
   border: 1px solid #ff9900;
   color: #ff9900;
   padding: 7px 14px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
   font-family: 'Courier New', monospace;
   transition: all 0.15s;
 }
 
-.hint-btn:hover { background: #2a1a00; }
+.hint-btn:hover:not(:disabled) { background: #1a0f00; }
+.hint-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .check-btn {
-  background: #001a00;
-  border: 2px solid #00ff41;
-  color: #00ff41;
+  background: transparent;
+  border: 2px solid var(--primary, #00ff41);
+  color: var(--primary, #00ff41);
   padding: 7px 20px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
   font-family: 'Courier New', monospace;
@@ -133,5 +122,5 @@
   transition: all 0.15s;
 }
 
-.check-btn:hover:not(:disabled) { background: #003a00; }
-.check-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.check-btn:hover:not(:disabled) { background: color-mix(in srgb, var(--primary, #00ff41) 10%, transparent); }
+.check-btn:disabled { opacity: 0.35; cursor: not-allowed; }

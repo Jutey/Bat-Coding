@@ -1,0 +1,141 @@
+.guide-panel {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--surface, #030a03);
+  border-left: 1px solid var(--border, #0a1a0a);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.guide-header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border, #0a1a0a);
+  flex-shrink: 0;
+}
+
+.guide-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary, #00ff41);
+  letter-spacing: 0.2em;
+  font-family: 'Courier New', monospace;
+}
+
+.guide-subtitle {
+  font-size: 9px;
+  color: var(--text-dim, #3a5a3a);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.guide-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guide-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.msg-label {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+}
+
+.guide-msg.guide .msg-label { color: var(--primary, #00ff41); }
+.guide-msg.user .msg-label  { color: var(--blue, #4488aa); }
+
+.guide-msg p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  font-family: 'Courier New', monospace;
+}
+
+.guide-msg.guide p { color: var(--text, #7a9a7a); }
+.guide-msg.user p  { color: #4a6a8a; }
+
+.guide-quick {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border, #0a1a0a);
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.guide-quick button {
+  background: var(--surface, #050f05);
+  border: 1px solid var(--border, #0f2a0f);
+  color: var(--text-dim, #3a5a3a);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+}
+
+.guide-quick button:hover {
+  border-color: var(--primary, #00ff41);
+  color: var(--primary, #00ff41);
+}
+
+.guide-input-row {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border, #0a1a0a);
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.guide-input {
+  flex: 1;
+  background: var(--surface, #050f05);
+  border: 1px solid var(--border, #0f2a0f);
+  border-radius: 4px;
+  color: var(--text, #9ab09a);
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.guide-input:focus { border-color: var(--primary-dim, #1a4a1a); }
+.guide-input::placeholder { color: var(--text-dim, #1a3a1a); }
+
+.guide-send {
+  background: transparent;
+  border: 1px solid var(--primary, #00ff41);
+  color: var(--primary, #00ff41);
+  width: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+.guide-send:hover { background: var(--surface, #003a00); }
+
+/* Inline guide-tag used in FillStep / FixStep hint boxes */
+.guide-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--primary, #00ff41);
+  background: color-mix(in srgb, var(--primary, #00ff41) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary, #00ff41) 30%, transparent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}

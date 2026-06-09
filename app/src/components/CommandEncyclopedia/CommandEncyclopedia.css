@@ -9,27 +9,50 @@
 .ce-search::placeholder { color: var(--text-dim); }
 .ce-count { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; flex-shrink: 0; }
 
-.ce-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ce-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 .ce-tag { background: var(--surface); border: 1px solid var(--border-dim); color: var(--text-dim); padding: 3px 10px; border-radius: 12px; cursor: pointer; font-size: 9px; font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 0.1em; transition: all 0.15s; }
 .ce-tag:hover { border-color: var(--primary); color: var(--primary); }
 .ce-tag.active { border-color: var(--primary); color: var(--primary); background: var(--surface2); }
 
 .cmd-list { display: flex; flex-direction: column; gap: 4px; }
-.cmd-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; overflow: hidden; }
+
+.cmd-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 8px; transition: border-color 0.15s; overflow: hidden; }
 .cmd-card:hover { border-color: var(--border); }
 .cmd-card.open { border-color: var(--primary); }
 
-.cmd-summary { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
-.cmd-name { font-size: 13px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; min-width: 100px; flex-shrink: 0; }
-.cmd-desc-short { flex: 1; font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
-.cmd-tags-row { display: flex; gap: 4px; flex-shrink: 0; }
+.cmd-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; cursor: pointer; }
+.cmd-summary-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cmd-summary-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.cmd-name { font-size: 13px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; }
+.cmd-desc-short { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.cmd-tags-row { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
 .cmd-tag { background: var(--surface2); border: 1px solid var(--border-dim); color: var(--text-dim); padding: 2px 6px; border-radius: 3px; font-size: 8px; font-family: 'Courier New', monospace; }
-.cmd-world { font-size: 9px; color: var(--text-dim); font-family: 'Courier New', monospace; flex-shrink: 0; }
+.cmd-world-badge { font-size: 9px; color: var(--text-dim); font-family: 'Courier New', monospace; }
 
-.cmd-detail { padding: 0 14px 14px; border-top: 1px solid var(--border-dim); margin-top: 0; padding-top: 12px; }
-.cmd-syntax-label, .cmd-example-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.2em; font-family: 'Courier New', monospace; font-weight: 700; margin-bottom: 4px; }
-.cmd-example-label { margin-top: 10px; }
-.cmd-syntax { display: block; font-size: 12px; color: var(--text-bright); font-family: 'Courier New', monospace; background: var(--surface2); padding: 8px 10px; border-radius: 4px; }
-.cmd-example { font-size: 11px; color: var(--text); font-family: 'Courier New', monospace; background: var(--surface2); padding: 8px 10px; border-radius: 4px; margin: 0; white-space: pre-wrap; }
+/* Detail panel */
+.cmd-detail { padding: 0 14px 16px; border-top: 1px solid var(--border-dim); padding-top: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-.ce-empty { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; padding: 20px; text-align: center; }
+.cmd-detail-header { display: flex; justify-content: flex-end; }
+
+.speak-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 4px 10px; border-radius: 5px; font-size: 11px; font-family: 'Courier New', monospace; cursor: pointer; transition: all 0.15s; }
+.speak-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+.cmd-section { display: flex; flex-direction: column; gap: 5px; }
+.cmd-section-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.2em; font-family: 'Courier New', monospace; font-weight: 700; }
+
+.cmd-syntax { display: block; font-size: 13px; color: var(--text-bright); font-family: 'Courier New', monospace; background: var(--surface2); padding: 8px 12px; border-radius: 5px; white-space: pre; }
+.cmd-plain { font-size: 12px; color: var(--text); font-family: 'Courier New', monospace; line-height: 1.6; margin: 0; }
+.cmd-example { font-size: 12px; color: var(--primary); font-family: 'Courier New', monospace; background: var(--surface2); padding: 10px 12px; border-radius: 5px; margin: 0; white-space: pre-wrap; border-left: 3px solid var(--primary); }
+.cmd-try { font-size: 11px; color: var(--text); font-family: 'Courier New', monospace; background: var(--surface2); padding: 10px 12px; border-radius: 5px; margin: 0; white-space: pre-wrap; border: 1px dashed var(--border); }
+
+.cmd-mistakes { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 4px; }
+.cmd-mistakes li { font-size: 11px; color: var(--yellow, #ffdd00); font-family: 'Courier New', monospace; line-height: 1.5; }
+
+.cmd-related-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.related-cmd-btn { background: transparent; border: 1px solid var(--border); color: var(--blue, #00aaff); padding: 3px 10px; border-radius: 4px; font-size: 11px; font-family: 'Courier New', monospace; cursor: pointer; transition: all 0.15s; }
+.related-cmd-btn:hover { border-color: var(--blue, #00aaff); background: color-mix(in srgb, var(--blue, #00aaff) 10%, transparent); }
+
+.cmd-lessons-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.lesson-badge { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; background: var(--surface2); border: 1px solid var(--border-dim); padding: 2px 8px; border-radius: 4px; }
+
+.ce-empty { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; padding: 32px; text-align: center; }

@@ -3,24 +3,25 @@ import './TypeStep.css';
 
 export default function TypeStep({ step, onCorrect, onWrong }) {
   const [value, setValue] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [locked, setLocked] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
   const normalize = s => s.trim().replace(/\s+/g, ' ');
-  const isCorrect = normalize(value) === normalize(step.answer);
+  const isCorrect = normalize(value) === normalize(step.answer || '');
 
   function handleCheck() {
-    if (!value.trim() || submitted) return;
-    setSubmitted(true);
+    if (!value.trim() || locked) return;
+    setLocked(true);
     if (isCorrect) {
       setTimeout(() => onCorrect(), 1200);
-    } else {
-      setTimeout(() => {
-        setSubmitted(false);
-        setValue('');
-        onWrong();
-      }, 1200);
     }
+    // wrong: user clicks TRY AGAIN
+  }
+
+  function handleRetry() {
+    setValue('');
+    setLocked(false);
+    if (onWrong) onWrong();
   }
 
   return (
@@ -36,56 +37,54 @@ export default function TypeStep({ step, onCorrect, onWrong }) {
           </div>
         )}
 
-        <div className={`type-input-wrap ${submitted ? (isCorrect ? 'correct' : 'wrong') : ''}`}>
+        <div className={`type-input-wrap ${locked ? (isCorrect ? 'correct' : 'wrong') : ''}`}>
           <input
             className="type-input"
             value={value}
             onChange={e => setValue(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleCheck()}
             placeholder={step.placeholder || 'Type your answer...'}
-            disabled={submitted}
+            disabled={locked}
             autoFocus
             spellCheck={false}
             autoComplete="off"
           />
-          {submitted && (
-            <span className="input-status">{isCorrect ? '✓' : '✗'}</span>
-          )}
+          {locked && <span className="input-status">{isCorrect ? '✓' : '✗'}</span>}
         </div>
 
-        {submitted && !isCorrect && (
-          <div className="type-feedback wrong">
-            <div className="feedback-icon">✗ NOT QUITE</div>
-            <p>Correct answer: <code>{step.answer}</code></p>
-          </div>
-        )}
-
-        {submitted && isCorrect && (
-          <div className="type-feedback correct">
-            <div className="feedback-icon">✓ CORRECT</div>
-          </div>
-        )}
-
-        {!submitted && (
-          <button className="hint-link" onClick={() => setShowHint(!showHint)}>
-            {showHint ? 'Hide hint' : 'Show hint'}
+        {!locked && (
+          <button className="hint-link" onClick={() => setShowHint(v => !v)}>
+            {showHint ? 'Hide hint' : '💡 Show hint'}
           </button>
         )}
 
-        {showHint && !submitted && (
+        {showHint && !locked && (
           <div className="type-hint">
-            <span className="aegis-tag">A.E.G.I.S.</span> {step.hint}
+            <span className="guide-tag">GUIDE</span> {step.hint}
           </div>
         )}
       </div>
 
-      <button
-        className="check-btn"
-        disabled={!value.trim() || submitted}
-        onClick={handleCheck}
-      >
-        CHECK ANSWER
-      </button>
+      {locked && (
+        <div className={`feedback-banner ${isCorrect ? 'correct' : 'wrong'}`}>
+          <div className="feedback-title">{isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
+          {!isCorrect && (
+            <div className="feedback-explain">Answer: <code>{step.answer}</code></div>
+          )}
+        </div>
+      )}
+
+      {!locked && (
+        <button className="check-btn" disabled={!value.trim()} onClick={handleCheck}>
+          CHECK ANSWER
+        </button>
+      )}
+      {locked && isCorrect && (
+        <button className="check-btn locked-correct" onClick={onCorrect}>CONTINUE →</button>
+      )}
+      {locked && !isCorrect && (
+        <button className="check-btn locked-wrong" onClick={handleRetry}>TRY AGAIN</button>
+      )}
     </div>
   );
 }

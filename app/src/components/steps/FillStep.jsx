@@ -1,40 +1,51 @@
 import { useState } from 'react';
 import './FillStep.css';
 
+// Support both legacy (template+blank) and new (before+after) formats
+function deriveBeforeAfter(step) {
+  if (step.before !== undefined) return { before: step.before, after: step.after || '' };
+  if (step.template && step.blank) {
+    const parts = step.template.split(step.blank);
+    return { before: parts[0] || '', after: parts.slice(1).join(step.blank) || '' };
+  }
+  return { before: '', after: '' };
+}
+
 export default function FillStep({ step, onCorrect, onWrong }) {
+  const { before, after } = deriveBeforeAfter(step);
   const [value, setValue] = useState('');
   const [locked, setLocked] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
   const normalize = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
-  const correct = normalize(value) === normalize(step.answer);
+  const isCorrect = normalize(value) === normalize(step.answer || '');
 
   function handleCheck() {
     if (!value.trim() || locked) return;
     setLocked(true);
-    if (correct) {
+    if (isCorrect) {
       setTimeout(() => onCorrect(), 1200);
     } else {
-      setTimeout(() => {
-        setLocked(false);
-        setValue('');
-        onWrong();
-      }, 1400);
+      // show feedback, allow retry
     }
+  }
+
+  function handleRetry() {
+    setValue('');
+    setLocked(false);
+    if (onWrong) onWrong();
   }
 
   return (
     <div className="fill-step">
       <div className="fill-body">
         <div className="fill-label">FILL IN THE BLANK</div>
+        {step.prompt && <p className="fill-prompt">{step.prompt}</p>}
 
         <div className="fill-code-block">
-          {step.before && (
-            <pre className="fill-code-text faded">{step.before}</pre>
-          )}
-
+          {before && <pre className="fill-code-text faded">{before}</pre>}
           <div className="fill-line-wrap">
-            <span className={`fill-blank-wrap ${locked ? (correct ? 'correct' : 'wrong') : ''}`}>
+            <span className={`fill-blank-wrap ${locked ? (isCorrect ? 'correct' : 'wrong') : ''}`}>
               <input
                 className="fill-blank"
                 value={value}
@@ -49,40 +60,49 @@ export default function FillStep({ step, onCorrect, onWrong }) {
               />
             </span>
           </div>
-
-          {step.after && (
-            <pre className="fill-code-text faded">{step.after}</pre>
-          )}
+          {after && <pre className="fill-code-text faded">{after}</pre>}
         </div>
 
         {!locked && (
-          <button className="hint-link" onClick={() => setShowHint(!showHint)}>
+          <button className="hint-link" onClick={() => setShowHint(v => !v)}>
             {showHint ? 'Hide hint' : '💡 Show hint'}
           </button>
         )}
         {showHint && !locked && (
           <div className="fill-hint">
-            <span className="aegis-tag">A.E.G.I.S.</span> {step.hint}
+            <span className="guide-tag">GUIDE</span> {step.hint || 'Think about which command fits here.'}
           </div>
         )}
       </div>
 
       {locked && (
-        <div className={`feedback-banner ${correct ? 'correct' : 'wrong'}`}>
-          <div className="feedback-title">{correct ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
-          {!correct && (
-            <div className="feedback-explain">The answer is: <code>{step.answer}</code></div>
+        <div className={`feedback-banner ${isCorrect ? 'correct' : 'wrong'}`}>
+          <div className="feedback-title">
+            {isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}
+          </div>
+          {!isCorrect && (
+            <div className="feedback-explain">
+              The answer is: <code>{step.answer}</code>
+            </div>
           )}
         </div>
       )}
 
-      <button
-        className="check-btn"
-        disabled={!value.trim() || locked}
-        onClick={handleCheck}
-      >
-        CHECK ANSWER
-      </button>
+      {!locked && (
+        <button className="check-btn" disabled={!value.trim()} onClick={handleCheck}>
+          CHECK ANSWER
+        </button>
+      )}
+      {locked && isCorrect && (
+        <button className="check-btn locked-correct" onClick={onCorrect}>
+          CONTINUE →
+        </button>
+      )}
+      {locked && !isCorrect && (
+        <button className="check-btn locked-wrong" onClick={handleRetry}>
+          TRY AGAIN
+        </button>
+      )}
     </div>
   );
 }

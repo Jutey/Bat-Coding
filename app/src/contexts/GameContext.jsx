@@ -158,13 +158,15 @@ export function GameProvider({ children }) {
   }, [state.achievements]);
 
   const completeLesson = useCallback((lessonId, xpEarned = 100) => {
+    // Guard against duplicate XP — only award once per lesson
     setState(prev => {
       if (prev.completedLessons.includes(lessonId)) return prev;
       const next = { ...prev, completedLessons: [...prev.completedLessons, lessonId] };
       window.api.saveProgress(next);
+      // Award XP inside the conditional so it only runs when lesson is newly completed
+      setTimeout(() => addXP(xpEarned), 0);
       return next;
     });
-    addXP(xpEarned);
   }, [addXP]);
 
   const trackStat = useCallback((stat, amount = 1) => {

@@ -12,17 +12,18 @@ import Museum from './components/Museum/Museum';
 import HallOfLegends from './components/HallOfLegends/HallOfLegends';
 import Profile from './components/Profile/Profile';
 import CommandEncyclopedia from './components/CommandEncyclopedia/CommandEncyclopedia';
+import Settings from './components/Settings/Settings';
 import { findSecret } from './data/secrets';
 import './App.css';
 
 const NAV_ITEMS = [
-  { id: 'map',       label: 'WORLD MAP',    icon: '🗺️' },
-  { id: 'missions',  label: 'MISSIONS',     icon: '📋' },
-  { id: 'museum',    label: 'MUSEUM',       icon: '🏛️' },
-  { id: 'hall',      label: 'HALL',         icon: '🏆' },
-  { id: 'tree',      label: 'SKILL TREE',   icon: '🌳' },
-  { id: 'cmds',      label: 'COMMANDS',     icon: '📖' },
-  { id: 'profile',   label: 'PROFILE',      icon: '👤' },
+  { id: 'map',      label: 'Lessons',      icon: '📚' },
+  { id: 'missions', label: 'Missions',     icon: '🎯' },
+  { id: 'cmds',     label: 'Command Book', icon: '📖' },
+  { id: 'tree',     label: 'Skills',       icon: '🌳' },
+  { id: 'hall',     label: 'Hall of Fame', icon: '🏆' },
+  { id: 'profile',  label: 'Profile',      icon: '👤' },
+  { id: 'settings', label: 'Settings',     icon: '⚙️' },
 ];
 
 function AppInner() {
@@ -120,11 +121,11 @@ function AppInner() {
               />
             )}
             {view === 'missions'  && <DailyMissions />}
-            {view === 'museum'    && <Museum />}
             {view === 'hall'      && <HallOfLegends />}
             {view === 'tree'      && <SkillTree />}
             {view === 'cmds'      && <CommandEncyclopedia />}
             {view === 'profile'   && <Profile />}
+            {view === 'settings'  && <Settings />}
           </div>
         </div>
       </div>

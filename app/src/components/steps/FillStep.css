@@ -2,75 +2,78 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 32px 40px;
-  gap: 24px;
+  padding: 32px 40px 0;
+  gap: 16px;
 }
 
 .fill-body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   max-width: 640px;
   margin: 0 auto;
   width: 100%;
+  overflow-y: auto;
 }
 
 .fill-label {
   font-size: 10px;
-  color: #2a5a2a;
+  color: var(--primary, #00ff41);
+  opacity: 0.5;
   letter-spacing: 0.25em;
   font-weight: 700;
+  font-family: 'Courier New', monospace;
 }
 
-.fill-question {
-  font-size: 20px;
-  color: #c0d0c0;
-  font-weight: 600;
-  line-height: 1.4;
+.fill-prompt {
+  font-size: 16px;
+  color: var(--text-bright, #c0d0c0);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .fill-code-block {
-  background: #050f05;
-  border: 1px solid #1a3a1a;
+  background: var(--surface, #050f05);
+  border: 1px solid var(--border, #1a3a1a);
   border-radius: 8px;
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
+
+.fill-code-text {
+  color: var(--primary, #00ff41);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  white-space: pre;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.fill-code-text.faded { opacity: 0.5; }
 
 .fill-line-wrap {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px 0;
+  padding: 4px 0;
 }
-
-.fill-line {
-  display: flex;
-  align-items: center;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  line-height: 1.8;
-}
-
-.fill-code-text { color: #00ff41; white-space: pre; }
-.fill-code-text.faded { opacity: 0.55; }
 
 .fill-blank-wrap {
   display: inline-flex;
-  border-bottom: 2px solid #2a5a2a;
+  border-bottom: 2px solid var(--primary-dim, #2a5a2a);
   margin: 0 2px;
+  transition: border-color 0.15s;
 }
 
-.fill-blank-wrap.correct { border-color: #00ff41; }
-.fill-blank-wrap.wrong   { border-color: #ff4141; animation: shake 0.4s ease; }
+.fill-blank-wrap.correct { border-color: var(--primary, #00ff41); }
+.fill-blank-wrap.wrong   { border-color: var(--red, #ff4141); animation: shake 0.4s ease; }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
   60% { transform: translateX(-3px); }
   80% { transform: translateX(3px); }
 }
@@ -79,15 +82,55 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #00aaff;
+  color: var(--blue, #00aaff);
   font-family: 'Courier New', monospace;
   font-size: 14px;
   text-align: center;
   min-width: 60px;
+  padding: 2px 4px;
 }
 
-.fill-blank::placeholder { color: #1a3a1a; }
+.fill-blank::placeholder { color: var(--border, #1a3a1a); }
 
+.hint-link {
+  background: none;
+  border: none;
+  color: var(--text-dim, #3a5a3a);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  text-decoration: underline;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.hint-link:hover { color: var(--primary, #00ff41); }
+
+.fill-hint {
+  background: var(--surface, #030a08);
+  border: 1px solid var(--border, #0a2a1a);
+  border-left: 3px solid var(--primary, #00ff41);
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--text, #5a8a6a);
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+}
+
+.guide-tag {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--primary, #00ff41);
+  background: color-mix(in srgb, var(--primary, #00ff41) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary, #00ff41) 30%, transparent);
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}
+
+/* Feedback banner (shared with PredictStep) */
 .feedback-banner {
   max-width: 640px;
   width: 100%;
@@ -97,125 +140,73 @@
   animation: slide-up 0.25s ease;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
+
 .feedback-banner.correct { background: #003300; border: 2px solid #00ff41; }
 .feedback-banner.wrong   { background: #220000; border: 2px solid #ff4141; }
+
 .feedback-title {
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.15em;
   font-family: 'Courier New', monospace;
 }
+
 .feedback-banner.correct .feedback-title { color: #00ff41; }
 .feedback-banner.wrong .feedback-title   { color: #ff6666; }
+
 .feedback-explain {
-  font-size: 13px;
+  font-size: 12px;
   color: #7a9a7a;
   line-height: 1.5;
+  font-family: 'Courier New', monospace;
 }
+
 .feedback-explain code {
   background: #0a1a0a;
   border: 1px solid #1a3a1a;
-  padding: 1px 6px;
+  padding: 1px 5px;
   border-radius: 3px;
   color: #00ff41;
 }
 
-.fill-feedback {
-  border-radius: 6px;
-  padding: 12px 16px;
-  animation: slide-up 0.3s ease;
-}
+.feedback-banner.wrong .feedback-explain { color: #cc8888; }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.fill-feedback.correct { background: #001a00; border: 1px solid #00ff41; }
-.fill-feedback.wrong   { background: #1a0000; border: 1px solid #ff4141; }
-
-.fb-icon {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  font-family: 'Courier New', monospace;
-  margin-bottom: 4px;
-}
-
-.fill-feedback.correct .fb-icon { color: #00ff41; }
-.fill-feedback.wrong .fb-icon   { color: #ff4141; }
-
-.fill-feedback p { font-size: 13px; color: #7a9a7a; margin: 0; }
-.fill-feedback code {
-  background: #0a1a0a;
-  border: 1px solid #1a3a1a;
-  padding: 1px 6px;
-  border-radius: 3px;
-  color: #00ff41;
-  font-size: 12px;
-}
-
-.hint-link {
-  background: none;
-  border: none;
-  color: #2a5a4a;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: 'Courier New', monospace;
-  text-decoration: underline;
-  padding: 0;
-}
-
-.hint-link:hover { color: #5a9a7a; }
-
-.fill-hint {
-  background: #030a08;
-  border: 1px solid #0a2a1a;
-  border-left: 3px solid #00ff41;
-  border-radius: 4px;
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #5a8a6a;
-  font-family: 'Courier New', monospace;
-  line-height: 1.5;
-}
-
-.aegis-tag {
-  font-size: 9px;
-  font-weight: 700;
-  color: #00ff41;
-  background: #001a00;
-  border: 1px solid #003a00;
-  padding: 1px 5px;
-  border-radius: 3px;
-  letter-spacing: 0.1em;
-  margin-right: 6px;
-}
-
+/* Check button */
 .check-btn {
   max-width: 640px;
   width: 100%;
-  margin: 0 auto;
-  background: #001a00;
-  border: 2px solid #00ff41;
-  color: #00ff41;
-  padding: 12px 32px;
-  border-radius: 6px;
+  margin: 0 auto 24px;
+  padding: 13px 32px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 13px;
   font-family: 'Courier New', monospace;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.15em;
   transition: all 0.15s;
+  border: 2px solid var(--primary, #00ff41);
+  background: transparent;
+  color: var(--primary, #00ff41);
 }
 
-.check-btn:hover:not(:disabled) { background: #003a00; }
+.check-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary, #00ff41) 12%, transparent);
+  transform: translateY(-1px);
+}
 
 .check-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.25;
   cursor: not-allowed;
-  border-color: #1a3a1a;
-  color: #1a3a1a;
+  border-color: var(--border, #1a3a1a);
+  color: var(--text-dim, #3a5a3a);
 }
+
+.check-btn.locked-correct { border-color: #00ff41; background: #003300; color: #00ff41; }
+.check-btn.locked-wrong   { border-color: #ff4141; background: #220000; color: #ff6666; }

@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import Editor from '@monaco-editor/react';
+import { useEditorTheme } from '../../hooks/useEditorTheme';
+import { registerThemes } from '../../hooks/useEditorTheme';
 import './BuildStep.css';
 
 export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
@@ -7,6 +9,7 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
   const [output, setOutput] = useState('');
   const [running, setRunning] = useState(false);
   const [hasRun, setHasRun] = useState(false);
+  const { theme } = useEditorTheme();
 
   const lineCount = code.split('\n').filter(l => l.trim()).length;
   const meetsMinimum = lineCount >= (step.minLines || 2);
@@ -18,18 +21,18 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
     setOutput(result.output + (result.error ? '\nERRORS:\n' + result.error : ''));
     setRunning(false);
     setHasRun(true);
-    if (step.achievement) onTriggerAchievement(step.achievement);
+    window.api.addLines(lineCount);
   }
 
   function handleDone() {
-    window.api.addLines(lineCount);
+    if (step.achievement) onTriggerAchievement(step.achievement);
     onComplete();
   }
 
   return (
     <div className="build-step">
       <div className="build-header">
-        <div className="build-label">🔬 THE LAB — BUILD IT</div>
+        <div className="build-label">⚗️ LAB — BUILD IT</div>
         <p className="build-prompt">{step.prompt}</p>
       </div>
 
@@ -37,9 +40,10 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
         <Editor
           height="100%"
           defaultLanguage="bat"
-          theme="vs-dark"
+          theme={theme}
           value={code}
           onChange={v => setCode(v || '')}
+          beforeMount={registerThemes}
           options={{
             fontSize: 14,
             fontFamily: "'Courier New', monospace",
@@ -47,6 +51,7 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
             lineNumbers: 'on',
             scrollBeyondLastLine: false,
             padding: { top: 10, bottom: 10 },
+            wordWrap: 'on',
           }}
         />
       </div>
@@ -61,12 +66,10 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
       <div className="build-footer">
         <div className="build-status">
           <span className={`line-count ${meetsMinimum ? 'met' : ''}`}>
-            {lineCount} line{lineCount !== 1 ? 's' : ''} written
+            {lineCount} line{lineCount !== 1 ? 's' : ''}
             {step.minLines && !meetsMinimum && ` (need ${step.minLines})`}
           </span>
-          {hasRun && meetsMinimum && (
-            <span className="run-badge">✓ Ran successfully</span>
-          )}
+          {hasRun && meetsMinimum && <span className="run-badge">✓ Ran</span>}
         </div>
         <div className="build-btns">
           <button className="run-btn" disabled={running} onClick={handleRun}>
@@ -76,6 +79,7 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
             className="done-btn"
             disabled={!hasRun || !meetsMinimum}
             onClick={handleDone}
+            title={!hasRun ? 'Run your code first' : !meetsMinimum ? `Write at least ${step.minLines} lines` : ''}
           >
             SUBMIT →
           </button>
