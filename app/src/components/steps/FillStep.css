@@ -33,11 +33,18 @@
 .fill-code-block {
   background: #050f05;
   border: 1px solid #1a3a1a;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.fill-line-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
 }
 
 .fill-line {
@@ -49,6 +56,7 @@
 }
 
 .fill-code-text { color: #00ff41; white-space: pre; }
+.fill-code-text.faded { opacity: 0.55; }
 
 .fill-blank-wrap {
   display: inline-flex;
@@ -79,6 +87,40 @@
 }
 
 .fill-blank::placeholder { color: #1a3a1a; }
+
+.feedback-banner {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 14px 20px;
+  animation: slide-up 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.feedback-banner.correct { background: #003300; border: 2px solid #00ff41; }
+.feedback-banner.wrong   { background: #220000; border: 2px solid #ff4141; }
+.feedback-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+}
+.feedback-banner.correct .feedback-title { color: #00ff41; }
+.feedback-banner.wrong .feedback-title   { color: #ff6666; }
+.feedback-explain {
+  font-size: 13px;
+  color: #7a9a7a;
+  line-height: 1.5;
+}
+.feedback-explain code {
+  background: #0a1a0a;
+  border: 1px solid #1a3a1a;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #00ff41;
+}
 
 .fill-feedback {
   border-radius: 6px;

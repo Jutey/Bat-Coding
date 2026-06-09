@@ -3,31 +3,23 @@ import './FillStep.css';
 
 export default function FillStep({ step, onCorrect, onWrong }) {
   const [value, setValue] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [locked, setLocked] = useState(false);
   const [showHint, setShowHint] = useState(false);
 
-  const normalize = s => s.trim().toLowerCase();
-  const isCorrect = normalize(value) === normalize(step.answer);
-
-  const lines = step.template.split('\n').map(line => {
-    if (line.includes(step.blank)) {
-      const parts = line.split(step.blank);
-      return { type: 'fill', before: parts[0], after: parts[1] || '' };
-    }
-    return { type: 'code', text: line };
-  });
+  const normalize = s => s.trim().toLowerCase().replace(/\s+/g, ' ');
+  const correct = normalize(value) === normalize(step.answer);
 
   function handleCheck() {
-    if (!value.trim() || submitted) return;
-    setSubmitted(true);
-    if (isCorrect) {
+    if (!value.trim() || locked) return;
+    setLocked(true);
+    if (correct) {
       setTimeout(() => onCorrect(), 1200);
     } else {
       setTimeout(() => {
-        setSubmitted(false);
+        setLocked(false);
         setValue('');
         onWrong();
-      }, 1200);
+      }, 1400);
     }
   }
 
@@ -35,63 +27,58 @@ export default function FillStep({ step, onCorrect, onWrong }) {
     <div className="fill-step">
       <div className="fill-body">
         <div className="fill-label">FILL IN THE BLANK</div>
-        <h2 className="fill-question">{step.prompt}</h2>
 
         <div className="fill-code-block">
-          {lines.map((line, i) => (
-            <div key={i} className="fill-line">
-              {line.type === 'code' ? (
-                <span className="fill-code-text">{line.text}</span>
-              ) : (
-                <>
-                  <span className="fill-code-text">{line.before}</span>
-                  <span className={`fill-blank-wrap ${submitted ? (isCorrect ? 'correct' : 'wrong') : ''}`}>
-                    <input
-                      className="fill-blank"
-                      value={value}
-                      onChange={e => setValue(e.target.value)}
-                      onKeyDown={e => e.key === 'Enter' && handleCheck()}
-                      disabled={submitted}
-                      autoFocus
-                      spellCheck={false}
-                      autoComplete="off"
-                      size={Math.max(step.answer.length + 2, 8)}
-                    />
-                  </span>
-                  <span className="fill-code-text">{line.after}</span>
-                </>
-              )}
-            </div>
-          ))}
+          {step.before && (
+            <pre className="fill-code-text faded">{step.before}</pre>
+          )}
+
+          <div className="fill-line-wrap">
+            <span className={`fill-blank-wrap ${locked ? (correct ? 'correct' : 'wrong') : ''}`}>
+              <input
+                className="fill-blank"
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleCheck()}
+                disabled={locked}
+                autoFocus
+                spellCheck={false}
+                autoComplete="off"
+                placeholder="type here..."
+                size={Math.max((step.answer?.length || 0) + 4, 12)}
+              />
+            </span>
+          </div>
+
+          {step.after && (
+            <pre className="fill-code-text faded">{step.after}</pre>
+          )}
         </div>
 
-        {submitted && !isCorrect && (
-          <div className="fill-feedback wrong">
-            <div className="fb-icon">✗ NOT QUITE</div>
-            <p>The blank should be: <code>{step.answer}</code></p>
-          </div>
-        )}
-        {submitted && isCorrect && (
-          <div className="fill-feedback correct">
-            <div className="fb-icon">✓ CORRECT</div>
-          </div>
-        )}
-
-        {!submitted && (
+        {!locked && (
           <button className="hint-link" onClick={() => setShowHint(!showHint)}>
-            {showHint ? 'Hide hint' : 'Show hint'}
+            {showHint ? 'Hide hint' : '💡 Show hint'}
           </button>
         )}
-        {showHint && !submitted && (
+        {showHint && !locked && (
           <div className="fill-hint">
             <span className="aegis-tag">A.E.G.I.S.</span> {step.hint}
           </div>
         )}
       </div>
 
+      {locked && (
+        <div className={`feedback-banner ${correct ? 'correct' : 'wrong'}`}>
+          <div className="feedback-title">{correct ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
+          {!correct && (
+            <div className="feedback-explain">The answer is: <code>{step.answer}</code></div>
+          )}
+        </div>
+      )}
+
       <button
         className="check-btn"
-        disabled={!value.trim() || submitted}
+        disabled={!value.trim() || locked}
         onClick={handleCheck}
       >
         CHECK ANSWER

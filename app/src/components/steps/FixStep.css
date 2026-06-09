@@ -33,6 +33,25 @@
   border-bottom: 1px solid #0f1f0f;
 }
 
+.feedback-banner {
+  padding: 12px 24px;
+  animation: slide-up 0.25s ease;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.feedback-banner.correct { background: #003300; border-top: 2px solid #00ff41; }
+.feedback-banner.wrong   { background: #220000; border-top: 2px solid #ff4141; }
+.feedback-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  font-family: 'Courier New', monospace;
+}
+.feedback-banner.correct .feedback-title { color: #00ff41; }
+.feedback-banner.wrong .feedback-title   { color: #ff6666; }
+
 .fix-footer {
   padding: 12px 24px;
   display: flex;

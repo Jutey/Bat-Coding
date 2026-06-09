@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 32px 40px;
-  gap: 24px;
+  padding: 32px 40px 0;
+  gap: 20px;
 }
 
 .predict-body {
@@ -14,11 +14,13 @@
   max-width: 640px;
   margin: 0 auto;
   width: 100%;
+  overflow-y: auto;
 }
 
 .predict-label {
   font-size: 10px;
-  color: #2a5a2a;
+  color: var(--primary, #00ff41);
+  opacity: 0.5;
   letter-spacing: 0.25em;
   font-weight: 700;
 }
@@ -28,6 +30,7 @@
   color: #c0d0c0;
   font-weight: 600;
   line-height: 1.4;
+  margin: 0;
 }
 
 .predict-code {
@@ -45,48 +48,50 @@
 .options-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .option-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #050f05;
-  border: 2px solid #0f2a0f;
-  border-radius: 6px;
-  padding: 12px 16px;
+  gap: 14px;
+  background: #080f08;
+  border: 2px solid #1a3a1a;
+  border-radius: 10px;
+  padding: 14px 18px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.15s;
+  transition: border-color 0.12s, background 0.12s, transform 0.1s;
   width: 100%;
+  min-height: 58px;
 }
 
 .option-btn:hover:not(:disabled) {
-  border-color: #2a5a2a;
-  background: #080f08;
+  border-color: #3a7a3a;
+  background: #0a150a;
+  transform: translateY(-1px);
 }
 
 .option-btn.selected {
   border-color: #00aaff;
-  background: #001a2a;
+  background: #001828;
 }
 
 .option-btn.correct {
   border-color: #00ff41 !important;
-  background: #001a00 !important;
-  animation: flash-correct 0.4s ease;
+  background: #002200 !important;
+  animation: pop 0.35s ease;
 }
 
 .option-btn.wrong {
   border-color: #ff4141 !important;
-  background: #1a0000 !important;
+  background: #220000 !important;
   animation: shake 0.4s ease;
 }
 
-@keyframes flash-correct {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+@keyframes pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
   100% { transform: scale(1); }
 }
 
@@ -99,97 +104,122 @@
 }
 
 .option-letter {
-  width: 26px;
-  height: 26px;
-  border-radius: 4px;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 6px;
   background: #0a1a0a;
-  border: 1px solid #1a3a1a;
+  border: 2px solid #1a3a1a;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 800;
   color: #3a6a3a;
   flex-shrink: 0;
   font-family: 'Courier New', monospace;
+  transition: all 0.12s;
 }
 
 .option-btn.selected .option-letter { background: #002a3a; border-color: #00aaff; color: #00aaff; }
-.option-btn.correct .option-letter  { background: #003a00; border-color: #00ff41; color: #00ff41; }
-.option-btn.wrong .option-letter    { background: #2a0000; border-color: #ff4141; color: #ff4141; }
+.option-btn.correct .option-letter  { background: #004400; border-color: #00ff41; color: #00ff41; }
+.option-btn.wrong .option-letter    { background: #330000; border-color: #ff4141; color: #ff4141; }
 
 .option-text {
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
-  color: #7a9a7a;
-  white-space: pre-wrap;
-  margin: 0;
+  font-size: 14px;
+  color: #9ab09a;
   line-height: 1.4;
+  margin: 0;
 }
 
-.option-btn.correct .option-text { color: #00ff41; }
+.option-btn.correct .option-text { color: #00ff41; font-weight: 600; }
 .option-btn.wrong .option-text   { color: #ff4141; }
+.option-btn.selected .option-text { color: #c0d8e8; }
 
-.feedback-box {
-  border-radius: 6px;
-  padding: 14px 16px;
+/* Duolingo-style bottom feedback banner */
+.feedback-banner {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 16px 20px;
+  animation: slide-up 0.25s ease;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  animation: slide-up 0.3s ease;
 }
 
-@keyframes slide-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+.feedback-banner.correct {
+  background: #003300;
+  border: 2px solid #00ff41;
 }
 
-.feedback-box.correct { background: #001a00; border: 1px solid #00ff41; }
-.feedback-box.wrong   { background: #1a0000; border: 1px solid #ff4141; }
+.feedback-banner.wrong {
+  background: #220000;
+  border: 2px solid #ff4141;
+}
 
-.feedback-icon {
-  font-size: 11px;
-  font-weight: 700;
+.feedback-title {
+  font-size: 13px;
+  font-weight: 800;
   letter-spacing: 0.15em;
   font-family: 'Courier New', monospace;
 }
 
-.feedback-box.correct .feedback-icon { color: #00ff41; }
-.feedback-box.wrong .feedback-icon   { color: #ff4141; }
+.feedback-banner.correct .feedback-title { color: #00ff41; }
+.feedback-banner.wrong .feedback-title   { color: #ff6666; }
 
-.feedback-box p {
+.feedback-explain {
   font-size: 13px;
   color: #7a9a7a;
-  line-height: 1.6;
-  margin: 0;
+  line-height: 1.5;
+}
+
+.feedback-banner.wrong .feedback-explain { color: #cc8888; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .check-btn {
   max-width: 640px;
   width: 100%;
-  margin: 0 auto;
-  background: #001a00;
-  border: 2px solid #00ff41;
-  color: #00ff41;
-  padding: 12px 32px;
-  border-radius: 6px;
+  margin: 0 auto 24px;
+  padding: 14px 32px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-family: 'Courier New', monospace;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.15em;
   transition: all 0.15s;
+  border: 2px solid #00ff41;
+  background: #001a00;
+  color: #00ff41;
 }
 
 .check-btn:hover:not(:disabled) {
   background: #003a00;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(0,255,65,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,255,65,0.25);
 }
 
 .check-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.25;
   cursor: not-allowed;
   border-color: #1a3a1a;
   color: #1a3a1a;
+  background: transparent;
+}
+
+.check-btn.locked-correct {
+  border-color: #00ff41;
+  background: #003300;
+  color: #00ff41;
+}
+
+.check-btn.locked-wrong {
+  border-color: #ff4141;
+  background: #220000;
+  color: #ff6666;
 }

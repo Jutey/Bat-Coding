@@ -3,25 +3,22 @@ import './PredictStep.css';
 
 export default function PredictStep({ step, onCorrect, onWrong }) {
   const [selected, setSelected] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [locked, setLocked] = useState(false);
 
-  function handleSelect(i) {
-    if (submitted) return;
-    setSelected(i);
-  }
+  const correctIndex = step.options.findIndex(o => o.correct === true);
 
   function handleCheck() {
-    if (selected === null || submitted) return;
-    setSubmitted(true);
-    if (selected === step.correct) {
-      setTimeout(() => onCorrect(), 1400);
-    } else {
-      onWrong();
-    }
+    if (selected === null || locked) return;
+    setLocked(true);
+    const correct = selected === correctIndex;
+    setTimeout(() => {
+      if (correct) onCorrect();
+      else onWrong();
+    }, 1600);
   }
 
-  const isCorrect = submitted && selected === step.correct;
-  const isWrong = submitted && selected !== step.correct;
+  const isCorrect = locked && selected === correctIndex;
+  const isWrong = locked && selected !== correctIndex;
 
   return (
     <div className="predict-step">
@@ -34,36 +31,40 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
         )}
 
         <div className="options-grid">
-          {step.options.map((opt, i) => (
-            <button
-              key={i}
-              className={`option-btn
-                ${selected === i ? 'selected' : ''}
-                ${submitted && i === step.correct ? 'correct' : ''}
-                ${submitted && selected === i && i !== step.correct ? 'wrong' : ''}
-              `}
-              onClick={() => handleSelect(i)}
-            >
-              <span className="option-letter">{String.fromCharCode(65 + i)}</span>
-              <pre className="option-text">{opt}</pre>
-            </button>
-          ))}
+          {step.options.map((opt, i) => {
+            let cls = 'option-btn';
+            if (selected === i) cls += ' selected';
+            if (locked && i === correctIndex) cls += ' correct';
+            if (locked && selected === i && i !== correctIndex) cls += ' wrong';
+            return (
+              <button
+                key={i}
+                className={cls}
+                onClick={() => !locked && setSelected(i)}
+              >
+                <span className="option-letter">{String.fromCharCode(65 + i)}</span>
+                <span className="option-text">{opt.text}</span>
+              </button>
+            );
+          })}
         </div>
-
-        {submitted && (
-          <div className={`feedback-box ${isCorrect ? 'correct' : 'wrong'}`}>
-            <div className="feedback-icon">{isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
-            <p>{step.explanation}</p>
-          </div>
-        )}
       </div>
 
+      {locked && (
+        <div className={`feedback-banner ${isCorrect ? 'correct' : 'wrong'}`}>
+          <div className="feedback-title">{isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
+          <div className="feedback-explain">
+            {step.options[selected]?.explanation}
+          </div>
+        </div>
+      )}
+
       <button
-        className="check-btn"
+        className={`check-btn ${locked ? (isCorrect ? 'locked-correct' : 'locked-wrong') : ''}`}
         disabled={selected === null}
-        onClick={handleCheck}
+        onClick={locked ? (isCorrect ? onCorrect : onWrong) : handleCheck}
       >
-        {submitted ? (isCorrect ? 'CONTINUE →' : 'TRY AGAIN') : 'CHECK ANSWER'}
+        {locked ? (isCorrect ? 'CONTINUE →' : 'TRY AGAIN') : 'CHECK ANSWER'}
       </button>
     </div>
   );
