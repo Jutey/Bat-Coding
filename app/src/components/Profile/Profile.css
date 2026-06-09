@@ -1,0 +1,44 @@
+.profile { padding: 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex: 1; }
+
+.profile-header { display: flex; align-items: center; gap: 20px; background: var(--surface); border: 1px solid var(--border-dim); border-radius: 10px; padding: 20px; }
+.profile-avatar-big { font-size: 48px; flex-shrink: 0; }
+.profile-pet-big { font-size: 48px; flex-shrink: 0; margin-left: auto; }
+.profile-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.profile-title { font-size: 20px; font-weight: 800; font-family: 'Courier New', monospace; letter-spacing: 0.15em; }
+.profile-level { font-size: 12px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.profile-xp { font-size: 14px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; }
+.profile-bar-wrap { height: 5px; background: var(--border-dim); border-radius: 3px; overflow: hidden; margin: 4px 0; }
+.profile-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.profile-next-level { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.profile-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.pstat { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px; text-align: center; }
+.pstat span { display: block; font-size: 22px; font-weight: 800; color: var(--primary); font-family: 'Courier New', monospace; }
+.pstat small { font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; }
+
+.profile-section { display: flex; flex-direction: column; gap: 10px; }
+.profile-section-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3em; font-weight: 700; font-family: 'Courier New', monospace; }
+
+.avatar-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.avatar-btn { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: all 0.15s; }
+.avatar-btn:hover { border-color: var(--primary); }
+.avatar-btn.active { border-color: var(--primary); background: var(--surface2); box-shadow: 0 0 8px rgba(0,255,65,0.2); }
+.avatar-btn.locked { opacity: 0.3; cursor: default; }
+.avatar-emoji { font-size: 24px; }
+.avatar-name { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.pets-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.pet-btn { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; max-width: 130px; transition: all 0.15s; text-align: center; }
+.pet-btn:hover { border-color: var(--primary); }
+.pet-btn.active { border-color: var(--primary); background: var(--surface2); }
+.pet-emoji { font-size: 28px; }
+.pet-name { font-size: 11px; font-weight: 700; color: var(--text-bright); font-family: 'Courier New', monospace; }
+.pet-desc { font-size: 9px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.themes-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.theme-btn { background: var(--tbg, #111); border: 2px solid var(--tc, #333); border-radius: 6px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: all 0.15s; opacity: 0.7; }
+.theme-btn:hover { opacity: 1; }
+.theme-btn.active { opacity: 1; box-shadow: 0 0 10px var(--tc, #333); }
+.theme-btn.locked { cursor: default; opacity: 0.25; }
+.theme-swatch { width: 12px; height: 12px; border-radius: 50%; background: var(--tc, #333); flex-shrink: 0; }
+.theme-name { font-size: 10px; color: var(--tc, #fff); font-family: 'Courier New', monospace; font-weight: 700; white-space: nowrap; }

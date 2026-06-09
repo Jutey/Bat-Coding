@@ -1,0 +1,24 @@
+.museum { padding: 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex: 1; }
+.museum-header { display: flex; flex-direction: column; gap: 4px; }
+.museum-title { font-size: 18px; font-weight: 700; color: var(--primary); letter-spacing: 0.15em; font-family: 'Courier New', monospace; }
+.museum-subtitle { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.museum-section { display: flex; flex-direction: column; gap: 10px; }
+.museum-section-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3em; font-weight: 700; font-family: 'Courier New', monospace; }
+.museum-empty { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; padding: 16px; background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; }
+
+.milestone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.milestone-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.4; transition: all 0.2s; }
+.milestone-card.unlocked { opacity: 1; border-color: var(--primary); }
+.milestone-icon { font-size: 24px; }
+.milestone-label { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; text-align: center; }
+.milestone-card.unlocked .milestone-label { color: var(--text-bright); }
+
+.archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+.archive-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 4px; padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.archive-id { font-size: 11px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; }
+.archive-status { font-size: 9px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.gallery-list { display: flex; flex-direction: column; gap: 10px; }
+.gallery-entry { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 14px; }
+.gallery-title { font-size: 12px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; margin-bottom: 8px; }
+.gallery-code { font-size: 11px; color: var(--text); font-family: 'Courier New', monospace; background: var(--surface2); padding: 10px; border-radius: 4px; overflow-x: auto; margin: 0; white-space: pre-wrap; }

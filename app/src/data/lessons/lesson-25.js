@@ -1,0 +1,68 @@
+// Lesson 25 — Multiple Outcomes
+export default {
+  id: 'world-03/lesson-25-multiple-outcomes',
+  title: 'Multiple Outcomes',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'More Than Two Paths',
+      body: 'You know if/else (two outcomes).\n\nBut games and programs often have many outcomes based on RANGES of values — health categories, score grades, reputation levels.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Cascading if Checks',
+      body: 'Check ranges by cascading multiple comparisons. The first match wins — use goto to exit early.',
+      code: '@echo off\nset health=65\nif %health% GEQ 80 goto great\nif %health% GEQ 50 goto okay\nif %health% GTR 0 goto bad\ngoto dead\n:great\necho Status: GREAT\ngoto end\n:okay\necho Status: OK\ngoto end\n:bad\necho Status: CRITICAL\ngoto end\n:dead\necho Status: DEAD\n:end',
+      output: 'Status: OK',
+    },
+    {
+      type: 'predict',
+      question: 'With health=85, which label does this jump to first?',
+      code: '@echo off\nset health=85\nif %health% GEQ 80 goto great\nif %health% GEQ 50 goto okay\ngoto bad\n:great\necho Great\ngoto end\n:okay\necho Okay\ngoto end\n:bad\necho Bad\n:end',
+      options: ['bad', 'okay', 'great', 'end'],
+      correct: 2,
+      explanation: 'The checks run top to bottom. 85 GEQ 80 is true — it immediately jumps to :great. The second check never runs.',
+    },
+    {
+      type: 'predict',
+      question: 'What grade does this program print for score=72?',
+      code: '@echo off\nset score=72\nif %score% GEQ 90 goto A\nif %score% GEQ 80 goto B\nif %score% GEQ 70 goto C\ngoto F\n:A\necho Grade A\ngoto end\n:B\necho Grade B\ngoto end\n:C\necho Grade C\ngoto end\n:F\necho Grade F\n:end',
+      options: ['Grade A', 'Grade B', 'Grade C', 'Grade F'],
+      correct: 2,
+      explanation: '72 is not GEQ 90 (skip A), not GEQ 80 (skip B), but IS GEQ 70 → Grade C.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Add the missing comparison for the "bad" health range (1-49):',
+      template: '@echo off\nset health=30\nif %health% GEQ 80 goto great\nif %health% GEQ 50 goto okay\nif %health% ___ 0 goto bad\ngoto dead\n:bad\necho CRITICAL\ngoto end\n:dead\necho DEAD\n:end',
+      blank: '___',
+      answer: 'GTR',
+      hint: 'We want health strictly greater than 0 (meaning they\'re still alive, just critical).',
+    },
+    {
+      type: 'fix',
+      prompt: 'The grade system always prints "F" no matter the score. Find the logic error.',
+      code: '@echo off\nset score=95\nif %score% GEQ 90 goto A\nif %score% GEQ 80 goto B\ngoto F\n:F\necho F\ngoto end\n:A\necho A\ngoto end\n:B\necho B\n:end',
+      answer: '@echo off\nset score=95\nif %score% GEQ 90 goto A\nif %score% GEQ 80 goto B\ngoto F\n:A\necho A\ngoto end\n:B\necho B\ngoto end\n:F\necho F\n:end',
+      bugHint: 'The :F label is placed BEFORE :A and :B, so when the code "falls through" to :F, it always hits F first. Labels need to be in the right order with proper goto exits.',
+      bugType: 'label_order',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a reputation system.\n\nTrack a reputation score (0-100). Show different messages for 5 reputation tiers:\n- 0-20: Hated\n- 21-40: Disliked\n- 41-60: Neutral\n- 61-80: Respected\n- 81-100: Legendary',
+      starterCode: '@echo off\ncolor 0E\ntitle REPUTATION SYSTEM\nset reputation=75\necho Your reputation score: %reputation%\necho.',
+      minLines: 20,
+      achievement: 'ranger',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'ranger',
+      message: 'The Logic Core handles the full spectrum now.\n\nNot just yes/no — the entire range of possibility.',
+      storyUpdate: 'RANGE DETECTOR CALIBRATED — MULTI-TIER LOGIC ONLINE',
+    },
+  ],
+};

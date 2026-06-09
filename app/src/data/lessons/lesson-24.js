@@ -1,0 +1,78 @@
+// Lesson 24 — Decision Trees
+export default {
+  id: 'world-03/lesson-24-decision-trees',
+  title: 'Decision Trees',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Branching Logic',
+      body: 'Life isn\'t just true/false.\n\nSometimes there are many possible answers, and each one leads somewhere different.\n\nA **decision tree** maps out all the paths.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Multiple if Statements',
+      body: 'Stack multiple `if` statements to handle many cases. Each one checks a different condition.',
+      code: '@echo off\nset /p choice=Enter 1, 2, or 3: \nif %choice% == 1 goto path1\nif %choice% == 2 goto path2\nif %choice% == 3 goto path3\necho Invalid choice.\ngoto end\n:path1\necho You chose the forest path.\ngoto end\n:path2\necho You chose the mountain pass.\ngoto end\n:path3\necho You chose the underground tunnel.\n:end',
+      output: '(routes to different paths based on input)',
+    },
+    {
+      type: 'predict',
+      question: 'What happens if the user types "4"?',
+      code: '@echo off\nset /p choice=Choose: \nif %choice% == 1 goto opt1\nif %choice% == 2 goto opt2\necho Invalid!\n:opt1\necho Option 1\ngoto end\n:opt2\necho Option 2\n:end',
+      options: [
+        'It jumps to opt1',
+        'It crashes',
+        'It prints "Invalid!" and falls through to :opt1 code',
+        'It prints "Invalid!" and then stops because no goto to end',
+      ],
+      correct: 2,
+      explanation: 'If no `if` matches, "Invalid!" prints. But then execution falls through to `:opt1` label and prints "Option 1" too! You need `goto end` after "Invalid!" to prevent fall-through.',
+    },
+    {
+      type: 'predict',
+      question: 'How do you prevent fall-through after printing "Invalid!"?',
+      code: '@echo off\nset /p x=Input: \nif %x% == A goto A\necho Bad input\n::need something here::\n:A\necho You chose A',
+      options: [
+        'Add another if statement',
+        'Add `goto end` after the "Bad input" echo, and add an `:end` label',
+        'Use cls to clear the screen',
+        'Nothing — fall-through is desired',
+      ],
+      correct: 1,
+      explanation: 'After the "Bad input" message, add `goto end` to skip the labeled sections. Then `:end` at the bottom marks where to jump.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the decision tree — add the jump for choice 3:',
+      template: '@echo off\nset /p c=Choose: \nif %c% == 1 goto a\nif %c% == 2 goto b\nif %c% == 3 ___ c\necho Invalid\ngoto end\n:a\necho Alpha\ngoto end\n:b\necho Beta\ngoto end\n:c\necho Gamma\n:end',
+      blank: '___',
+      answer: 'goto',
+      hint: 'What command makes the program jump to a label?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The decision tree falls through to the wrong section. Fix it.',
+      code: '@echo off\nset /p dir=Go north or south? \nif %dir% == north goto north\ngoto south\n:north\necho You go north. A wolf attacks!\n:south\necho You go south. A river blocks your path.',
+      answer: '@echo off\nset /p dir=Go north or south? \nif %dir% == north goto north\ngoto south\n:north\necho You go north. A wolf attacks!\ngoto end\n:south\necho You go south. A river blocks your path.\n:end',
+      bugHint: 'After the north section, there\'s no `goto end`, so it falls through and prints the south message too.',
+      bugType: 'missing_goto',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a "choose your class" decision tree.\n\nOffer at least 4 class options (Warrior, Mage, Rogue, Ranger). Each class should get a unique welcome message, starting stats, and special ability description.',
+      starterCode: '@echo off\ncolor 0A\ntitle CLASS SELECTION\ncls\necho === CHOOSE YOUR CLASS ===\necho.\necho [1] Warrior\necho [2] Mage\necho [3] Rogue\necho [4] Ranger\necho.\nset /p choice=Your choice: ',
+      minLines: 20,
+      achievement: 'tree_climber',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'tree_climber',
+      message: 'The Logic Core now branches like a real tree.\n\nMultiple paths. Multiple possibilities.',
+      storyUpdate: 'DECISION TREE LOADED — 4 BRANCHES ACTIVE',
+    },
+  ],
+};

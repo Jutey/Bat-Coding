@@ -1,0 +1,78 @@
+// Lesson 18 — Character Creator
+export default {
+  id: 'world-02/lesson-18-character-creator',
+  title: 'Character Creator',
+  world: 'SECTOR 2 — MEMORY BANKS',
+  xp: 150,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Everything Together',
+      body: 'You know:\n- `set` to store values\n- `set /p` to ask the user\n- `%variable%` to display values\n- `set /a` to do math\n\nCombine them all to build a real character creator — one that asks who you are and builds your character from your answers.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Interactive Character Creation',
+      body: 'Ask the user questions with `set /p`. Use their answers to set variables. Then display the final character sheet.',
+      code: '@echo off\ncolor 0A\ntitle CHARACTER CREATOR\ncls\necho === CREATE YOUR CHARACTER ===\necho.\nset /p name=Enter your name: \nset /p class=Choose class (Warrior/Mage/Rogue): \nset health=100\nset gold=50\ncls\necho === YOUR CHARACTER ===\necho Name:  %name%\necho Class: %class%\necho HP:    %health%\necho Gold:  %gold%',
+      output: '(prompts for name and class, then shows character sheet)',
+    },
+    {
+      type: 'predict',
+      question: 'In what order does this character creator run?',
+      code: '@echo off\nset /p name=Name: \nset /p weapon=Weapon: \necho %name% wields the %weapon%',
+      options: [
+        'Shows the echo line first, then asks for inputs',
+        'Asks for name, then weapon, then shows the combined result',
+        'Asks for weapon, then name, then shows the combined result',
+        'Shows all at once',
+      ],
+      correct: 1,
+      explanation: 'Programs run top to bottom. First `set /p name` asks for the name, then `set /p weapon` asks for weapon, then echo displays both.',
+    },
+    {
+      type: 'predict',
+      question: 'What happens to the character screen if you don\'t use `cls` before showing it?',
+      code: '@echo off\nset /p name=Name: \necho Your character: %name%',
+      options: [
+        'The input prompts and character sheet all appear together on screen',
+        'The input prompts disappear',
+        'The character sheet appears first',
+        'Nothing — cls is required',
+      ],
+      correct: 0,
+      explanation: 'Without `cls`, all the input prompts stay visible. The character sheet appears after them, making the screen cluttered.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the character creator — display the class the user chose:',
+      template: '@echo off\nset /p class=Choose class: \necho Your class is: ___class___',
+      blank: '___class___',
+      answer: '%class%',
+      hint: 'Wrap the variable name in percent signs.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The character creator asks for the name but displays garbage. Fix it.',
+      code: '@echo off\nset /p heroName=Enter hero name: \necho Your hero: %hero%',
+      answer: '@echo off\nset /p heroName=Enter hero name: \necho Your hero: %heroName%',
+      bugHint: 'The variable is called "heroName" but the echo uses "%hero%". They need to match.',
+      bugType: 'wrong_variable',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a complete character creator.\n\nAsk for: name, class, and one personality trait.\nSet stat variables based on class (Warrior=high STR, Mage=high INT, etc.)\nClear the screen and display a full character sheet.',
+      starterCode: '@echo off\ncolor 0A\ntitle CHARACTER CREATOR\ncls\necho ===========================\necho    CHARACTER CREATOR\necho ===========================\necho.',
+      minLines: 20,
+      achievement: 'creator',
+    },
+    {
+      type: 'reward',
+      xp: 150,
+      achievement: 'creator',
+      message: 'A character has been created from nothing but questions and memory.\n\nThe Memory Banks are nearly full.',
+      storyUpdate: 'CHARACTER DATABASE INITIALIZED — ALL REGISTERS FILLED',
+    },
+  ],
+};

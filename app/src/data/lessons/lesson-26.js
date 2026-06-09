@@ -1,0 +1,78 @@
+// Lesson 26 — Branching Stories
+export default {
+  id: 'world-03/lesson-26-branching-stories',
+  title: 'Branching Stories',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Stories That Respond',
+      body: 'A branching story changes based on the reader\'s choices.\n\nYou\'ve already learned everything you need:\n- `set /p` to ask questions\n- `if` to check answers\n- `goto` to jump to different story sections\n\nPut them together and you have interactive fiction.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Story Structure With Labels',
+      body: 'Each scene is a label. The story jumps between them based on choices.',
+      code: '@echo off\ncls\necho You stand at a crossroads.\necho Left: a dark forest. Right: a lit village.\necho.\nset /p dir=Which way? (left/right): \nif /i %dir% == left goto forest\ngoto village\n:forest\ncls\necho The forest closes around you...\ngoto end\n:village\ncls\necho Torchlight and the smell of bread.\n:end\npause',
+      output: '(shows different scenes based on answer)',
+    },
+    {
+      type: 'predict',
+      question: 'What does /i add to the story\'s input handling?',
+      code: 'if /i %dir% == LEFT goto forest',
+      options: [
+        'It makes the check faster',
+        'It makes the comparison case-insensitive — "Left", "LEFT", and "left" all work',
+        'It ignores invalid inputs',
+        'It allows multiple correct answers',
+      ],
+      correct: 1,
+      explanation: '/i flag = case-insensitive. So the player can type "Left", "left", or "LEFT" and all will match.',
+    },
+    {
+      type: 'predict',
+      question: 'After the story branches, why do we need `goto end` at the end of each branch?',
+      code: '@echo off\nif %choice% == A goto sectionA\ngoto sectionB\n:sectionA\necho Story A\ngoto end\n:sectionB\necho Story B\n:end',
+      options: [
+        'To make the program faster',
+        'Without it, after sectionA, the program falls through and prints sectionB too',
+        'goto end closes the program',
+        'Labels require a matching goto',
+      ],
+      correct: 1,
+      explanation: 'After :sectionA code runs, execution continues to the next line — which is :sectionB. `goto end` jumps past all other sections.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Add the case-insensitive flag so players can type "RUN" or "run" or "Run":',
+      template: '@echo off\nset /p action=Fight or run? \nif __ %action% == run goto escape',
+      blank: '__',
+      answer: '/i',
+      hint: 'This flag makes string comparison case-insensitive.',
+    },
+    {
+      type: 'fix',
+      prompt: 'Both story branches print regardless of input. Fix it.',
+      code: '@echo off\nset /p choice=Open the box? (yes/no): \nif /i %choice% == yes goto open\n:open\necho Inside: a golden key!\ngoto end\necho You leave the box alone.\n:end\npause',
+      answer: '@echo off\nset /p choice=Open the box? (yes/no): \nif /i %choice% == yes goto open\necho You leave the box alone.\ngoto end\n:open\necho Inside: a golden key!\n:end\npause',
+      bugHint: 'The :open label comes right after the if line, so it always runs. The "no" path needs to come before :open.',
+      bugType: 'label_placement',
+    },
+    {
+      type: 'build',
+      prompt: 'Write a branching story with at least 3 decision points.\n\nStory must have 4+ different possible endings. Use clear scene separators with cls and pause.',
+      starterCode: '@echo off\ncolor 0A\ntitle BRANCHING STORY\ncls\necho === THE ABANDONED STATION ===\necho.\necho You arrive at an abandoned space station.\necho The airlock is sealed, but there\'s an access panel.\necho.\nset /p start=Try to hack it? (yes/no): ',
+      minLines: 35,
+      achievement: 'author',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'author',
+      message: 'The Logic Core has become a story engine.\n\nChoices matter. Paths diverge. Endings differ.',
+      storyUpdate: 'NARRATIVE PROCESSOR ONLINE — STORY ENGINE LOADED',
+    },
+  ],
+};

@@ -1,0 +1,78 @@
+// Lesson 9 — Terminal Adventure
+export default {
+  id: 'world-01/lesson-09-terminal-adventure',
+  title: 'Terminal Adventure',
+  world: 'SECTOR 1 — POWER GRID',
+  xp: 150,
+  steps: [
+    {
+      type: 'learn',
+      title: 'The Full Toolkit',
+      body: 'You\'ve learned every command in the Power Grid toolkit:\n\n- `@echo off` — clean output\n- `echo` — print text\n- `echo.` — blank line\n- `pause` — wait for keypress\n- `cls` — clear screen\n- `title` — window title\n- `color` — terminal colors\n\nNow let\'s put them ALL together.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'A Choose-Your-Own Display Adventure',
+      body: 'Even without variables or if-statements, you can make something feel like a story just by controlling what appears, when, and for how long.\n\nUse pauses for dramatic timing. Use cls for scene changes. Use color shifts for mood.',
+      code: '@echo off\ncolor 0A\ntitle TERMINAL ADVENTURE\ncls\necho You wake up in a dark server room.\necho The lights are off. The fans are silent.\necho.\necho A single terminal glows ahead of you.\npause\ncls\ncolor 0C\necho The terminal says: ERROR ERROR ERROR\npause',
+      output: '(scene 1 with green text)\n...(after keypress)...\n(scene 2 with red text)',
+    },
+    {
+      type: 'predict',
+      question: 'What does this story program do between scenes?',
+      code: '@echo off\necho Chapter 1\npause\ncls\necho Chapter 2\npause\ncls\necho Chapter 3\npause',
+      options: [
+        'Prints all chapters at once',
+        'Clears the screen between every chapter, so each one appears alone',
+        'Shows a loading bar',
+        'Prints chapters backwards',
+      ],
+      correct: 1,
+      explanation: 'Each `cls` wipes the previous chapter. The reader sees one chapter at a time, creating a page-turning effect.',
+    },
+    {
+      type: 'predict',
+      question: 'How would you change the mood of a scene from calm to danger?',
+      code: '@echo off\ncolor 0A\necho Peace reigns...\npause\ncls\ncolor 0C\necho INTRUDER ALERT',
+      options: [
+        'You can\'t — color is set once',
+        'Using `color` again after `cls` changes the terminal color for the new scene',
+        'Using `echo` with capital letters',
+        'Adding more pauses',
+      ],
+      correct: 1,
+      explanation: '`color` can be called multiple times. Each call changes the terminal color immediately. Green for calm, red for danger.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Add a scene transition — clear the screen before showing scene 2:',
+      template: '@echo off\necho SCENE 1: All quiet.\npause\n___\necho SCENE 2: Chaos erupts!',
+      blank: '___',
+      answer: 'cls',
+      hint: 'What command wipes the terminal to start fresh?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The adventure program shows both scenes at once instead of one at a time. Fix it.',
+      code: '@echo off\ncolor 0A\necho You enter the dungeon.\necho You find treasure!\npause',
+      answer: '@echo off\ncolor 0A\necho You enter the dungeon.\npause\ncls\necho You find treasure!\npause',
+      bugHint: 'There should be a pause and screen clear between the two scenes.',
+      bugType: 'missing_commands',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a complete 4-screen terminal adventure story.\n\nEach screen should have its own content. Use different colors for different moods. Include a dramatic ending.',
+      starterCode: '@echo off\ncolor 0A\ntitle TERMINAL ADVENTURE\ncls\necho Chapter 1: ',
+      minLines: 16,
+      achievement: 'storyteller',
+    },
+    {
+      type: 'reward',
+      xp: 150,
+      achievement: 'storyteller',
+      message: 'The Power Grid comes alive with your story.\n\nOne more node remains: the Boss.',
+      storyUpdate: 'SECTOR 1 — 9/10 NODES ONLINE — BOSS NODE DETECTED',
+    },
+  ],
+};

@@ -1,15 +1,13 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
+  getProgress: () => ipcRenderer.invoke('get-progress'),
+  saveProgress: (data) => ipcRenderer.invoke('save-progress', data),
   getWorlds: () => ipcRenderer.invoke('get-worlds'),
   getLessons: (worldId) => ipcRenderer.invoke('get-lessons', worldId),
-  readLesson: (lessonPath) => ipcRenderer.invoke('read-lesson', lessonPath),
-  readBat: (lessonPath, filename) => ipcRenderer.invoke('read-bat', lessonPath, filename),
+  readLesson: (p) => ipcRenderer.invoke('read-lesson', p),
+  readBat: (p, f) => ipcRenderer.invoke('read-bat', p, f),
   runBat: (code) => ipcRenderer.invoke('run-bat', code),
-  getProgress: () => ipcRenderer.invoke('get-progress'),
-  completeLesson: (lessonId) => ipcRenderer.invoke('complete-lesson', lessonId),
-  unlockAchievement: (id) => ipcRenderer.invoke('unlock-achievement', id),
-  addLines: (count) => ipcRenderer.invoke('add-lines', count),
   windowMinimize: () => ipcRenderer.invoke('window-minimize'),
   windowMaximize: () => ipcRenderer.invoke('window-maximize'),
   windowClose: () => ipcRenderer.invoke('window-close'),

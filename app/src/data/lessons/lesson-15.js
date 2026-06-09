@@ -1,0 +1,73 @@
+// Lesson 15 — Gold System
+export default {
+  id: 'world-02/lesson-15-gold-system',
+  title: 'Gold System',
+  world: 'SECTOR 2 — MEMORY BANKS',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'The Economy of Variables',
+      body: 'Every game has currency. Gold, credits, coins, bits.\n\nWith `set` and `set /a`, you can build a complete gold tracking system — earning, spending, and displaying.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Gold Operations',
+      body: 'Adding and subtracting gold is just arithmetic with variables.\n\nAlways display the result so the player knows what happened.',
+      code: '@echo off\nset gold=50\necho Starting gold: %gold%\nset /a gold=gold+100\necho Found treasure! Gold: %gold%\nset /a gold=gold-30\necho Bought potion. Gold: %gold%',
+      output: 'Starting gold: 50\nFound treasure! Gold: 150\nBought potion. Gold: 120',
+    },
+    {
+      type: 'predict',
+      question: 'What does this program print at the end?',
+      code: '@echo off\nset gold=200\nset /a gold=gold+50\nset /a gold=gold-75\necho Gold: %gold%',
+      options: ['Gold: 200', 'Gold: 175', 'Gold: 250', 'Gold: 125'],
+      correct: 1,
+      explanation: '200 + 50 = 250, then 250 - 75 = 175. The final value is 175.',
+    },
+    {
+      type: 'predict',
+      question: 'What happens if you go into negative gold?',
+      code: '@echo off\nset gold=10\nset /a gold=gold-50\necho Gold: %gold%',
+      options: [
+        'Gold: 10 (it won\'t go below 0)',
+        'Gold: -40',
+        'An error occurs',
+        'Gold: 0',
+      ],
+      correct: 1,
+      explanation: 'Batch doesn\'t enforce a minimum of 0. `10-50 = -40`. The variable will happily store negative numbers.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the gold earning line:',
+      template: '@echo off\nset gold=0\necho You defeated an enemy!\nset ___ gold=gold+25\necho Gold earned: %gold%',
+      blank: '___',
+      answer: '/a',
+      hint: 'What flag enables arithmetic in the set command?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The shop transaction is wrong. Fix the gold calculation.',
+      code: '@echo off\nset gold=100\nset /a gold=gold+40\necho Bought item for 40 gold. Remaining: %gold%',
+      answer: '@echo off\nset gold=100\nset /a gold=gold-40\necho Bought item for 40 gold. Remaining: %gold%',
+      bugHint: 'Buying something should subtract gold, not add it.',
+      bugType: 'logic',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a shop system.\n\nStart the player with 200 gold. Show 3 items they can "buy" (with prices). Subtract each one and show remaining gold after each purchase. End with total remaining.',
+      starterCode: '@echo off\nset gold=200\necho ====== SHOP ======\necho Gold: %gold%\necho.\necho Buying Sword (50 gold)...',
+      minLines: 12,
+      achievement: 'merchant',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'merchant',
+      message: 'The economy module is running.\n\nCoins flow through the Memory Banks.',
+      storyUpdate: 'TRANSACTION LEDGER ONLINE — ECONOMY NODE ACTIVE',
+    },
+  ],
+};

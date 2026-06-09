@@ -1,0 +1,78 @@
+// Lesson 23 — Age Checker
+export default {
+  id: 'world-03/lesson-23-age-checker',
+  title: 'Age Checker',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Comparing Numbers',
+      body: 'Checking if two values are EQUAL is one thing.\n\nBut what if you need to check if a number is GREATER THAN or LESS THAN another?\n\nBatch uses text keywords instead of symbols for numeric comparisons.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'GTR, LSS, EQU — Numeric Comparisons',
+      body: 'For numbers, use these operators:\n- `GTR` — greater than (>)\n- `LSS` — less than (<)\n- `EQU` — equal to (=)\n- `GEQ` — greater than or equal (>=)\n- `LEQ` — less than or equal (<=)\n- `NEQ` — not equal (!=)',
+      code: '@echo off\nset age=17\nif %age% GTR 17 goto adult\necho You are 17 or younger.\ngoto end\n:adult\necho You are older than 17.\n:end',
+      output: 'You are 17 or younger.',
+    },
+    {
+      type: 'predict',
+      question: 'What does this print when age=18?',
+      code: '@echo off\nset age=18\nif %age% GEQ 18 echo You can vote!\nif %age% LSS 18 echo Too young to vote.',
+      options: [
+        'You can vote!',
+        'Too young to vote.',
+        'You can vote!\nToo young to vote.',
+        'Nothing',
+      ],
+      correct: 0,
+      explanation: 'GEQ means "greater than or equal to". 18 GEQ 18 is true → prints "You can vote!". 18 LSS 18 is false → nothing.',
+    },
+    {
+      type: 'predict',
+      question: 'What is the difference between GTR and GEQ?',
+      code: 'if 18 GTR 18 echo A\nif 18 GEQ 18 echo B',
+      options: [
+        'They are the same',
+        'GTR requires strictly greater than; GEQ includes equal to',
+        'GEQ requires strictly greater than; GTR includes equal to',
+        'Both print nothing',
+      ],
+      correct: 1,
+      explanation: '18 GTR 18 is FALSE (18 is not greater than 18). 18 GEQ 18 is TRUE (18 is greater than OR equal to 18). Only B prints.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the speed check — trigger turbo mode when speed exceeds 100:',
+      template: '@echo off\nset speed=120\nif %speed% ___ 100 echo TURBO MODE!',
+      blank: '___',
+      answer: 'GTR',
+      hint: 'Which comparison operator means "greater than"?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The age check has the wrong comparison. Fix it so it detects adults (18 and over).',
+      code: '@echo off\nset age=25\nif %age% LSS 18 echo Welcome, adult!\nif %age% LSS 18 goto end\necho Access denied.',
+      answer: '@echo off\nset age=25\nif %age% GEQ 18 echo Welcome, adult!\nif %age% LSS 18 goto end\necho Access denied.',
+      bugHint: 'An adult is someone whose age is GEQ (greater than or equal to) 18, not LSS (less than) 18.',
+      bugType: 'wrong_comparison',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a game rating system.\n\nAsk the user for their age. Check three categories:\n- Under 10: "Kids Zone"\n- 10 to 17: "Teen Zone"\n- 18 and over: "Adult Zone"\n\nDisplay which zone they\'re in.',
+      starterCode: '@echo off\ncolor 0E\ntitle RATING SYSTEM\ncls\nset /p age=Enter your age: ',
+      minLines: 12,
+      achievement: 'comparator',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'comparator',
+      message: 'The Logic Core can now measure, not just match.\n\nGreater than. Less than. The full spectrum of comparison.',
+      storyUpdate: 'COMPARISON ENGINE ONLINE — RANGE DETECTION ACTIVE',
+    },
+  ],
+};

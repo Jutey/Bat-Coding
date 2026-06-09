@@ -1,0 +1,78 @@
+// Lesson 27 — Choose Your Adventure
+export default {
+  id: 'world-03/lesson-27-choose-your-adventure',
+  title: 'Choose Your Adventure',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Full Adventure Structure',
+      body: 'A "choose your own adventure" game combines everything:\n- Variables track your character state\n- if/goto controls story flow\n- Input from the player drives decisions\n\nYour "state" (health, items, choices) persists across the whole story.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Persistent State in Stories',
+      body: 'Set variables before the story starts. Check and modify them as events happen. The story responds to cumulative choices, not just the last one.',
+      code: '@echo off\nset health=100\nset hasKey=NO\necho You search the room.\nset /p search=Search the desk? (yes/no): \nif /i %search% == yes goto findKey\necho You find nothing.\ngoto continue\n:findKey\nset hasKey=YES\necho You find a key!\n:continue\necho.\necho Health: %health% | Has Key: %hasKey%',
+      output: '(state persists based on choice)',
+    },
+    {
+      type: 'predict',
+      question: 'Why is it important to set variables BEFORE the story begins?',
+      code: '@echo off\nset health=100\nset hasKey=NO\nset gold=0\n:: story starts here',
+      options: [
+        'It\'s not important — you can set them anywhere',
+        'Variables set before the story act as the starting state — they can be checked/modified as the story progresses',
+        'Batch requires variables to be set before any if statements',
+        'It prevents fall-through errors',
+      ],
+      correct: 1,
+      explanation: 'Pre-set variables are like your character\'s starting inventory. As events happen, you update them. If you set them mid-story, you might not know their value when you need to check them.',
+    },
+    {
+      type: 'predict',
+      question: 'What does this story do with the hasKey variable?',
+      code: '@echo off\nset hasKey=NO\nset /p search=Search room? (yes/no): \nif /i %search% == yes set hasKey=YES\nif %hasKey% == YES goto unlock\necho The door is locked.\ngoto end\n:unlock\necho You open the door!\n:end',
+      options: [
+        'hasKey always stays NO',
+        'If player searches, hasKey becomes YES and they can unlock the door',
+        'The door always opens regardless of search',
+        'An error — you can\'t set inside an if',
+      ],
+      correct: 1,
+      explanation: 'If /i %search% == yes, then `set hasKey=YES` runs. Then the next if checks hasKey and routes accordingly.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the item pickup — mark that the player now has the map:',
+      template: '@echo off\nset hasMap=NO\nset /p take=Take the map? (yes/no): \nif /i %take% == yes ___ hasMap=YES\necho Has map: %hasMap%',
+      blank: '___',
+      answer: 'set',
+      hint: 'Inside an if statement, you can run a set command to update a variable.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The sword is never picked up even when the player says yes. Fix it.',
+      code: '@echo off\nset hasSword=NO\nset /p grab=Grab the sword? (yes/no): \nif /i %grab% == yes goto getSword\ngoto continue\n:getSword\necho You grab the sword!\n:continue\necho Has sword: %hasSword%',
+      answer: '@echo off\nset hasSword=NO\nset /p grab=Grab the sword? (yes/no): \nif /i %grab% == yes goto getSword\ngoto continue\n:getSword\nset hasSword=YES\necho You grab the sword!\n:continue\necho Has sword: %hasSword%',
+      bugHint: 'The :getSword label prints a message but never sets hasSword to YES.',
+      bugType: 'missing_set',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a mini adventure with persistent state.\n\nTrack at least 3 variables (health, 2 item booleans). Have events that modify them. Show the player\'s status at the end.',
+      starterCode: '@echo off\ncolor 0A\ntitle ADVENTURE\nset health=100\nset hasTorch=NO\nset hasMap=NO\ncls\necho === THE DUNGEON BEGINS ===\necho.',
+      minLines: 30,
+      achievement: 'adventurer',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'adventurer',
+      message: 'The adventure has memory now.\n\nChoices accumulate. The story knows what you\'ve done.',
+      storyUpdate: 'STATE MACHINE OPERATIONAL — PERSISTENT STORY ACTIVE',
+    },
+  ],
+};

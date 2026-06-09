@@ -1,0 +1,73 @@
+// Lesson 16 — Inventory System
+export default {
+  id: 'world-02/lesson-16-inventory-system',
+  title: 'Inventory System',
+  world: 'SECTOR 2 — MEMORY BANKS',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'Multiple Variables = Inventory',
+      body: 'A real inventory is just many variables at once.\n\nEach item is a variable. The value might be the quantity, or just "YES"/"NO" for whether you have it.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Tracking Items',
+      body: 'Use one variable per item. Display them all together to show the full inventory.',
+      code: '@echo off\nset sword=1\nset shield=1\nset potion=3\nset key=0\necho === INVENTORY ===\necho Sword:   %sword%\necho Shield:  %shield%\necho Potions: %potion%\necho Key:     %key%',
+      output: '=== INVENTORY ===\nSword:   1\nShield:  1\nPotions: 3\nKey:     0',
+    },
+    {
+      type: 'predict',
+      question: 'What does the inventory show after this code runs?',
+      code: '@echo off\nset arrows=10\nset /a arrows=arrows+5\nset /a arrows=arrows-3\necho Arrows: %arrows%',
+      options: ['Arrows: 10', 'Arrows: 15', 'Arrows: 12', 'Arrows: 7'],
+      correct: 2,
+      explanation: '10 + 5 = 15, then 15 - 3 = 12.',
+    },
+    {
+      type: 'predict',
+      question: 'What\'s the best way to show "I don\'t have this item" in an inventory?',
+      code: 'set sword=YES\nset shield=NO',
+      options: [
+        'Delete the variable entirely',
+        'Store "YES" or "NO" as the value — or 1 and 0 for quantity',
+        'Just don\'t set the variable',
+        'Use a negative number',
+      ],
+      correct: 1,
+      explanation: 'Storing "NO" or 0 for items you don\'t have keeps the display consistent. All items are always listed — some just show NO or 0.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the inventory display:',
+      template: '@echo off\nset bombs=5\necho Bombs: __bombs__',
+      blank: '__bombs__',
+      answer: '%bombs%',
+      hint: 'Variable names go between percent signs.',
+    },
+    {
+      type: 'fix',
+      prompt: 'Picking up an item should increase the count, but it\'s decreasing it. Fix it.',
+      code: '@echo off\nset torches=2\necho Found 3 torches!\nset /a torches=torches-3\necho Torches: %torches%',
+      answer: '@echo off\nset torches=2\necho Found 3 torches!\nset /a torches=torches+3\necho Torches: %torches%',
+      bugHint: 'Finding torches should ADD them to your inventory.',
+      bugType: 'logic',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a full inventory system for a dungeon crawler.\n\nInclude at least 6 items (weapons, armor, consumables, misc). Show the inventory before and after "finding" some items in a dungeon.',
+      starterCode: '@echo off\ncolor 0A\ntitle INVENTORY\nset sword=1\nset arrows=10\nset potion=2\nset key=0\nset torch=3\nset map=0\ncls\necho === INVENTORY: START ===',
+      minLines: 15,
+      achievement: 'hoarder',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'hoarder',
+      message: 'The inventory module boots up.\n\nEvery item tracked, every count verified.',
+      storyUpdate: 'ITEM REGISTRY LOADED — INVENTORY NODE SYNCED',
+    },
+  ],
+};

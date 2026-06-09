@@ -1,0 +1,78 @@
+// Lesson 32 — Infinite Loops
+export default {
+  id: 'world-04/lesson-32-infinite-loops',
+  title: 'Infinite Loops',
+  world: 'SECTOR 4 — THE LOOP ENGINE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'The Endless Cycle',
+      body: 'Infinite loops sound dangerous — and they can be if misused.\n\nBut they\'re also incredibly useful:\n- Menus that keep showing until you quit\n- Games that keep running until you exit\n- Monitors that keep checking conditions\n\nThe key: always have a way out.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'A Menu That Loops',
+      body: 'A menu should keep appearing after each choice until the user picks "quit".',
+      code: '@echo off\n:menu\ncls\necho === MENU ===\necho [1] Say Hello\necho [2] Say Goodbye\necho [3] Quit\necho.\nset /p choice=Choose: \nif %choice% == 1 goto hello\nif %choice% == 2 goto bye\nif %choice% == 3 goto quit\necho Invalid option.\npause\ngoto menu\n:hello\necho Hello!\npause\ngoto menu\n:bye\necho Goodbye!\npause\ngoto menu\n:quit\necho Exiting...',
+      output: '(loops menu until 3 is chosen)',
+    },
+    {
+      type: 'predict',
+      question: 'Why does the menu use `goto menu` at the end of each option?',
+      code: ':hello\necho Hello!\npause\ngoto menu',
+      options: [
+        'It\'s required syntax after every label',
+        'It sends the program back to the :menu label so the menu displays again',
+        'It saves the choice',
+        'goto menu exits the program',
+      ],
+      correct: 1,
+      explanation: '`goto menu` sends execution back to the :menu label, which clears the screen and shows the menu again — creating the loop.',
+    },
+    {
+      type: 'predict',
+      question: 'What happens if the user enters an invalid option in this menu loop?',
+      code: ':menu\nset /p c=Choice: \nif %c% == 1 goto opt1\nif %c% == 2 goto opt2\necho Invalid!\npause\ngoto menu',
+      options: [
+        'The program crashes',
+        'It prints "Invalid!" then returns to the menu',
+        'It exits the program',
+        'It waits indefinitely',
+      ],
+      correct: 1,
+      explanation: 'For invalid input: "Invalid!" prints, pause waits for a keypress, then `goto menu` loops back to show the menu again.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the menu loop — send it back to the start after handling option 1:',
+      template: '@echo off\n:menu\necho [1] Play\necho [2] Quit\nset /p c=Choose: \nif %c% == 1 goto play\nif %c% == 2 goto quit\n:play\necho Playing!\npause\n___ menu',
+      blank: '___',
+      answer: 'goto',
+      hint: 'What command makes the program jump to a label?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The menu only works once instead of looping. Fix it.',
+      code: '@echo off\n:menu\ncls\necho [1] Scan\necho [2] Exit\nset /p c=Choice: \nif %c% == 1 goto scan\nif %c% == 2 goto quit\n:scan\necho Scanning...\npause\n:quit\necho Bye.',
+      answer: '@echo off\n:menu\ncls\necho [1] Scan\necho [2] Exit\nset /p c=Choice: \nif %c% == 1 goto scan\nif %c% == 2 goto quit\n:scan\necho Scanning...\npause\ngoto menu\n:quit\necho Bye.',
+      bugHint: 'After the :scan section, there\'s no `goto menu`, so it falls through to :quit.',
+      bugType: 'missing_goto',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a looping "terminal control panel" with 5 options.\n\nAt least 4 options should do something (print info, run a scan, show status, etc.). Option 5 exits. The menu should redisplay after every action.',
+      starterCode: '@echo off\ncolor 0A\ntitle CONTROL PANEL\n:menu\ncls\necho =====================\necho   CONTROL PANEL\necho =====================\necho.',
+      minLines: 30,
+      achievement: 'infinite_mind',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'infinite_mind',
+      message: 'The loop spins without end — until you choose to stop it.\n\nThat\'s the power of a controlled infinite loop.',
+      storyUpdate: 'MENU ENGINE ONLINE — LOOP CYCLES STABLE',
+    },
+  ],
+};

@@ -1,0 +1,19 @@
+.hall { padding: 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex: 1; }
+.hall-header { display: flex; flex-direction: column; gap: 4px; }
+.hall-title { font-size: 18px; font-weight: 700; color: var(--primary); letter-spacing: 0.15em; font-family: 'Courier New', monospace; }
+.hall-subtitle { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.plaques-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.plaque { background: var(--surface); border: 2px solid var(--border-dim); border-radius: 8px; padding: 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; opacity: 0.35; transition: all 0.25s; }
+.plaque.unlocked { opacity: 1; border-color: var(--yellow, #ffdd00); box-shadow: 0 0 12px rgba(255,221,0,0.15); }
+.plaque-icon { font-size: 32px; }
+.plaque-name { font-size: 11px; font-weight: 700; color: var(--text-bright); font-family: 'Courier New', monospace; letter-spacing: 0.1em; }
+.plaque.unlocked .plaque-name { color: var(--yellow, #ffdd00); }
+.plaque-desc { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.hall-log { display: flex; flex-direction: column; gap: 6px; }
+.hall-log-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3em; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 4px; }
+.log-entry { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border-dim); border-radius: 5px; }
+.log-icon { font-size: 16px; }
+.log-text { flex: 1; font-size: 12px; color: var(--text); font-family: 'Courier New', monospace; }
+.log-date { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; }

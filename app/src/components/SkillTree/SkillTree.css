@@ -1,0 +1,27 @@
+.skill-tree { padding: 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex: 1; }
+.st-header { display: flex; flex-direction: column; gap: 4px; }
+.st-title { font-size: 18px; font-weight: 700; color: var(--primary); letter-spacing: 0.15em; font-family: 'Courier New', monospace; }
+.st-subtitle { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+
+.skill-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s; }
+.skill-card:hover { border-color: var(--sc, var(--primary)); }
+
+.skill-header { display: flex; align-items: center; gap: 10px; }
+.skill-icon { font-size: 22px; }
+.skill-name-wrap { flex: 1; }
+.skill-name { font-size: 13px; font-weight: 700; color: var(--text-bright); font-family: 'Courier New', monospace; letter-spacing: 0.1em; }
+.skill-level { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; margin-top: 2px; }
+.skill-pct { font-size: 15px; font-weight: 800; color: var(--sc, var(--primary)); font-family: 'Courier New', monospace; }
+
+.skill-bar-wrap { height: 4px; background: var(--border-dim); border-radius: 2px; overflow: hidden; }
+.skill-bar-fill { height: 100%; background: var(--sc, var(--primary)); border-radius: 2px; transition: width 0.4s ease; }
+
+.skill-nodes { display: flex; flex-direction: column; gap: 6px; }
+.skill-node { display: flex; align-items: center; gap: 8px; opacity: 0.35; transition: opacity 0.2s; }
+.skill-node.unlocked { opacity: 1; }
+.node-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); flex-shrink: 0; transition: background 0.2s; }
+.skill-node.unlocked .node-dot { background: var(--sc, var(--primary)); box-shadow: 0 0 6px var(--sc, var(--primary)); }
+.node-label { font-size: 10px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.skill-node.unlocked .node-label { color: var(--text); }

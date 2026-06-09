@@ -1,22 +1,142 @@
+/* ── Theme Variables ─────────────────────────────────────────────── */
+:root,
+[data-theme="default"] {
+  --primary:   #00ff41;
+  --primary-dim: #00aa2a;
+  --bg:        #0d0d0d;
+  --surface:   #050f05;
+  --surface2:  #030803;
+  --border:    #1a3a1a;
+  --border-dim:#0a1a0a;
+  --text:      #9ab09a;
+  --text-dim:  #5a7a5a;
+  --text-bright: #c0d0c0;
+  --red:       #ff4141;
+  --yellow:    #ffdd00;
+  --blue:      #00aaff;
+}
+
+[data-theme="hacker"] {
+  --primary:   #00ff41;
+  --primary-dim: #00cc33;
+  --bg:        #000000;
+  --surface:   #000500;
+  --surface2:  #000300;
+  --border:    #003a00;
+  --border-dim:#001a00;
+  --text:      #00cc33;
+  --text-dim:  #007a00;
+  --text-bright: #00ff41;
+}
+
+[data-theme="retro"] {
+  --primary:   #ffaa00;
+  --primary-dim: #cc8800;
+  --bg:        #000080;
+  --surface:   #0000aa;
+  --surface2:  #00008a;
+  --border:    #0000ff;
+  --border-dim:#0000cc;
+  --text:      #ffffff;
+  --text-dim:  #aaaaff;
+  --text-bright: #ffff00;
+}
+
+[data-theme="cyberpunk"] {
+  --primary:   #ff00ff;
+  --primary-dim: #cc00cc;
+  --bg:        #0a000a;
+  --surface:   #150015;
+  --surface2:  #0f000f;
+  --border:    #440044;
+  --border-dim:#220022;
+  --text:      #ff88ff;
+  --text-dim:  #994499;
+  --text-bright: #ffffff;
+}
+
+[data-theme="ice"] {
+  --primary:   #00ccff;
+  --primary-dim: #0099cc;
+  --bg:        #000a0d;
+  --surface:   #001015;
+  --surface2:  #000a10;
+  --border:    #003a4a;
+  --border-dim:#001a22;
+  --text:      #7ad0e0;
+  --text-dim:  #3a7080;
+  --text-bright: #c0eeff;
+}
+
+/* ── Global Layout ──────────────────────────────────────────────── */
 .app {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #0d0d0d;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-.app-body {
+.app-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.app-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+.app-nav {
+  display: flex;
+  gap: 2px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--border-dim);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-dim);
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.nav-btn:hover {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--surface2);
+}
+
+.nav-btn.active {
+  color: var(--primary);
+  border-color: var(--primary);
+  background: var(--surface2);
+}
+
+.nav-icon { font-size: 14px; }
+.nav-label { font-size: 10px; }
+
+/* ── Content ────────────────────────────────────────────────────── */
+.app-content {
   flex: 1;
   overflow: hidden;
   display: flex;
-}
-
-.toast-stack {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
   flex-direction: column;
-  gap: 8px;
-  z-index: 1000;
 }

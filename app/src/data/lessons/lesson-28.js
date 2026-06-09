@@ -1,0 +1,78 @@
+// Lesson 28 — Conversation System
+export default {
+  id: 'world-03/lesson-28-conversation-system',
+  title: 'Conversation System',
+  world: 'SECTOR 3 — LOGIC CORE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'NPCs That Talk Back',
+      body: 'Every great game has characters you can talk to.\n\nA conversation system is just logic applied to dialogue — the NPC\'s response depends on what you say.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'Dialogue Routing',
+      body: 'Show dialogue options. Read input. Route to the correct response using if/goto.',
+      code: '@echo off\ncls\necho The merchant says: "What do you want?"\necho.\necho [1] I need a weapon\necho [2] What do you sell?\necho [3] Goodbye\necho.\nset /p choice=Your reply: \nif %choice% == 1 goto weapon\nif %choice% == 2 goto items\nif %choice% == 3 goto bye\necho The merchant looks confused.\ngoto end\n:weapon\necho "Swords are 50 gold each."\ngoto end\n:items\necho "I sell weapons, potions, and maps."\ngoto end\n:bye\necho "Safe travels!"\n:end\npause',
+      output: '(routes to different NPC responses)',
+    },
+    {
+      type: 'predict',
+      question: 'What is the purpose of the "echo The merchant looks confused" line?',
+      code: 'if %choice% == 1 goto weapon\nif %choice% == 2 goto items\necho The merchant looks confused.\ngoto end',
+      options: [
+        'It\'s a default response for invalid inputs',
+        'It always prints',
+        'It only prints when choice == 1',
+        'It makes the program crash',
+      ],
+      correct: 0,
+      explanation: 'If choice is not 1 or 2, neither if fires, and execution falls through to the default message.',
+    },
+    {
+      type: 'predict',
+      question: 'How would you make the NPC remember a previous answer?',
+      code: '@echo off\nset angry=NO\nif %choice% == rude set angry=YES\nif %angry% == YES echo The merchant scowls at you.',
+      options: [
+        'You can\'t — conversations are stateless',
+        'Use a variable to track what the player said, then check it in future dialogue',
+        'Use pause to freeze the NPC\'s memory',
+        'Use cls to reset the state',
+      ],
+      correct: 1,
+      explanation: 'Variables persist through the program. If the player was rude, set `angry=YES`. Later dialogue can check that variable and respond differently.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Add the route for choice 3 (goodbye):',
+      template: '@echo off\nset /p c=Choice: \nif %c% == 1 goto hello\nif %c% == 2 goto quest\nif %c% == 3 ___ bye\n:bye\necho Farewell!\ngoto end',
+      blank: '___',
+      answer: 'goto',
+      hint: 'How do you jump to a label?',
+    },
+    {
+      type: 'fix',
+      prompt: 'The NPC gives the same response no matter what you pick. Fix it.',
+      code: '@echo off\nset /p talk=Talk to guard? (ask/threaten/bribe): \nif /i %talk% == ask goto ask\nif /i %talk% == threaten goto threaten\nif /i %talk% == bribe goto bribe\n:ask\necho "Sure, I\'ll let you through."\ngoto end\n:threaten\necho "Try that again and you\'ll regret it."\ngoto end\n:bribe\necho "Hmm... 50 gold will do it."\n:end',
+      answer: '@echo off\nset /p talk=Talk to guard? (ask/threaten/bribe): \nif /i %talk% == ask goto ask\nif /i %talk% == threaten goto threaten\nif /i %talk% == bribe goto bribe\ngoto end\n:ask\necho "Sure, I\'ll let you through."\ngoto end\n:threaten\necho "Try that again and you\'ll regret it."\ngoto end\n:bribe\necho "Hmm... 50 gold will do it."\ngoto end\n:end',
+      bugHint: 'After the three if checks, there\'s no `goto end` — so execution falls straight into the :ask label regardless of input.',
+      bugType: 'missing_goto',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a full NPC conversation with a mysterious informant.\n\nOffer 4 dialogue options. The NPC should react differently based on what you\'ve already said (use a variable to track "trust level").',
+      starterCode: '@echo off\ncolor 0A\ntitle CONVERSATION\nset trust=0\ncls\necho === THE INFORMANT ===\necho She eyes you suspiciously.\necho.',
+      minLines: 25,
+      achievement: 'talker',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'talker',
+      message: 'The Logic Core speaks.\n\nNPCs have voices. Conversations have consequences.',
+      storyUpdate: 'DIALOGUE ENGINE ONLINE — NPC RESPONSES ACTIVE',
+    },
+  ],
+};

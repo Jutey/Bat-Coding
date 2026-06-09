@@ -1,0 +1,22 @@
+.daily-missions { padding: 24px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; flex: 1; }
+.dm-header { display: flex; justify-content: space-between; align-items: center; }
+.dm-title { font-size: 18px; font-weight: 700; color: var(--primary); letter-spacing: 0.15em; font-family: 'Courier New', monospace; }
+.dm-date { font-size: 11px; color: var(--text-dim); font-family: 'Courier New', monospace; }
+.dm-section { display: flex; flex-direction: column; gap: 8px; }
+.dm-section-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3em; font-weight: 700; margin-bottom: 4px; }
+.mission-card { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 14px 16px; display: flex; align-items: center; gap: 16px; }
+.mission-card.weekly { border-color: var(--yellow, #ffdd00); }
+.mission-info { flex: 1; }
+.mission-name { font-size: 13px; font-weight: 600; color: var(--text-bright); font-family: 'Courier New', monospace; }
+.mission-desc { font-size: 11px; color: var(--text-dim); margin-top: 3px; font-family: 'Courier New', monospace; }
+.mission-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.mission-xp { font-size: 13px; font-weight: 700; color: var(--primary); font-family: 'Courier New', monospace; }
+.weekly-xp { color: var(--yellow, #ffdd00); }
+.mission-claim { background: var(--surface2); border: 1px solid var(--border); color: var(--primary); padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 10px; font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 0.1em; transition: all 0.15s; }
+.mission-claim:hover { background: var(--border); }
+.weekly-claim { border-color: var(--yellow, #ffdd00); color: var(--yellow, #ffdd00); }
+.dm-stats { display: flex; flex-direction: column; gap: 8px; }
+.dm-stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.dm-stat { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px; text-align: center; }
+.dm-stat span { display: block; font-size: 22px; font-weight: 800; color: var(--primary); font-family: 'Courier New', monospace; }
+.dm-stat small { font-size: 9px; color: var(--text-dim); letter-spacing: 0.1em; }

@@ -1,0 +1,78 @@
+// Lesson 33 — Game Loops
+export default {
+  id: 'world-04/lesson-33-game-loops',
+  title: 'Game Loops',
+  world: 'SECTOR 4 — THE LOOP ENGINE',
+  xp: 100,
+  steps: [
+    {
+      type: 'learn',
+      title: 'The Heartbeat of Every Game',
+      body: 'Every game you\'ve ever played has a loop at its core:\n1. Show the game state\n2. Get player input\n3. Update the game state\n4. Repeat\n\nThis is called the **game loop**. In Batch, you build it with goto.',
+      code: null,
+    },
+    {
+      type: 'learn',
+      title: 'A Simple Battle Loop',
+      body: 'Show HP, ask for action, apply result, check if game is over, repeat.',
+      code: '@echo off\nset playerHP=100\nset enemyHP=50\n:gameloop\ncls\necho === BATTLE ===\necho Your HP:   %playerHP%\necho Enemy HP:  %enemyHP%\necho.\nset /p action=Attack or run? \nif /i %action% == attack goto attack\nif /i %action% == run goto flee\ngoto gameloop\n:attack\nset /a enemyHP=enemyHP-25\nif %enemyHP% LEQ 0 goto win\ngoto gameloop\n:flee\necho You ran away!\ngoto end\n:win\necho ENEMY DEFEATED!\n:end\npause',
+      output: '(loops the battle until win or flee)',
+    },
+    {
+      type: 'predict',
+      question: 'Why does the game loop start with `cls`?',
+      code: ':gameloop\ncls\necho HP: %hp%\n...',
+      options: [
+        'cls is required in every loop',
+        'It clears the previous turn\'s output so the screen shows fresh state each turn',
+        'It resets variables',
+        'It makes the loop faster',
+      ],
+      correct: 1,
+      explanation: 'Without `cls`, each turn adds new lines below the old ones. With `cls`, each turn shows a clean screen with the current state only.',
+    },
+    {
+      type: 'predict',
+      question: 'When should a game loop check for win/lose conditions?',
+      code: ':gameloop\n:: get input\n:: update state\n:: check win/lose\ngoto gameloop',
+      options: [
+        'Only at the start of the loop',
+        'After updating the state — so each change is evaluated before the next turn',
+        'Only after 10 turns',
+        'It doesn\'t matter',
+      ],
+      correct: 1,
+      explanation: 'Check win/lose AFTER updating state. If the enemy HP drops to 0 during the attack, you want to catch that before the next turn starts.',
+    },
+    {
+      type: 'fill',
+      prompt: 'Complete the win condition check after dealing damage:',
+      template: '@echo off\nset enemyHP=30\nset /a enemyHP=enemyHP-35\nif %enemyHP% ___ 0 goto win\necho Enemy still alive.\ngoto gameloop\n:win\necho Victory!',
+      blank: '___',
+      answer: 'LEQ',
+      hint: 'LEQ means "less than or equal to". Win when enemy HP is 0 or below.',
+    },
+    {
+      type: 'fix',
+      prompt: 'The game loop never checks for defeat. Fix it.',
+      code: '@echo off\nset hp=100\nset /a hp=hp-150\n:gameloop\ncls\necho HP: %hp%\nif %hp% EQU 0 goto dead\ngoto gameloop\n:dead\necho You died.',
+      answer: '@echo off\nset hp=100\nset /a hp=hp-150\n:gameloop\ncls\necho HP: %hp%\nif %hp% LEQ 0 goto dead\ngoto gameloop\n:dead\necho You died.',
+      bugHint: '`EQU 0` only catches exactly 0. Damage can overshoot to -50 and never trigger. Use `LEQ 0` to catch 0 or below.',
+      bugType: 'wrong_comparison',
+    },
+    {
+      type: 'build',
+      prompt: 'Build a complete 1v1 battle game.\n\nPlayer vs enemy. Each turn: show HP, offer attack/defend/flee. Attack deals damage to enemy, defend reduces incoming damage. Enemy attacks every turn too. Check win and lose conditions.',
+      starterCode: '@echo off\ncolor 0C\ntitle BATTLE\nset playerHP=100\nset enemyHP=80\nset enemyName=Shadow Wraith\n:gameloop\ncls',
+      minLines: 30,
+      achievement: 'game_looper',
+    },
+    {
+      type: 'reward',
+      xp: 100,
+      achievement: 'game_looper',
+      message: 'The Loop Engine beats like a game\'s heart.\n\nTurn after turn. State after state.',
+      storyUpdate: 'GAME LOOP VALIDATED — TURN COUNTER RUNNING',
+    },
+  ],
+};
