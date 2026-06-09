@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { useEditorTheme } from '../../hooks/useEditorTheme';
-import { registerThemes } from '../../hooks/useEditorTheme';
+import { useEditorTheme, registerThemes } from '../../hooks/useEditorTheme';
+import { useGame } from '../../contexts/GameContext';
 import './BuildStep.css';
 
 export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
@@ -10,6 +10,7 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
   const [running, setRunning] = useState(false);
   const [hasRun, setHasRun] = useState(false);
   const { theme } = useEditorTheme();
+  const { trackStat } = useGame();
 
   const lineCount = code.split('\n').filter(l => l.trim()).length;
   const meetsMinimum = lineCount >= (step.minLines || 2);
@@ -21,7 +22,8 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
     setOutput(result.output + (result.error ? '\nERRORS:\n' + result.error : ''));
     setRunning(false);
     setHasRun(true);
-    window.api.addLines(lineCount);
+    trackStat('linesWritten', lineCount);
+    trackStat('scriptsRun', 1);
   }
 
   function handleDone() {

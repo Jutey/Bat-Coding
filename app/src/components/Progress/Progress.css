@@ -1,0 +1,308 @@
+/* ── Progress / Roadmap ────────────────────────────────────────── */
+.progress-roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  padding-bottom: 2rem;
+}
+
+/* XP Bar -------------------------------------------------------- */
+.progress-xp-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.progress-xp-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.progress-level-badge {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  font-family: 'Courier New', monospace;
+}
+
+.progress-level-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.progress-xp-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+}
+
+.progress-xp-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-xp-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.progress-xp-next {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* World sections ------------------------------------------------ */
+.progress-worlds {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.progress-world {
+  border-bottom: 1px solid var(--border-dim);
+  padding: 1.25rem 1.5rem 1rem;
+}
+
+.progress-world-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-world-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.progress-world-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+}
+
+.progress-world-pct {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-family: 'Courier New', monospace;
+  opacity: 0.7;
+}
+
+.progress-world-bar {
+  height: 3px;
+  background: var(--border-dim);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.progress-world-bar-fill {
+  height: 100%;
+  background: var(--world-color);
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  opacity: 0.7;
+}
+
+/* Nodes --------------------------------------------------------- */
+.progress-nodes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding-left: 0.5rem;
+}
+
+.progress-node-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.progress-connector {
+  width: 2px;
+  height: 14px;
+  background: var(--border);
+  margin-left: 17px;
+  transition: background 0.3s;
+}
+
+.progress-connector.active {
+  background: var(--world-color);
+  opacity: 0.5;
+}
+
+/* Node button */
+.progress-node {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.45rem 0.75rem 0.45rem 0.5rem;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;
+  text-align: left;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  color: var(--text);
+}
+
+.progress-node:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--world-color) 10%, var(--surface));
+  border-color: var(--world-color);
+  transform: translateX(3px);
+}
+
+.progress-node:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.progress-node.completed {
+  border-color: color-mix(in srgb, var(--world-color) 50%, transparent);
+  background: color-mix(in srgb, var(--world-color) 8%, var(--surface));
+}
+
+.progress-node.current {
+  border-color: var(--world-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--world-color) 30%, transparent);
+}
+
+.progress-node.boss {
+  border-style: dashed;
+  border-width: 1.5px;
+}
+
+.progress-node.boss.completed {
+  border-style: solid;
+}
+
+/* Pulsing ring on current */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 2px color-mix(in srgb, var(--world-color) 40%, transparent); }
+  50%  { box-shadow: 0 0 0 5px color-mix(in srgb, var(--world-color) 15%, transparent); }
+  100% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--world-color) 40%, transparent); }
+}
+
+.progress-node.current {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+/* Node icon */
+.progress-node-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  background: var(--border);
+}
+
+.progress-node.completed .progress-node-icon {
+  background: color-mix(in srgb, var(--world-color) 25%, transparent);
+}
+
+.progress-node.current .progress-node-icon {
+  background: color-mix(in srgb, var(--world-color) 20%, transparent);
+}
+
+.node-check {
+  color: var(--world-color);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.node-lock {
+  font-size: 0.7rem;
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.node-current-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--world-color);
+  display: block;
+}
+
+/* Node label */
+.progress-node-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+
+.node-num {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: 'Courier New', monospace;
+  flex-shrink: 0;
+}
+
+.node-name {
+  font-size: 0.8rem;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-node.locked .node-name {
+  color: var(--text-dim);
+}
+
+.progress-node.completed .node-name {
+  color: var(--text);
+}
+
+/* Boss node styling */
+.progress-node.boss .progress-node-icon {
+  font-size: 0.9rem;
+}
+
+.progress-node.boss .node-name {
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (min-width: 700px) {
+  .progress-worlds {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 0;
+  }
+
+  .progress-world {
+    border-right: 1px solid var(--border-dim);
+  }
+}

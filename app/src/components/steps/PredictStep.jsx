@@ -1,19 +1,38 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import './PredictStep.css';
 
-// Normalize options — supports both legacy (string[]) and new ({text,correct,explanation}[]) formats
+function seededShuffle(arr, seed) {
+  const a = [...arr];
+  let s = seed;
+  for (let i = a.length - 1; i > 0; i--) {
+    s = ((s * 1664525) + 1013904223) & 0xffffffff;
+    const j = Math.abs(s) % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Normalize both legacy (string[] + correct index) and new ({text,correct,explanation}[]) formats
 function normalizeOptions(step) {
+  if (!Array.isArray(step.options)) return [];
   return step.options.map((opt, i) => {
     if (typeof opt === 'string') {
       return { text: opt, correct: i === step.correct, explanation: step.explanation || '' };
     }
-    return opt;
+    return { text: opt.text || String(opt), correct: !!opt.correct, explanation: opt.explanation || opt.feedback || '' };
   });
 }
 
 export default function PredictStep({ step, onCorrect, onWrong }) {
-  const options = normalizeOptions(step);
-  const correctIndex = options.findIndex(o => o.correct === true);
+  const rawOptions = useMemo(() => normalizeOptions(step), [step]);
+
+  // Stable shuffle per step render — seed from question text length + option count
+  const shuffled = useMemo(() => {
+    const seed = (step.question?.length || 0) * 37 + rawOptions.length * 13 + (step.id || '').length;
+    return seededShuffle(rawOptions, seed);
+  }, [rawOptions, step.question, step.id]);
+
+  const correctIndex = shuffled.findIndex(o => o.correct);
 
   const [selected, setSelected] = useState(null);
   const [locked, setLocked] = useState(false);
@@ -24,28 +43,24 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
   function handleCheck() {
     if (selected === null || locked) return;
     setLocked(true);
-    if (selected === correctIndex) {
-      setTimeout(() => onCorrect(), 1400);
-    }
-    // wrong: stay locked, user clicks TRY AGAIN to reset
+    if (selected === correctIndex) setTimeout(() => onCorrect(), 1400);
   }
 
   function handleRetry() {
     setSelected(null);
     setLocked(false);
-    if (onWrong) onWrong(); // notify parent for stats (no hearts)
+    if (onWrong) onWrong();
   }
 
   return (
     <div className="predict-step">
       <div className="predict-body">
-        <div className="predict-label">WHAT DO YOU PREDICT?</div>
+        <div className="predict-label">PREDICT THE OUTPUT</div>
         <h2 className="predict-question">{step.question}</h2>
-
         {step.code && <pre className="predict-code">{step.code}</pre>}
 
         <div className="options-grid">
-          {options.map((opt, i) => {
+          {shuffled.map((opt, i) => {
             let cls = 'option-btn';
             if (selected === i && !locked) cls += ' selected';
             if (locked && i === correctIndex) cls += ' correct';
@@ -62,14 +77,10 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
 
       {locked && (
         <div className={`feedback-banner ${isCorrect ? 'correct' : 'wrong'}`}>
-          <div className="feedback-title">
-            {isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}
-          </div>
+          <div className="feedback-title">{isCorrect ? '✓ CORRECT' : '✗ NOT QUITE'}</div>
           <div className="feedback-explain">
-            {options[selected]?.explanation ||
-              (isCorrect
-                ? `${options[correctIndex]?.text} is right.`
-                : `The correct answer is: ${options[correctIndex]?.text}`)}
+            {shuffled[selected]?.explanation ||
+              (isCorrect ? '' : `The answer is: ${shuffled[correctIndex]?.text}`)}
           </div>
         </div>
       )}
@@ -80,14 +91,10 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
         </button>
       )}
       {locked && isCorrect && (
-        <button className="check-btn locked-correct" onClick={onCorrect}>
-          CONTINUE →
-        </button>
+        <button className="check-btn locked-correct" onClick={onCorrect}>CONTINUE →</button>
       )}
       {locked && isWrong && (
-        <button className="check-btn locked-wrong" onClick={handleRetry}>
-          TRY AGAIN
-        </button>
+        <button className="check-btn locked-wrong" onClick={handleRetry}>TRY AGAIN</button>
       )}
     </div>
   );

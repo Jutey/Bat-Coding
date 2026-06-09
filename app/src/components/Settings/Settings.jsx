@@ -4,6 +4,16 @@ import { useEditorTheme, EDITOR_THEMES } from '../../hooks/useEditorTheme';
 import { useGame, THEMES } from '../../contexts/GameContext';
 import './Settings.css';
 
+export function isAdminMode() {
+  return localStorage.getItem('admin_mode') === 'true';
+}
+
+export function clearAdminMode() {
+  localStorage.removeItem('admin_mode');
+}
+
+const ADMIN_PASSWORD = '1234';
+
 export default function Settings() {
   const {
     narrationEnabled, toggleNarration,
@@ -18,8 +28,42 @@ export default function Settings() {
   const { theme: appTheme, setTheme: setAppTheme, levelInfo } = useGame();
   const { current } = levelInfo;
 
+  // Admin mode state — read from localStorage on mount
+  const [adminActive, setAdminActive] = useState(() => isAdminMode());
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [passwordValue, setPasswordValue] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   function testVoice() {
     speak('Hello. This is how your current voice setting sounds. You can adjust the style and speed below.');
+  }
+
+  function handleEnableAdmin() {
+    setShowPasswordInput(true);
+    setPasswordValue('');
+    setPasswordError('');
+  }
+
+  function handlePasswordSubmit(e) {
+    e.preventDefault();
+    if (passwordValue === ADMIN_PASSWORD) {
+      localStorage.setItem('admin_mode', 'true');
+      setAdminActive(true);
+      setShowPasswordInput(false);
+      setPasswordValue('');
+      setPasswordError('');
+    } else {
+      setPasswordError('Incorrect password');
+      setTimeout(() => setPasswordError(''), 2000);
+    }
+  }
+
+  function handleDisableAdmin() {
+    clearAdminMode();
+    setAdminActive(false);
+    setShowPasswordInput(false);
+    setPasswordValue('');
+    setPasswordError('');
   }
 
   return (
@@ -28,6 +72,26 @@ export default function Settings() {
         <div className="settings-title">SETTINGS</div>
         <div className="settings-sub">Customize your learning environment</div>
       </div>
+
+      {adminActive && (
+        <div style={{
+          margin: '0 0 8px 0',
+          padding: '10px 16px',
+          background: 'rgba(255, 100, 0, 0.12)',
+          border: '2px solid #ff6400',
+          borderRadius: 6,
+          color: '#ff6400',
+          fontFamily: 'Courier New, monospace',
+          fontSize: 12,
+          fontWeight: 700,
+          letterSpacing: '0.1em',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}>
+          ⚠ ADMIN MODE ACTIVE — lessons unlocked for viewing only. XP will NOT be awarded.
+        </div>
+      )}
 
       <div className="settings-sections">
 
@@ -151,6 +215,95 @@ export default function Settings() {
               );
             })}
           </div>
+        </section>
+
+        {/* ── Admin Mode ── */}
+        <section className="settings-section">
+          <div className="section-title">🔧 ADMIN MODE</div>
+          <div className="setting-desc" style={{ marginBottom: 12 }}>
+            Bypass lesson lock state for viewing and testing. No XP is awarded and no lessons are marked complete.
+          </div>
+
+          {adminActive ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                fontFamily: 'Courier New, monospace',
+                fontSize: 13,
+                color: '#44ff88',
+                fontWeight: 700,
+              }}>
+                <span style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: '50%',
+                  background: '#44ff88',
+                  boxShadow: '0 0 6px #44ff88',
+                  display: 'inline-block',
+                  flexShrink: 0,
+                }} />
+                Admin Mode Active
+              </div>
+              <button
+                className="test-voice-btn"
+                style={{ borderColor: '#ff4141', color: '#ff4141', marginTop: 4 }}
+                onClick={handleDisableAdmin}
+              >
+                Disable Admin Mode
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {!showPasswordInput && (
+                <button className="test-voice-btn" onClick={handleEnableAdmin}>
+                  Enable Admin Mode
+                </button>
+              )}
+
+              {showPasswordInput && (
+                <form onSubmit={handlePasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <input
+                    type="password"
+                    autoFocus
+                    placeholder="Enter password"
+                    value={passwordValue}
+                    onChange={e => setPasswordValue(e.target.value)}
+                    style={{
+                      background: 'var(--surface)',
+                      border: `1px solid ${passwordError ? '#ff4141' : 'var(--border-dim)'}`,
+                      color: 'var(--text-bright)',
+                      fontFamily: 'Courier New, monospace',
+                      fontSize: 13,
+                      padding: '8px 12px',
+                      borderRadius: 5,
+                      outline: 'none',
+                      width: 200,
+                    }}
+                  />
+                  {passwordError && (
+                    <div style={{ color: '#ff4141', fontFamily: 'Courier New, monospace', fontSize: 11 }}>
+                      {passwordError}
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button type="submit" className="test-voice-btn">
+                      Confirm
+                    </button>
+                    <button
+                      type="button"
+                      className="test-voice-btn"
+                      style={{ borderColor: 'var(--border-dim)', color: 'var(--text-dim)' }}
+                      onClick={() => { setShowPasswordInput(false); setPasswordError(''); setPasswordValue(''); }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          )}
         </section>
 
       </div>

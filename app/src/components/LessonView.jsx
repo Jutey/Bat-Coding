@@ -5,6 +5,7 @@ import GuidePanel from './GuidePanel';
 import InteractiveLesson from './InteractiveLesson';
 import MissionView from './MissionView/MissionView';
 import { getLessonData } from '../data/lessons/index.js';
+import { useGame } from '../contexts/GameContext';
 import './LessonView.css';
 
 const TABS = ['LESSON', 'EDITOR', 'CHALLENGE'];
@@ -37,6 +38,7 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
     );
   }
 
+  const { trackStat } = useGame();
   const [tab, setTab] = useState('LESSON');
   const [lessonMd, setLessonMd] = useState('');
   const [code, setCode] = useState('');
@@ -67,7 +69,8 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
     setOutput('Running...');
     const result = await window.api.runBat(codeToRun);
     const lines = (result.output || '').split('\n').length;
-    window.api.addLines(lines);
+    trackStat('linesWritten', lines);
+    trackStat('scriptsRun', 1);
     setOutput(result.output + (result.error ? '\n\nERRORS:\n' + result.error : ''));
     setRunning(false);
 

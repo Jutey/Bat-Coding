@@ -61,7 +61,7 @@ export const THEMES = {
   ice:        { name: 'ICE GRID',   unlockLevel: 6,  primary: '#00ccff', bg: '#000a0d', surface: '#001015', border: '#003a4a', text: '#7ad0e0' },
   blood:      { name: 'BLOOD HEX',  unlockLevel: 7,  primary: '#ff3333', bg: '#0d0000', surface: '#0f0000', border: '#3a0000', text: '#cc7777' },
   gold:       { name: 'GOLD CORE',  unlockLevel: 8,  primary: '#ffdd00', bg: '#0d0a00', surface: '#0f0d00', border: '#3a3000', text: '#c0a060' },
-  white:      { name: 'CLEAN ROOM', unlockLevel: 9,  primary: '#000000', bg: '#f0f0f0', surface: '#e0e0e0', border: '#999999', text: '#333333' },
+  white:      { name: 'LIGHT',      unlockLevel: 1,  primary: '#1a6f3a', bg: '#f5f5f5', surface: '#e8e8e8', border: '#bbbbbb', text: '#333333' },
 };
 
 // ── Pets ─────────────────────────────────────────────────────────
@@ -105,6 +105,7 @@ const DEFAULT_STATE = {
   stats: { linesWritten: 0, scriptsRun: 0, bugsFixed: 0, predictionsCorrect: 0, secretsFound: 0 },
   hallOfLegends: [],
   dailyMissions: { date: null, missions: [], completed: [] },
+  claimedMissions: {},
   weeklyChallenge: null,
   bootComplete: false,
   secretCommandsFound: [],
@@ -179,6 +180,21 @@ export function GameProvider({ children }) {
     });
   }, [unlockAchievement]);
 
+  const claimMission = useCallback((missionId, xp, todayDate) => {
+    setState(prev => {
+      const key = `${todayDate}:${missionId}`;
+      if (prev.claimedMissions?.[key]) return prev;
+      const next = {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        claimedMissions: { ...prev.claimedMissions, [key]: true },
+      };
+      window.api.saveProgress(next);
+      return next;
+    });
+    pushToast({ type: 'xp', title: `+${xp} XP`, desc: 'Mission complete!', color: '#00ff41' });
+  }, []);
+
   const recordHallEntry = useCallback((key, entry) => {
     setState(prev => {
       if (prev.hallOfLegends.some(h => h.id === key)) return prev;
@@ -236,6 +252,7 @@ export function GameProvider({ children }) {
       unlockAchievement,
       completeLesson,
       trackStat,
+      claimMission,
       recordHallEntry,
       findSecret,
       setTheme,

@@ -20,7 +20,7 @@ const SKILLS = [
     levels: ['open programs','websites','timers','file ops','organizer','personal assistant'] },
   { id: 'network',   name: 'NETWORK',    icon: '📡', lessons: [81,82,83,84,85,86,87,88,89], color: '#44aaff',
     levels: ['ping','ipconfig','tree','netstat','tasklist','full scanner'] },
-  { id: 'debug',     name: 'DEBUGGING',  icon: '🔧', lessons: [], color: '#ff44aa',
+  { id: 'debug',     name: 'DEBUGGING',  icon: '🔧', lessons: [91,92,93,94,95,96,97,98,99,100], color: '#ff44aa',
     levels: ['typo bugs','variable bugs','logic bugs','runtime bugs','math bugs','multi-system bugs'] },
 ];
 

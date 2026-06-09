@@ -232,11 +232,35 @@ const LESSONS = {
   'world-11/lesson-110-graduation-ceremony': lesson110,
 };
 
+// Number-indexed lookup — handles slug mismatches between filesystem and JS map
+const BY_NUMBER = {};
+Object.values(LESSONS).forEach(lesson => {
+  const m = lesson.id.match(/world-(\d+)\/lesson-(\d+)/);
+  if (m) {
+    const wn = parseInt(m[1]), ln = parseInt(m[2]);
+    if (!BY_NUMBER[wn]) BY_NUMBER[wn] = {};
+    BY_NUMBER[wn][ln] = lesson;
+  }
+});
+
 export function getLessonData(worldId, lessonId) {
-  // worldId from filesystem is e.g. 'world-02-memory-banks'; keys use 'world-02'
+  // 1. Exact normalized match
   const shortWorld = worldId.replace(/^(world-\d+).*/, '$1');
-  const key = `${shortWorld}/${lessonId}`;
-  return LESSONS[key] || null;
+  const exact = LESSONS[`${shortWorld}/${lessonId}`];
+  if (exact) return exact;
+  // 2. Number-based fallback — immune to slug differences
+  const wn = parseInt((worldId.match(/(\d+)/) || [])[1]);
+  const ln = parseInt((lessonId.match(/(\d+)/) || [])[1]);
+  if (wn && ln && BY_NUMBER[wn]?.[ln]) return BY_NUMBER[wn][ln];
+  return null;
+}
+
+// Filesystem-slug-independent completion ID: w01-l01
+export function canonicalId(worldId, lessonId) {
+  const wn = parseInt((worldId.match(/(\d+)/) || [])[1]);
+  const ln = parseInt((lessonId.match(/(\d+)/) || [])[1]);
+  if (wn && ln) return `w${String(wn).padStart(2,'0')}-l${String(ln).padStart(2,'0')}`;
+  return `${worldId}/${lessonId}`;
 }
 
 export default LESSONS;

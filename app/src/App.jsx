@@ -2,22 +2,24 @@ import { useState, useEffect, useCallback } from 'react';
 import { GameProvider, useGame } from './contexts/GameContext';
 import BootSequence from './components/BootSequence/BootSequence';
 import TitleBar from './components/TitleBar';
-import HomeBase from './components/HomeBase/HomeBase';
 import WorldMap from './components/WorldMap';
 import LessonView from './components/LessonView';
 import GlobalToasts from './components/GlobalToasts';
 import DailyMissions from './components/DailyMissions/DailyMissions';
 import SkillTree from './components/SkillTree/SkillTree';
-import Museum from './components/Museum/Museum';
 import HallOfLegends from './components/HallOfLegends/HallOfLegends';
 import Profile from './components/Profile/Profile';
 import CommandEncyclopedia from './components/CommandEncyclopedia/CommandEncyclopedia';
-import Settings from './components/Settings/Settings';
+import Settings, { isAdminMode } from './components/Settings/Settings';
+import Progress from './components/Progress/Progress';
+import Sandbox from './components/Sandbox/Sandbox';
 import { findSecret } from './data/secrets';
 import './App.css';
 
 const NAV_ITEMS = [
   { id: 'map',      label: 'Lessons',      icon: '📚' },
+  { id: 'progress', label: 'Progress',     icon: '🗺️' },
+  { id: 'sandbox',  label: 'Lab',          icon: '⚗️' },
   { id: 'missions', label: 'Missions',     icon: '🎯' },
   { id: 'cmds',     label: 'Command Book', icon: '📖' },
   { id: 'tree',     label: 'Skills',       icon: '🌳' },
@@ -34,9 +36,25 @@ function AppInner() {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [secretBuffer, setSecretBuffer] = useState('');
   const [worlds, setWorlds] = useState([]);
+  const [adminBanner, setAdminBanner] = useState(() => isAdminMode());
 
   useEffect(() => {
     window.api.getWorlds().then(setWorlds).catch(() => {});
+  }, []);
+
+  // Keep admin banner in sync when Settings enables/disables admin mode
+  useEffect(() => {
+    function onStorage(e) {
+      if (e.key === 'admin_mode') setAdminBanner(e.newValue === 'true');
+    }
+    window.addEventListener('storage', onStorage);
+    // Also poll on focus for same-tab updates (localStorage doesn't fire 'storage' in same tab)
+    function onFocus() { setAdminBanner(isAdminMode()); }
+    window.addEventListener('focus', onFocus);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('focus', onFocus);
+    };
   }, []);
 
   // Apply theme
@@ -91,10 +109,6 @@ function AppInner() {
     <div className="app">
       <TitleBar />
       <div className="app-layout">
-        {/* Left sidebar — Terminal Prime home base */}
-        <HomeBase />
-
-        {/* Center nav + content */}
         <div className="app-center">
           <nav className="app-nav">
             {NAV_ITEMS.map(item => (
@@ -109,6 +123,22 @@ function AppInner() {
             ))}
           </nav>
 
+          {adminBanner && (
+            <div style={{
+              padding: '6px 16px',
+              background: 'rgba(255, 100, 0, 0.10)',
+              borderBottom: '1px solid #ff6400',
+              color: '#ff6400',
+              fontFamily: 'Courier New, monospace',
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              textAlign: 'center',
+            }}>
+              ⚠ Admin Mode Active — no XP awarded
+            </div>
+          )}
+
           <div className="app-content">
             {view === 'map' && (
               <WorldMap
@@ -120,6 +150,17 @@ function AppInner() {
                 onTriggerAchievement={game.unlockAchievement}
               />
             )}
+            {view === 'progress'  && (
+              <Progress
+                completedLessons={game.completedLessons}
+                totalXP={game.totalXP}
+                levelInfo={game.levelInfo}
+                onSelectLesson={(worldNum, lessonNum) => {
+                  setView('map');
+                }}
+              />
+            )}
+            {view === 'sandbox'   && <Sandbox onRun={(lines) => { game.trackStat('linesWritten', lines); game.trackStat('scriptsRun', 1); }} />}
             {view === 'missions'  && <DailyMissions />}
             {view === 'hall'      && <HallOfLegends />}
             {view === 'tree'      && <SkillTree />}
