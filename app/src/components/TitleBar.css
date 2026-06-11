@@ -1,10 +1,10 @@
 .titlebar {
   height: 44px;
-  background: #0a0a0a;
-  border-bottom: 1px solid #1a2a1a;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 14px;
   -webkit-app-region: drag;
   user-select: none;
   flex-shrink: 0;
@@ -20,15 +20,15 @@
 .titlebar-logo {
   font-size: 13px;
   font-weight: 700;
-  color: #00ff41;
-  letter-spacing: 0.1em;
-  font-family: 'Courier New', monospace;
+  color: var(--primary);
+  letter-spacing: 0.04em;
+  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .titlebar-tag {
   font-size: 10px;
-  color: #3a5a3a;
-  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -37,24 +37,24 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   overflow: hidden;
 }
 
 .stat {
   font-size: 12px;
-  color: #00ff41;
-  font-family: 'Courier New', monospace;
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
 .stat small {
-  color: #3a5a3a;
+  color: var(--text-dim);
   font-size: 10px;
 }
 
 .stat-sep {
-  color: #1a3a1a;
+  color: var(--border);
   font-size: 12px;
 }
 
@@ -68,11 +68,11 @@
 
 .wbtn {
   background: none;
-  border: 1px solid #1a3a1a;
-  color: #3a5a3a;
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 11px;
   display: flex;
@@ -82,12 +82,12 @@
 }
 
 .wbtn:hover {
-  border-color: #00ff41;
-  color: #00ff41;
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .wbtn-close:hover {
-  border-color: #ff4141;
-  color: #ff4141;
-  background: #1a0000;
+  border-color: var(--red);
+  color: var(--red);
+  background: color-mix(in srgb, var(--red) 12%, transparent);
 }

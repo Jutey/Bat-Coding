@@ -19,7 +19,7 @@ import './App.css';
 const NAV_ITEMS = [
   { id: 'map',      label: 'Lessons',      icon: '📚' },
   { id: 'progress', label: 'Progress',     icon: '🗺️' },
-  { id: 'sandbox',  label: 'Lab',          icon: '⚗️' },
+  { id: 'sandbox',  label: 'Sandbox',      icon: '⚗️' },
   { id: 'missions', label: 'Missions',     icon: '🎯' },
   { id: 'cmds',     label: 'Command Book', icon: '📖' },
   { id: 'tree',     label: 'Skills',       icon: '🌳' },

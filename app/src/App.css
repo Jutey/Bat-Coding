@@ -1,19 +1,19 @@
 /* ── Theme Variables ─────────────────────────────────────────────── */
 :root,
 [data-theme="default"] {
-  --primary:   #00ff41;
-  --primary-dim: #00aa2a;
-  --bg:        #0d0d0d;
-  --surface:   #050f05;
-  --surface2:  #030803;
-  --border:    #1a3a1a;
-  --border-dim:#0a1a0a;
-  --text:      #9ab09a;
-  --text-dim:  #5a7a5a;
-  --text-bright: #c0d0c0;
-  --red:       #ff4141;
-  --yellow:    #ffdd00;
-  --blue:      #00aaff;
+  --primary:   #4fd1c5;
+  --primary-dim: #2f9e94;
+  --bg:        #15171c;
+  --surface:   #1c1f26;
+  --surface2:  #23272f;
+  --border:    #2e323c;
+  --border-dim:#23272f;
+  --text:      #c4cad4;
+  --text-dim:  #7d8492;
+  --text-bright: #f0f2f5;
+  --red:       #ef5d6f;
+  --yellow:    #f2c14e;
+  --blue:      #5b9dd9;
 }
 
 [data-theme="hacker"] {
@@ -95,8 +95,8 @@
 .app-nav {
   display: flex;
   gap: 2px;
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--border-dim);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
 }
@@ -104,34 +104,34 @@
 .nav-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   background: none;
-  border: 1px solid transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
   color: var(--text-dim);
-  padding: 6px 12px;
-  border-radius: 5px;
+  padding: 10px 14px;
   cursor: pointer;
-  font-size: 11px;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.1em;
-  font-weight: 600;
-  transition: all 0.15s;
+  font-size: 12px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 
 .nav-btn:hover {
-  color: var(--text);
-  border-color: var(--border);
+  color: var(--text-bright);
   background: var(--surface2);
 }
 
 .nav-btn.active {
   color: var(--primary);
-  border-color: var(--primary);
+  border-bottom-color: var(--primary);
   background: var(--surface2);
+  font-weight: 600;
 }
 
-.nav-icon { font-size: 14px; }
-.nav-label { font-size: 10px; }
+.nav-icon { font-size: 14px; opacity: 0.85; }
+.nav-label { font-size: 12px; }
 
 /* ── Content ────────────────────────────────────────────────────── */
 .app-content {
