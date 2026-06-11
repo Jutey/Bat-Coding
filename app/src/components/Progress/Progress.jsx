@@ -103,11 +103,14 @@ const WORLDS = [
 ];
 
 function isLessonComplete(completedLessons, worldNum, lessonNum) {
+  // lessonNum is 1-10 (position within the world). Lesson files are numbered
+  // globally (1-110), so convert to the global lesson number before matching.
+  const globalNum = (worldNum - 1) * 10 + lessonNum;
   const wStr = String(worldNum).padStart(2, '0');
-  const lStr = String(lessonNum).padStart(2, '0');
-  return completedLessons.some(
-    id => id.includes(`w${wStr}-l${lStr}`) || id.includes(`lesson-${lStr}`)
-  );
+  const gStr = String(globalNum).padStart(2, '0');
+  // Use a trailing non-digit boundary so "lesson-10" doesn't match "lesson-100".
+  const re = new RegExp(`(lesson-${gStr}|w${wStr}-l${gStr})(?!\\d)`);
+  return completedLessons.some(id => re.test(id));
 }
 
 function getWorldCompletedCount(completedLessons, worldNum) {

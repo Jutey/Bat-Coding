@@ -2,15 +2,10 @@ import { useState } from 'react';
 import { useVoice, VOICE_STYLES } from '../../hooks/useVoice';
 import { useEditorTheme, EDITOR_THEMES } from '../../hooks/useEditorTheme';
 import { useGame, THEMES } from '../../contexts/GameContext';
+import { isAdminMode, clearAdminMode } from '../../utils/adminMode';
 import './Settings.css';
 
-export function isAdminMode() {
-  return localStorage.getItem('admin_mode') === 'true';
-}
-
-export function clearAdminMode() {
-  localStorage.removeItem('admin_mode');
-}
+export { isAdminMode, clearAdminMode };
 
 const ADMIN_PASSWORD = '1234';
 

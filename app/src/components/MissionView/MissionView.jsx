@@ -3,6 +3,7 @@ import Editor from '@monaco-editor/react';
 import ObjectiveChecker from '../ObjectiveChecker/ObjectiveChecker';
 import TerminalVisualizer from '../TerminalVisualizer/TerminalVisualizer';
 import { useVoice } from '../../hooks/useVoice';
+import { isAdminMode } from '../../utils/adminMode';
 import './MissionView.css';
 
 export default function MissionView({ lesson, progress, onBack, onComplete, onTriggerAchievement }) {
@@ -124,7 +125,7 @@ export default function MissionView({ lesson, progress, onBack, onComplete, onTr
   }
 
   function handleCompleteConfirm() {
-    if (onComplete) onComplete(lesson.worldId + '/' + lesson.id, xpEarned);
+    if (onComplete && !isAdminMode()) onComplete(lesson.worldId + '/' + lesson.id, xpEarned);
     onBack();
   }
 

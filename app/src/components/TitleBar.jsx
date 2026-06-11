@@ -3,7 +3,10 @@ import './TitleBar.css';
 export default function TitleBar({ progress }) {
   const completed = progress?.completedLessons?.length || 0;
   const achievements = progress?.achievements?.length || 0;
-  const lines = progress?.totalLinesWritten || 0;
+  const lines = progress?.stats?.linesWritten || 0;
+  const level = progress?.levelInfo?.current?.level ?? 1;
+  const title = progress?.levelInfo?.current?.title ?? 'RECRUIT';
+  const totalXP = progress?.totalXP || 0;
 
   return (
     <div className="titlebar">
@@ -12,6 +15,10 @@ export default function TitleBar({ progress }) {
         <span className="titlebar-tag">Digital Repair Corps</span>
       </div>
       <div className="titlebar-center">
+        <span className="stat">LVL {level} <small>{title}</small></span>
+        <span className="stat-sep">·</span>
+        <span className="stat">{totalXP.toLocaleString()} <small>XP</small></span>
+        <span className="stat-sep">·</span>
         <span className="stat">{completed} <small>lessons</small></span>
         <span className="stat-sep">·</span>
         <span className="stat">{achievements} <small>achievements</small></span>

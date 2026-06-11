@@ -6,6 +6,7 @@ import InteractiveLesson from './InteractiveLesson';
 import MissionView from './MissionView/MissionView';
 import { getLessonData } from '../data/lessons/index.js';
 import { useGame } from '../contexts/GameContext';
+import { isAdminMode } from '../utils/adminMode';
 import './LessonView.css';
 
 const TABS = ['LESSON', 'EDITOR', 'CHALLENGE'];
@@ -83,7 +84,7 @@ export default function LessonView({ lesson, progress, onBack, onComplete, onTri
   }
 
   async function markDone() {
-    await onComplete(lesson.worldId + '/' + lesson.id);
+    if (!isAdminMode()) await onComplete(lesson.worldId + '/' + lesson.id);
     onBack();
   }
 

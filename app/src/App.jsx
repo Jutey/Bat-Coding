@@ -107,7 +107,7 @@ function AppInner() {
 
   return (
     <div className="app">
-      <TitleBar />
+      <TitleBar progress={game} />
       <div className="app-layout">
         <div className="app-center">
           <nav className="app-nav">

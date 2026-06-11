@@ -3,7 +3,7 @@ import { THEMES, PETS, AVATARS, LEVELS, getLevelInfo, PET_EVOLUTIONS } from '../
 import './Profile.css';
 
 export default function Profile() {
-  const { totalXP, theme, avatar, activePet, achievements, secretCommandsFound = [], setTheme, setAvatar, setActivePet } = useGame();
+  const { totalXP, theme, avatar, activePet, achievements, secretCommandsFound = [], setTheme, setAvatar, setActivePet, baseStage } = useGame();
   const { current, next, pct } = getLevelInfo(totalXP);
   const level = current.level;
 
@@ -37,6 +37,16 @@ export default function Profile() {
         </div>
         <div className="profile-pet-big">{getPetForm(activePet)}</div>
       </div>
+
+      {baseStage && (
+        <div className="profile-section">
+          <div className="profile-section-label">HOME BASE STATUS</div>
+          <div className="profile-base-status">
+            <span className="profile-base-emoji">{baseStage.emoji}</span>
+            <span className="profile-base-desc">{baseStage.desc}</span>
+          </div>
+        </div>
+      )}
 
       <div className="profile-stats-row">
         <div className="pstat"><span>{achievements.length}</span><small>Achievements</small></div>

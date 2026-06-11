@@ -19,6 +19,10 @@
 .profile-section { display: flex; flex-direction: column; gap: 10px; }
 .profile-section-label { font-size: 9px; color: var(--text-dim); letter-spacing: 0.3em; font-weight: 700; font-family: 'Courier New', monospace; }
 
+.profile-base-status { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px; }
+.profile-base-emoji { font-size: 28px; }
+.profile-base-desc { font-size: 13px; color: var(--text); }
+
 .avatar-grid { display: flex; gap: 8px; flex-wrap: wrap; }
 .avatar-btn { background: var(--surface); border: 1px solid var(--border-dim); border-radius: 6px; padding: 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: all 0.15s; }
 .avatar-btn:hover { border-color: var(--primary); }
