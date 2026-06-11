@@ -68,6 +68,48 @@
   --text-bright: #c0eeff;
 }
 
+[data-theme="blood"] {
+  --primary:   #ff3333;
+  --primary-dim: #cc2929;
+  --bg:        #0d0000;
+  --surface:   #0f0000;
+  --surface2:  #1a0505;
+  --border:    #3a0000;
+  --border-dim:#220000;
+  --text:      #cc7777;
+  --text-dim:  #7a4444;
+  --text-bright: #ffaaaa;
+}
+
+[data-theme="gold"] {
+  --primary:   #ffdd00;
+  --primary-dim: #ccb100;
+  --bg:        #0d0a00;
+  --surface:   #0f0d00;
+  --surface2:  #1a1500;
+  --border:    #3a3000;
+  --border-dim:#221c00;
+  --text:      #c0a060;
+  --text-dim:  #7a6030;
+  --text-bright: #ffe680;
+}
+
+[data-theme="white"] {
+  --primary:   #1a6f3a;
+  --primary-dim: #145c2f;
+  --bg:        #f5f5f5;
+  --surface:   #e8e8e8;
+  --surface2:  #dcdcdc;
+  --border:    #bbbbbb;
+  --border-dim:#cccccc;
+  --text:      #333333;
+  --text-dim:  #777777;
+  --text-bright: #000000;
+  --red:       #c0392b;
+  --yellow:    #b8860b;
+  --blue:      #1f6fb2;
+}
+
 /* ── Global Layout ──────────────────────────────────────────────── */
 .app {
   height: 100%;
