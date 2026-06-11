@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useGame } from '../../contexts/GameContext';
+import SpeakButton from '../SpeakButton';
 import './PredictStep.css';
 
 function seededShuffle(arr, seed) {
@@ -24,7 +25,7 @@ function normalizeOptions(step) {
   });
 }
 
-export default function PredictStep({ step, onCorrect, onWrong }) {
+export default function PredictStep({ step, onCorrect, onWrong, speak, isSupported }) {
   const { trackStat } = useGame();
   const rawOptions = useMemo(() => normalizeOptions(step), [step]);
 
@@ -60,7 +61,10 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
     <div className="predict-step">
       <div className="predict-body">
         <div className="predict-label">PREDICT THE OUTPUT</div>
-        <h2 className="predict-question">{step.question}</h2>
+        <div className="predict-question-row">
+          <h2 className="predict-question">{step.question}</h2>
+          <SpeakButton speak={speak} isSupported={isSupported} text={step.question} label="question" />
+        </div>
         {step.code && <pre className="predict-code">{step.code}</pre>}
 
         <div className="options-grid">
@@ -73,6 +77,12 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
               <button key={i} className={cls} onClick={() => !locked && setSelected(i)}>
                 <span className="option-letter">{String.fromCharCode(65 + i)}</span>
                 <span className="option-text">{opt.text}</span>
+                <SpeakButton
+                  speak={speak}
+                  isSupported={isSupported}
+                  text={`Option ${String.fromCharCode(65 + i)}: ${opt.text}`}
+                  label={`option ${String.fromCharCode(65 + i)}`}
+                />
               </button>
             );
           })}

@@ -2,9 +2,10 @@ import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { useEditorTheme, registerThemes } from '../../hooks/useEditorTheme';
 import { useGame } from '../../contexts/GameContext';
+import SpeakButton from '../SpeakButton';
 import './BuildStep.css';
 
-export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
+export default function BuildStep({ step, onComplete, onTriggerAchievement, speak, isSupported }) {
   const [code, setCode] = useState(step.starterCode || '@echo off\n');
   const [output, setOutput] = useState('');
   const [running, setRunning] = useState(false);
@@ -42,7 +43,10 @@ export default function BuildStep({ step, onComplete, onTriggerAchievement }) {
     <div className="build-step">
       <div className="build-header">
         <div className="build-label">⚗️ LAB — BUILD IT</div>
-        <p className="build-prompt">{step.prompt}</p>
+        <div className="build-prompt-row">
+          <p className="build-prompt">{step.prompt}</p>
+          <SpeakButton speak={speak} isSupported={isSupported} text={step.prompt} label="prompt" />
+        </div>
       </div>
 
       <div className="build-editor-wrap">

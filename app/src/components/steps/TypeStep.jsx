@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import SpeakButton from '../SpeakButton';
 import './TypeStep.css';
 
-export default function TypeStep({ step, onCorrect, onWrong }) {
+export default function TypeStep({ step, onCorrect, onWrong, speak, isSupported }) {
   const [value, setValue] = useState('');
   const [locked, setLocked] = useState(false);
   const [showHint, setShowHint] = useState(false);
@@ -25,7 +26,10 @@ export default function TypeStep({ step, onCorrect, onWrong }) {
     <div className="type-step">
       <div className="type-body">
         <div className="type-label">TYPE THE CODE</div>
-        <h2 className="type-question">{step.prompt}</h2>
+        <div className="type-question-row">
+          <h2 className="type-question">{step.prompt}</h2>
+          <SpeakButton speak={speak} isSupported={isSupported} text={step.prompt} label="prompt" />
+        </div>
 
         {step.target && (
           <div className="type-target">

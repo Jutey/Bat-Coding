@@ -1,0 +1,26 @@
+.narration-controls {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.narration-btn {
+  background: none;
+  border: 1px solid var(--border, #1a2a1a);
+  color: var(--text-dim, #5a9a5a);
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.narration-btn:hover {
+  border-color: var(--primary, #00ff41);
+  color: var(--primary, #00ff41);
+}

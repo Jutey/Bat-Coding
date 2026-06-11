@@ -25,12 +25,19 @@
   font-weight: 700;
 }
 
+.predict-question-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .predict-question {
   font-size: 20px;
   color: #c0d0c0;
   font-weight: 600;
   line-height: 1.4;
   margin: 0;
+  flex: 1;
 }
 
 .predict-code {
@@ -129,6 +136,7 @@
   color: #9ab09a;
   line-height: 1.4;
   margin: 0;
+  flex: 1;
 }
 
 .option-btn.correct .option-text { color: #00ff41; font-weight: 600; }

@@ -92,16 +92,21 @@ function AppInner() {
 
   if (selectedLesson) {
     return (
-      <>
-        <LessonView
-          lesson={selectedLesson}
-          progress={game}
-          onBack={() => setSelectedLesson(null)}
-          onComplete={game.completeLesson}
-          onTriggerAchievement={game.unlockAchievement}
-        />
+      <div className="app">
+        <TitleBar progress={game} />
+        <div className="app-layout">
+          <div className="app-center">
+            <LessonView
+              lesson={selectedLesson}
+              progress={game}
+              onBack={() => setSelectedLesson(null)}
+              onComplete={game.completeLesson}
+              onTriggerAchievement={game.unlockAchievement}
+            />
+          </div>
+        </div>
         <GlobalToasts />
-      </>
+      </div>
     );
   }
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SpeakButton from '../SpeakButton';
 import './FillStep.css';
 
 // Support both legacy (template+blank) and new (before+after) formats
@@ -11,7 +12,7 @@ function deriveBeforeAfter(step) {
   return { before: '', after: '' };
 }
 
-export default function FillStep({ step, onCorrect, onWrong }) {
+export default function FillStep({ step, onCorrect, onWrong, speak, isSupported }) {
   const { before, after } = deriveBeforeAfter(step);
   const [value, setValue] = useState('');
   const [locked, setLocked] = useState(false);
@@ -36,7 +37,12 @@ export default function FillStep({ step, onCorrect, onWrong }) {
     <div className="fill-step">
       <div className="fill-body">
         <div className="fill-label">FILL IN THE BLANK</div>
-        {step.prompt && <p className="fill-prompt">{step.prompt}</p>}
+        {step.prompt && (
+          <div className="fill-prompt-row">
+            <p className="fill-prompt">{step.prompt}</p>
+            <SpeakButton speak={speak} isSupported={isSupported} text={step.prompt} label="prompt" />
+          </div>
+        )}
 
         <div className="fill-code-block">
           {before && <pre className="fill-code-text faded">{before}</pre>}

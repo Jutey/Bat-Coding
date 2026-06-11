@@ -2,9 +2,10 @@ import { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { useEditorTheme, registerThemes } from '../../hooks/useEditorTheme';
 import { useGame } from '../../contexts/GameContext';
+import SpeakButton from '../SpeakButton';
 import './FixStep.css';
 
-export default function FixStep({ step, onCorrect, onWrong }) {
+export default function FixStep({ step, onCorrect, onWrong, speak, isSupported }) {
   const [code, setCode] = useState(step.code || '');
   const [locked, setLocked] = useState(false);
   const [hintLevel, setHintLevel] = useState(0);
@@ -37,7 +38,12 @@ export default function FixStep({ step, onCorrect, onWrong }) {
     <div className="fix-step">
       <div className="fix-header">
         <div className="fix-label">🐛 BUG HUNT — FIX THE BROKEN CODE</div>
-        {step.prompt && <p className="fix-prompt">{step.prompt}</p>}
+        {step.prompt && (
+          <div className="fix-prompt-row">
+            <p className="fix-prompt">{step.prompt}</p>
+            <SpeakButton speak={speak} isSupported={isSupported} text={step.prompt} label="prompt" />
+          </div>
+        )}
       </div>
 
       <div className="fix-editor-wrap">

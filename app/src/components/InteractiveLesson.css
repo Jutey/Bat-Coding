@@ -76,6 +76,26 @@
 
 .narration-toggle:hover { border-color: var(--primary, #00ff41); color: var(--primary, #00ff41); }
 
+.skip-btn {
+  background: none;
+  border: 1px solid var(--border, #1a2a1a);
+  color: var(--text-dim, #5a9a5a);
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.skip-btn:hover { border-color: var(--yellow, #f2c14e); color: var(--yellow, #f2c14e); }
+
 .done-chip {
   font-size: 10px;
   font-weight: 700;

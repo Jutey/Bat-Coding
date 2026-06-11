@@ -23,11 +23,18 @@
   font-weight: 700;
 }
 
+.type-question-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .type-question {
   font-size: 20px;
   color: #c0d0c0;
   font-weight: 600;
   line-height: 1.4;
+  flex: 1;
 }
 
 .type-target {
