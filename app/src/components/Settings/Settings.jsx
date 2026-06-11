@@ -20,7 +20,7 @@ export default function Settings() {
   } = useVoice();
 
   const { theme: editorTheme, setTheme: setEditorTheme } = useEditorTheme();
-  const { theme: appTheme, setTheme: setAppTheme, levelInfo } = useGame();
+  const { theme: appTheme, setTheme: setAppTheme, levelInfo, resetProgress } = useGame();
   const { current } = levelInfo;
 
   // Admin mode state — read from localStorage on mount
@@ -28,6 +28,17 @@ export default function Settings() {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [passwordValue, setPasswordValue] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [confirmReset, setConfirmReset] = useState(false);
+
+  function handleResetProgress() {
+    if (!confirmReset) {
+      setConfirmReset(true);
+      setTimeout(() => setConfirmReset(false), 4000);
+      return;
+    }
+    resetProgress();
+    setConfirmReset(false);
+  }
 
   function testVoice() {
     speak('Hello. This is how your current voice setting sounds. You can adjust the style and speed below.');
@@ -248,6 +259,19 @@ export default function Settings() {
               >
                 Disable Admin Mode
               </button>
+
+              <div style={{ borderTop: '1px solid var(--border-dim)', marginTop: 6, paddingTop: 14 }}>
+                <div className="setting-desc" style={{ marginBottom: 10 }}>
+                  Wipe all saved progress — XP, level, completed lessons, achievements, stats, themes, and unlocks. This cannot be undone.
+                </div>
+                <button
+                  className="test-voice-btn"
+                  style={{ borderColor: '#ff4141', color: '#ff4141' }}
+                  onClick={handleResetProgress}
+                >
+                  {confirmReset ? '⚠ Click again to confirm reset' : 'Reset All Progress'}
+                </button>
+              </div>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

@@ -261,6 +261,12 @@ export function GameProvider({ children }) {
     });
   }, []);
 
+  const resetProgress = useCallback(() => {
+    const next = { ...DEFAULT_STATE, bootComplete: true };
+    window.api.saveProgress(next);
+    setState(next);
+  }, []);
+
   function pushToast(toast) {
     const key = Date.now() + Math.random();
     setToasts(prev => [...prev, { ...toast, key }]);
@@ -289,6 +295,7 @@ export function GameProvider({ children }) {
       setActivePet,
       setBootComplete,
       addProjectToGallery,
+      resetProgress,
       pushToast,
       dismissToast: (key) => setToasts(prev => prev.filter(t => t.key !== key)),
     }}>
