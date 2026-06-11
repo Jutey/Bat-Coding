@@ -37,6 +37,14 @@ export default {
       hint: 'Use tracert followed by the IP address',
     },
     {
+      type: 'fix',
+      prompt: 'This script is supposed to trace the route to localhost, but the command name is misspelled and Windows does not recognize it. Fix the typo.',
+      code: '@echo off\necho Route trace starting...\ntracrt 127.0.0.1\necho Trace complete.\npause',
+      answer: '@echo off\necho Route trace starting...\ntracert 127.0.0.1\necho Trace complete.\npause',
+      hint: 'Check the spelling of the route-tracing command carefully.',
+      hint2: 'It is "tracert", not "tracrt" — there is an "e" before the "rt".',
+    },
+    {
       type: 'build',
       prompt: 'Build a Route Analyzer:\n1. Ask operator: "Target IP or hostname:"\n2. Run tracert on that target, save to route_trace.txt\n3. Show "Trace complete. Results in route_trace.txt"\n4. Display the file\n5. Append "Traced: [target] on [DATE]" to trace_history.log',
       minLines: 10,

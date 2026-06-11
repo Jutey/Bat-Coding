@@ -28,6 +28,14 @@ export default {
       ],
     },
     {
+      type: 'fix',
+      prompt: 'The intrusion alert system is supposed to log every alert with a timestamp, but the append redirect is missing — each new alert wipes out all previous ones. The breach history is being destroyed. Fix the redirect so alerts.log keeps a full record.',
+      code: '@echo off\nset /p msg=Alert message: \necho [%DATE% %TIME%] %msg% > alerts.log\necho Alert logged.\npause',
+      answer: '@echo off\nset /p msg=Alert message: \necho [%DATE% %TIME%] %msg% >> alerts.log\necho Alert logged.\npause',
+      hint: 'A log file must accumulate entries over time, not be replaced each time something new happens.',
+      hint2: 'Change > to >> before alerts.log so each alert is appended instead of overwriting the file.',
+    },
+    {
       type: 'build',
       prompt: 'BUILD THE NETWORK OPERATIONS CENTER.\n\nRequired sections:\n- :startup — banner, date, user, ipconfig summary\n- :main_menu — 7 options displayed cleanly\n- :scan — loop scanning 8 simulated nodes (random up/down), save to scan.txt\n- :full_report — ipconfig + netstat + date to noc_report.txt\n- :process_check — ask for process name, search tasklist\n- :alert — ask for alert message, append to alerts.log with timestamp\n- :log_event — utility function appending to noc_events.log\n- :exit_noc — summary of session, final log entry\n- 12+ labels, all functions end exit /b\n- Minimum 70 lines',
       minLines: 70,

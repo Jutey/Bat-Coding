@@ -37,6 +37,14 @@ export default {
       hint: 'What errorlevel does a failed ping return?',
     },
     {
+      type: 'fix',
+      prompt: 'This script should report ONLINE or OFFLINE based on the ping result, but it always prints "Node 1: ONLINE" because the errorlevel check uses the wrong comparison. Fix it.',
+      code: '@echo off\nping 127.0.0.1 -n 1 >nul\nif %errorlevel%==1 echo Node 1: ONLINE\nif %errorlevel%==0 echo Node 1: OFFLINE\npause',
+      answer: '@echo off\nping 127.0.0.1 -n 1 >nul\nif %errorlevel%==0 echo Node 1: ONLINE\nif %errorlevel%==1 echo Node 1: OFFLINE\npause',
+      hint: 'Remember which errorlevel value means success and which means failure.',
+      hint2: 'A successful ping sets errorlevel to 0, not 1 — swap the 0 and 1 in the two if checks.',
+    },
+    {
       type: 'build',
       prompt: 'Build a Multi-Node Checker:\n1. Test 3 IPs (use 127.0.0.1 for all, labeled Node 1/2/3 — just testing the pattern)\n2. For each: if online print "[ OK ] Node X: ONLINE", if offline print "[FAIL] Node X: OFFLINE"\n3. Save results to connectivity_report.txt\n4. Count and print how many nodes are online',
       minLines: 18,

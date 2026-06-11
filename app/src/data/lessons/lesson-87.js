@@ -37,6 +37,14 @@ export default {
       hint: 'Display the status variable inside the node label',
     },
     {
+      type: 'fix',
+      prompt: 'This script tries to display the node status inside the map, but it forgot to use %% around the variable, so it prints the literal text "status1" instead of its value. Fix it.',
+      code: '@echo off\nping 127.0.0.1 -n 1 >nul\nif %errorlevel%==0 set status1=ONLINE\nif %errorlevel%==1 set status1=OFFLINE\necho [NODE-1: status1]\npause',
+      answer: '@echo off\nping 127.0.0.1 -n 1 >nul\nif %errorlevel%==0 set status1=ONLINE\nif %errorlevel%==1 set status1=OFFLINE\necho [NODE-1: %status1%]\npause',
+      hint: 'To show the value stored in a variable, batch needs special characters surrounding the variable name.',
+      hint2: 'Wrap status1 in percent signs: %status1%.',
+    },
+    {
       type: 'build',
       prompt: 'Build a Dynamic Network Map:\n1. Ping 3 "nodes" (all 127.0.0.1, labeled differently)\n2. Set status variables: node1_status, node2_status, node3_status\n3. Draw an ASCII network diagram using echo that includes the live status of each node\n4. Save the map to network_map.txt\n5. Print "Map generated: %DATE%"',
       minLines: 20,

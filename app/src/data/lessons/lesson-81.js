@@ -44,6 +44,14 @@ export default {
       hint: 'Specify 3 pings using the -n flag',
     },
     {
+      type: 'fix',
+      prompt: 'This script is supposed to send exactly 2 pings, but the flag is wrong and ping runs its default 4 times. Fix the ping flag.',
+      code: '@echo off\necho Testing connection...\nping 127.0.0.1 /n 2\necho Test complete.\npause',
+      answer: '@echo off\necho Testing connection...\nping 127.0.0.1 -n 2\necho Test complete.\npause',
+      hint: 'Windows ping uses a dash for its options, not a forward slash.',
+      hint2: 'Change /n 2 to -n 2.',
+    },
+    {
       type: 'build',
       prompt: 'Build a network tester:\n1. Print "NETWORK DIAGNOSTICS"\n2. Ping localhost (127.0.0.1) with -n 2\n3. Print a separator\n4. Ask operator: "Enter an IP to test:"\n5. Ping that IP with -n 2\n6. Save output header + timestamp to net_test.log',
       minLines: 12,

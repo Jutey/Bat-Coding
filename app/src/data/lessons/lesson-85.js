@@ -44,6 +44,14 @@ export default {
       hint: 'Pipe tasklist through findstr to search for chrome',
     },
     {
+      type: 'fix',
+      prompt: 'This script tries to filter the process list for "chrome" using findstr, but the pipe symbol is missing so tasklist and findstr run as separate, broken commands. Fix it.',
+      code: '@echo off\necho Searching for chrome...\ntasklist findstr chrome\npause',
+      answer: '@echo off\necho Searching for chrome...\ntasklist | findstr chrome\npause',
+      hint: 'To send the output of one command into another, you need a special character between them.',
+      hint2: 'Add a pipe | between tasklist and findstr: "tasklist | findstr chrome".',
+    },
+    {
       type: 'build',
       prompt: 'Build a Process Inspector:\n1. Save full tasklist to processes.txt\n2. Ask operator: "Search for process:" \n3. Search processes.txt using findstr for that name\n4. If found: print "Process located!"\n5. Append the search query + date to search_history.log',
       minLines: 12,

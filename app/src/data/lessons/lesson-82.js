@@ -44,6 +44,14 @@ export default {
       hint: 'Redirect the ipconfig output to a file',
     },
     {
+      type: 'fix',
+      prompt: 'This script tries to add a username line to the network report, but the second redirect overwrites the file instead of appending to it. Fix the redirect.',
+      code: '@echo off\nipconfig > network_info.txt\necho User: %USERNAME% > network_info.txt\ntype network_info.txt\npause',
+      answer: '@echo off\nipconfig > network_info.txt\necho User: %USERNAME% >> network_info.txt\ntype network_info.txt\npause',
+      hint: 'A single > replaces the whole file. To add a line without erasing what is already there, use a different redirect operator.',
+      hint2: 'Change the second > to >> so it appends instead of overwriting.',
+    },
+    {
       type: 'build',
       prompt: 'Build a Network Info Collector:\n1. Run ipconfig and save to network_report.txt\n2. Echo the computer name and username below it\n3. Append a "Captured on: %DATE%" line\n4. Display the report with a formatted header',
       minLines: 10,

@@ -8,7 +8,7 @@ export default {
     {
       type: 'learn',
       title: 'SECTOR 5 BOSS: THE CHAOS ENGINE',
-      body: 'The Random Server\'s core AI has gone rogue.\n\nIt generates pure chaos — random attacks, random buffs, random debuffs.\n\nYour mission: build a program that can handle unpredictable input and always reach a stable end state.',
+      body: 'Alarms scream through Sector 5. The Random Server\'s core AI has shattered every safety lock and gone fully rogue.\n\nIt is the Chaos Engine — a storm of random attacks, random buffs, random debuffs, lashing out in every direction with no pattern an enemy can predict.\n\nYour mission: build a program that can stand in that storm, absorb the chaos, and still fight its way to a stable end state. One miscounted variable and your tracking will desync from reality — and you will not see the killing blow coming.',
       code: null,
     },
     {
@@ -26,6 +26,14 @@ export default {
         { text: 'Roll 0 only', correct: false, explanation: 'That would be 5%.' },
         { text: 'Rolls 0 through 14', correct: false, explanation: 'That would be 75%.' },
       ],
+    },
+    {
+      type: 'fix',
+      prompt: 'The Chaos Engine is taking damage but its HP display never drops — your tracker is desynced! The script sets enemyHP at the start but the damage line updates a differently-named variable, so %enemyHP% never changes. Fix the typo so damage actually applies.',
+      code: '@echo off\nset playerHP=60\nset enemyHP=45\nset /a dmg=7\nset /a enemyHp=enemyHP-dmg\necho Enemy HP: %enemyHP%\npause',
+      answer: '@echo off\nset playerHP=60\nset enemyHP=45\nset /a dmg=7\nset /a enemyHP=enemyHP-dmg\necho Enemy HP: %enemyHP%\npause',
+      hint: 'Batch variable names must match exactly, including capitalization, everywhere they are set and read in this script.',
+      hint2: 'The line "set /a enemyHp=enemyHP-dmg" writes to enemyHp (lowercase p) instead of enemyHP — fix it to "set /a enemyHP=enemyHP-dmg".',
     },
     {
       type: 'build',

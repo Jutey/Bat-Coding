@@ -37,6 +37,14 @@ export default {
       hint: 'The loop should jump back to :loop each iteration',
     },
     {
+      type: 'fix',
+      prompt: 'This scan loop is supposed to stop after scanning node 5, but the counter is never increased, so it scans node 1 forever. Fix the infinite loop.',
+      code: '@echo off\nset count=1\n:scan_loop\necho Scanning 192.168.1.%count%...\nif %count% LEQ 5 goto scan_loop\necho Scan complete. 5 nodes checked.\npause',
+      answer: '@echo off\nset count=1\n:scan_loop\necho Scanning 192.168.1.%count%...\nset /a count=%count%+1\nif %count% LEQ 5 goto scan_loop\necho Scan complete. 5 nodes checked.\npause',
+      hint: 'Every loop needs a step that changes the value being tested, or the condition never becomes false.',
+      hint2: 'Add "set /a count=%count%+1" before the if/goto line, so count increases each pass through the loop.',
+    },
+    {
       type: 'build',
       prompt: 'Build a Network Scanner Simulator:\n1. Ask operator for a base IP prefix (e.g. "192.168.1")\n2. Scan addresses .1 through .10 (loop with counter)\n3. Randomly decide if each node is "ONLINE" or "OFFLINE" (%random% %% 2)\n4. Print each result in format: "[SCAN] 192.168.1.X - STATUS"\n5. Count total online/offline\n6. Save results to scan_results.txt',
       minLines: 20,

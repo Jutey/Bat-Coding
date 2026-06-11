@@ -44,6 +44,14 @@ export default {
       hint: 'Run netstat with -n flag and redirect to snapshot.txt',
     },
     {
+      type: 'fix',
+      prompt: 'This script wants to take a fast numerical-address snapshot of connections, but it uses the wrong flag and netstat reports an error. Fix the flag.',
+      code: '@echo off\necho Capturing connections...\nnetstat /n > connections.txt\necho Snapshot saved.\npause',
+      answer: '@echo off\necho Capturing connections...\nnetstat -n > connections.txt\necho Snapshot saved.\npause',
+      hint: 'netstat options use a dash, not a forward slash.',
+      hint2: 'Change /n to -n so it reads "netstat -n > connections.txt".',
+    },
+    {
       type: 'build',
       prompt: 'Build a Connection Monitor:\n1. Take a netstat snapshot, save to connections.txt\n2. Display the connections with a formatted header\n3. Ask if they want to save the report\n4. If yes: append a timestamp entry to monitoring.log\n5. Print total: "Monitor complete. %DATE%"',
       minLines: 12,
