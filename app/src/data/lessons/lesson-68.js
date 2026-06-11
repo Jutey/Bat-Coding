@@ -37,6 +37,14 @@ export default {
       hint: 'Use call so you return to the main loop after resting',
     },
     {
+      type: 'fix',
+      prompt: 'The main loop calls :shop with goto instead of call, so the program exits the loop permanently the first time the player visits the shop. Fix it so the loop continues.',
+      code: '@echo off\nset gold=50\nset hp=100\n:main\ncls\ncall :status\ncall :main_menu\nchoice /c 12\nif errorlevel 2 goto end\nif errorlevel 1 goto :shop\ngoto main\n:end\npause\nexit /b\n\n:status\necho HP: %hp% | Gold: %gold%\nexit /b\n\n:main_menu\necho 1. Shop  2. Quit\nexit /b\n\n:shop\necho Shop is open.\npause\nexit /b',
+      answer: '@echo off\nset gold=50\nset hp=100\n:main\ncls\ncall :status\ncall :main_menu\nchoice /c 12\nif errorlevel 2 goto end\nif errorlevel 1 call :shop\ngoto main\n:end\npause\nexit /b\n\n:status\necho HP: %hp% | Gold: %gold%\nexit /b\n\n:main_menu\necho 1. Shop  2. Quit\nexit /b\n\n:shop\necho Shop is open.\npause\nexit /b',
+      hint: 'Think about which jump command returns control back to the main loop afterward.',
+      hint2: 'Change `if errorlevel 1 goto :shop` to `if errorlevel 1 call :shop` so execution returns to `goto main`.',
+    },
+    {
       type: 'build',
       prompt: 'Build a 4-function mini RPG:\n- :hud — shows HP, gold, level\n- :explore — random encounter (50% monster, 50% treasure)\n- :rest — spend 10 gold to restore 20 HP\n- :status_report — shows all variables formatted\n\nMain menu loops until player quits.',
       minLines: 40,

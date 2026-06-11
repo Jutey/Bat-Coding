@@ -37,6 +37,14 @@ export default {
       hint: 'Return after completing the mission',
     },
     {
+      type: 'fix',
+      prompt: 'This quest function uses = instead of == in its comparisons, so the quest never updates correctly. Fix the comparisons.',
+      code: '@echo off\nset quest_retrieve=0\nset item_found=1\ncall :check_quest\npause\nexit /b\n\n:check_quest\nif %item_found%=1 if %quest_retrieve%=0 (\n  set quest_retrieve=1\n  echo QUEST COMPLETE: Item Retrieved!\n  exit /b\n)\necho Quest: Find the lost module.\nexit /b',
+      answer: '@echo off\nset quest_retrieve=0\nset item_found=1\ncall :check_quest\npause\nexit /b\n\n:check_quest\nif %item_found%==1 if %quest_retrieve%==0 (\n  set quest_retrieve=1\n  echo QUEST COMPLETE: Item Retrieved!\n  exit /b\n)\necho Quest: Find the lost module.\nexit /b',
+      hint: 'Batch string/number equality comparisons in if statements need a specific number of equals signs.',
+      hint2: 'Change `if %item_found%=1 if %quest_retrieve%=0` to `if %item_found%==1 if %quest_retrieve%==0` (double equals).',
+    },
+    {
       type: 'build',
       prompt: 'Build a 3-quest chain system:\n- Quest 1: Find the power cell (set power_cell=1)\n- Quest 2 (unlocks when Q1 done): Restore power (set power_restored=1)\n- Quest 3 (unlocks when Q2 done): Report to Command (set mission_done=1)\n\nMenu shows current quest status. Player can "complete" each quest in order.',
       minLines: 30,

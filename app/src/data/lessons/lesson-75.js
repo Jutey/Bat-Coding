@@ -44,6 +44,14 @@ export default {
       hint: 'Use del to remove the cache file',
     },
     {
+      type: 'fix',
+      prompt: 'This cleanup script crashes due to a broken if/else block. Fix the structure so it checks before deleting.',
+      code: '@echo off\necho temp data > temp.txt\nif exist temp.txt (\n  del temp.txt\n  echo Removed temp.txt\nelse (\n  echo temp.txt not found.\n)\npause',
+      answer: '@echo off\necho temp data > temp.txt\nif exist temp.txt (\n  del temp.txt\n  echo Removed temp.txt\n) else (\n  echo temp.txt not found.\n)\npause',
+      hint: 'An if/else block in Batch needs the closing parenthesis before the word else.',
+      hint2: 'Add ) right before "else (" so it reads ") else (" on its own line.',
+    },
+    {
       type: 'build',
       prompt: 'Build a safe cleanup script that:\n1. Creates 3 temp files to simulate leftover files\n2. Asks "Run cleanup? (Y/N)"\n3. If Y: check each file exists before deleting, log each deletion to cleanup.log\n4. If N: exit with message "Cleanup cancelled"\n5. Show cleanup.log at the end',
       minLines: 16,

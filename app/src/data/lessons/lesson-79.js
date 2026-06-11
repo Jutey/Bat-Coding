@@ -37,6 +37,14 @@ export default {
       hint: 'What keeps the command input running in a loop?',
     },
     {
+      type: 'fix',
+      prompt: 'This assistant only accepts ONE command and then quits, instead of looping for more input. Fix it.',
+      code: '@echo off\n:loop\nset /p cmd=Command: \nif "%cmd%"=="status" echo All systems nominal.\nif "%cmd%"=="time" echo Current time: %TIME%\nif "%cmd%"=="exit" goto end\n:end\npause',
+      answer: '@echo off\n:loop\nset /p cmd=Command: \nif "%cmd%"=="status" echo All systems nominal.\nif "%cmd%"=="time" echo Current time: %TIME%\nif "%cmd%"=="exit" goto end\ngoto loop\n:end\npause',
+      hint: 'After checking the commands, the script needs to send control back to the top of the loop unless the user asked to exit.',
+      hint2: 'Add a "goto loop" line right before the :end label.',
+    },
+    {
       type: 'build',
       prompt: 'Build AEGIS Lite — a personal assistant with at least 6 commands:\n- hello\n- status (shows system info)\n- time\n- date\n- open notepad (launches notepad)\n- save (saves a quick note to notes.txt)\n- help (lists all commands)\n- exit\n\nAll unrecognized commands print "Unknown command. Type help."',
       minLines: 30,

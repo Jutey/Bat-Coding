@@ -44,6 +44,14 @@ export default {
       hint: 'Use the built-in Windows variable for the current user',
     },
     {
+      type: 'fix',
+      prompt: 'This report script prints a blank line for the username because the environment variable name is wrong. Fix it.',
+      code: '@echo off\necho ========== SYSTEM REPORT ========== > report.txt\necho Computer: %COMPUTERNAME% >> report.txt\necho User: %USERNAM% >> report.txt\necho Date: %DATE% >> report.txt\ntype report.txt\npause',
+      answer: '@echo off\necho ========== SYSTEM REPORT ========== > report.txt\necho Computer: %COMPUTERNAME% >> report.txt\necho User: %USERNAME% >> report.txt\necho Date: %DATE% >> report.txt\ntype report.txt\npause',
+      hint: 'Environment variable names must be spelled exactly, including all letters, between the % signs.',
+      hint2: 'Change %USERNAM% to %USERNAME% — it was missing the final E.',
+    },
+    {
       type: 'build',
       prompt: 'Build an automated System Report Generator that:\n1. Collects: COMPUTERNAME, USERNAME, OS, DATE, TIME\n2. Asks for a custom "Operator notes" field\n3. Saves everything to system_report.txt in a formatted layout\n4. Displays the report\n5. Appends to report_log.txt "Report generated on [DATE]"',
       minLines: 15,

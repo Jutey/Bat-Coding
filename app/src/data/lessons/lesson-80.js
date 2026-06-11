@@ -8,7 +8,7 @@ export default {
     {
       type: 'learn',
       title: 'SECTOR 8 BOSS: THE ROGUE AUTOMATOR',
-      body: 'An automation script has gone rogue. It is deleting files, filling up storage, and opening programs endlessly.\n\nYour mission: build a CONTROL PANEL that can manage, monitor, and stop automated processes.',
+      body: 'ALERT. ALERT. An automation script has broken free of its safeguards.\n\nIt is spawning windows faster than you can close them, deleting files at random, and looping without end — consuming more memory by the second. Terminal Prime is flashing red across every monitor.\n\nThe Rogue Automator was built to help. Now it will not stop. There is no kill switch... unless you build one.\n\nYour mission: construct a CONTROL PANEL that can launch, monitor, log, and — if needed — forcibly halt automated processes before the system buckles under its own weight.',
       code: null,
     },
     {
@@ -26,6 +26,14 @@ export default {
         { text: 'Windows requires logs for all scripts', correct: false, explanation: 'Logging is a best practice, not a requirement.' },
         { text: 'Logs are only for errors', correct: false, explanation: 'Good systems log everything, not just errors.' },
       ],
+    },
+    {
+      type: 'fix',
+      prompt: 'You found the Rogue Automator\'s core script. It launches Notepad and loops FOREVER with no way to stop, since it never checks for an exit command. Fix it so typing "stop" ends the loop.',
+      code: '@echo off\n:rampage\necho Spawning process...\nstart notepad\nset /p cmd=Command (stop to halt): \nif "%cmd%"=="stop" echo Shutting down...\ngoto rampage\necho Automator halted.\npause',
+      answer: '@echo off\n:rampage\necho Spawning process...\nstart notepad\nset /p cmd=Command (stop to halt): \nif "%cmd%"=="stop" goto shutdown\ngoto rampage\n:shutdown\necho Automator halted.\npause',
+      hint: 'A loop needs a way to break out of it when a condition is met — right now "stop" only prints a message but does not change control flow.',
+      hint2: 'Change the if line to "if "%cmd%"=="stop" goto shutdown" and add a ":shutdown" label right before "echo Automator halted."',
     },
     {
       type: 'build',

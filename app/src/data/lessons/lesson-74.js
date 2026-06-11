@@ -44,6 +44,14 @@ export default {
       hint: 'Use copy with source then destination filename',
     },
     {
+      type: 'fix',
+      prompt: 'This backup script overwrites the log file every time instead of adding to it. Fix the redirection so entries accumulate.',
+      code: '@echo off\necho DATA=important > save.txt\ncopy save.txt save_backup.txt\necho Backup created.\necho Backup made on %DATE% > backup.log\ntype backup.log\npause',
+      answer: '@echo off\necho DATA=important > save.txt\ncopy save.txt save_backup.txt\necho Backup created.\necho Backup made on %DATE% >> backup.log\ntype backup.log\npause',
+      hint: 'A single > overwrites a file each time it runs, erasing previous log entries.',
+      hint2: 'Change the single > before backup.log to >> so the log line is appended instead of overwritten.',
+    },
+    {
       type: 'build',
       prompt: 'Build an automated backup system:\n1. Check if save.txt exists (if exist)\n2. If yes: copy to backup.txt, echo "Backup created"\n3. If no: echo "No save file to backup"\n4. Log the backup event (append to backup.log)\n5. Show backup.log at the end',
       minLines: 12,

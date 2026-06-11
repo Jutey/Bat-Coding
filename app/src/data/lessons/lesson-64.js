@@ -37,6 +37,14 @@ export default {
       hint: 'The :attack function needs to return',
     },
     {
+      type: 'fix',
+      prompt: 'The :combat function uses += syntax, which Batch does not support. Fix the damage calculation lines so they use set /a correctly.',
+      code: '@echo off\nset playerHP=50\nset enemyHP=30\ncall :combat\necho HP: %playerHP% vs %enemyHP%\npause\nexit /b\n\n:combat\nset /a dmg=%random% %% 10 + 5\nenemyHP += dmg\nset /a retaliation=%random% %% 6 + 2\nplayerHP += retaliation\necho You deal %dmg% damage. Enemy retaliates for %retaliation%.\nexit /b',
+      answer: '@echo off\nset playerHP=50\nset enemyHP=30\ncall :combat\necho HP: %playerHP% vs %enemyHP%\npause\nexit /b\n\n:combat\nset /a dmg=%random% %% 10 + 5\nset /a enemyHP=%enemyHP%-%dmg%\nset /a retaliation=%random% %% 6 + 2\nset /a playerHP=%playerHP%-%retaliation%\necho You deal %dmg% damage. Enemy retaliates for %retaliation%.\nexit /b',
+      hint: 'Batch does not have a += operator like other languages.',
+      hint2: 'Use `set /a enemyHP=%enemyHP%-%dmg%` and `set /a playerHP=%playerHP%-%retaliation%`.',
+    },
+    {
       type: 'build',
       prompt: 'Build a game with a dedicated :combat function. The function should:\n- Roll player damage (1-12)\n- Roll enemy damage (1-8)\n- 20% crit chance for player (roll 0-1 on %random% %% 10)\n- Print the round result\n- Update both HP variables\n\nThe main loop should call it and handle win/lose.',
       minLines: 28,

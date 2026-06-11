@@ -37,6 +37,14 @@ export default {
       hint: 'Use ren with old name then new name',
     },
     {
+      type: 'fix',
+      prompt: 'This renamer always tries to rename, even if the file does not exist, causing an error. Fix it to check first.',
+      code: '@echo off\necho test > report_v1.txt\nren report_v2.txt report_final.txt\necho Renamed successfully.\ndir /b *.txt\npause',
+      answer: '@echo off\necho test > report_v1.txt\nren report_v1.txt report_final.txt\necho Renamed successfully.\ndir /b *.txt\npause',
+      hint: 'ren can only rename a file that exists with that exact name.',
+      hint2: 'The created file is report_v1.txt, but ren is targeting report_v2.txt — change ren to use report_v1.txt.',
+    },
+    {
       type: 'build',
       prompt: 'Build an interactive file renamer:\n1. Ask for the current filename\n2. Ask for the new filename\n3. Check if the file exists (if exist)\n4. If yes: rename it, log to rename.log, confirm success\n5. If no: print "File not found"',
       minLines: 12,

@@ -37,6 +37,14 @@ export default {
       hint: 'The shop function needs to return after a successful purchase',
     },
     {
+      type: 'fix',
+      prompt: 'This shop function checks affordability with the wrong comparison, so players can buy the sword even with too little gold. Fix the comparison.',
+      code: '@echo off\nset gold=30\ncall :shop\necho After shop: Gold=%gold%\npause\nexit /b\n\n:shop\nif %gold% GTR 50 (\n  echo Not enough gold!\n  exit /b\n)\nset /a gold=%gold%-50\necho Sword purchased!\nexit /b',
+      answer: '@echo off\nset gold=30\ncall :shop\necho After shop: Gold=%gold%\npause\nexit /b\n\n:shop\nif %gold% LSS 50 (\n  echo Not enough gold!\n  exit /b\n)\nset /a gold=%gold%-50\necho Sword purchased!\nexit /b',
+      hint: 'Think about what condition should block the purchase: not enough gold, not too much gold.',
+      hint2: 'Change `if %gold% GTR 50` to `if %gold% LSS 50` so the purchase is blocked when gold is less than the price.',
+    },
+    {
       type: 'build',
       prompt: 'Build a shop with 3 items:\n- Health Potion: 25 gold (sets potion=1)\n- Shield: 50 gold (sets shield=1)\n- Legendary Sword: 100 gold (sets lsword=1)\n\nCheck if player can afford. Show current gold. After buying, show updated inventory.',
       minLines: 30,

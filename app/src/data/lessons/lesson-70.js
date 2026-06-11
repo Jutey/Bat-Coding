@@ -28,6 +28,14 @@ export default {
       ],
     },
     {
+      type: 'fix',
+      prompt: 'This is the Recursion Trap itself: :countdown calls itself every time with no exit condition, so it recurses forever and never returns. Fix it by adding a base case that stops the recursion.',
+      code: '@echo off\nset n=5\ncall :countdown\necho LIFTOFF!\npause\nexit /b\n\n:countdown\necho %n%\nset /a n=%n%-1\ncall :countdown\nexit /b',
+      answer: '@echo off\nset n=5\ncall :countdown\necho LIFTOFF!\npause\nexit /b\n\n:countdown\necho %n%\nset /a n=%n%-1\nif %n% GTR 0 call :countdown\nexit /b',
+      hint: 'A recursive function must have a base case that stops it from calling itself again.',
+      hint2: 'Wrap the recursive call in a check: `if %n% GTR 0 call :countdown` so it stops once n reaches 0.',
+    },
+    {
       type: 'build',
       prompt: 'BUILD THE FINAL FUNCTION FACTORY APP.\n\nYour choice of theme. Ideas: system monitor, adventure game, quiz app, inventory tracker, personal assistant.\n\nHard requirements:\n- :startup function (runs once at launch)\n- :main_menu function (called each loop)\n- At least 4 feature functions, each doing something useful\n- :save writes at least 2 variables to a file\n- :load checks if save exists, loads if so\n- :help explains the app\n- 8+ labels total\n- All functions end with exit /b\n- Main loop is less than 15 lines\n- Minimum 50 lines total',
       minLines: 50,

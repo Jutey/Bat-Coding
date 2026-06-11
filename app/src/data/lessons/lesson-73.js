@@ -44,6 +44,14 @@ export default {
       hint: 'Which flag prevents the user from skipping the timeout?',
     },
     {
+      type: 'fix',
+      prompt: 'This countdown script has a typo in the timeout command — it errors instead of pausing. Fix it.',
+      code: '@echo off\necho Initializing scan...\ntimeout /t five /nobreak >nul\necho Scan complete.\ntimeout /t 2 /nobreak >nul\necho Ready.\npause',
+      answer: '@echo off\necho Initializing scan...\ntimeout /t 5 /nobreak >nul\necho Scan complete.\ntimeout /t 2 /nobreak >nul\necho Ready.\npause',
+      hint: 'timeout /t expects a number of seconds, not a word.',
+      hint2: 'Change "five" to 5 on the first timeout line.',
+    },
+    {
       type: 'build',
       prompt: 'Build a "System Boot Sequence" with at least 5 timed steps. Each step should:\n- Print what is happening ("Loading drivers...")\n- Wait 1-2 seconds\n- Move to the next step\nEnd with "SYSTEM ONLINE" in a formatted box.',
       minLines: 15,

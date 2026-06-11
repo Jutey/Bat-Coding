@@ -35,6 +35,14 @@ export default {
       hint: 'Start with the label, echo the message, then return',
     },
     {
+      type: 'fix',
+      prompt: 'The :divider utility function is missing its return statement, so calling it falls straight through into :confirm. Fix the function.',
+      code: '@echo off\ncall :divider\necho MAIN CONTENT\ncall :divider\npause\nexit /b\n\n:divider\necho ============================\n\n:confirm\necho Confirm action? (Y/N)\nchoice /c YN\nexit /b',
+      answer: '@echo off\ncall :divider\necho MAIN CONTENT\ncall :divider\npause\nexit /b\n\n:divider\necho ============================\nexit /b\n\n:confirm\necho Confirm action? (Y/N)\nchoice /c YN\nexit /b',
+      hint: 'Every function called with `call` must end with a line that returns control.',
+      hint2: 'Add `exit /b` after the echo line in :divider so it returns instead of running into :confirm.',
+    },
+    {
       type: 'build',
       prompt: 'Build your personal Batch utility library. Create at least 5 utility functions:\n1. :header — prints app name in a box\n2. :divider — prints a line\n3. :confirm — yes/no with choice\n4. :error_msg — prints a formatted error\n5. :success_msg — prints a formatted success\n\nThen build a demo program that calls all 5.',
       minLines: 30,

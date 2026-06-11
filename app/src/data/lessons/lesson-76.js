@@ -37,6 +37,14 @@ export default {
       hint: 'Open the Calculator using the start command',
     },
     {
+      type: 'fix',
+      prompt: 'This startup script tries to launch Notepad and Calculator, but one line is missing the command to actually open the program. Fix it.',
+      code: '@echo off\ntitle MORNING STARTUP\ncls\necho Opening workspace tools...\nstart notepad\ntimeout /t 1 /nobreak >nul\ncalc\necho All systems GO.\npause',
+      answer: '@echo off\ntitle MORNING STARTUP\ncls\necho Opening workspace tools...\nstart notepad\ntimeout /t 1 /nobreak >nul\nstart calc\necho All systems GO.\npause',
+      hint: 'Launching a program from a startup script needs a specific command before its name.',
+      hint2: 'Add "start " before calc so it reads "start calc".',
+    },
+    {
       type: 'build',
       prompt: 'Design your ideal startup launcher. It should:\n1. Show a personalized header with your callsign\n2. Check if a "tasks.txt" file exists and display it if so\n3. Open at least 2 programs (notepad, calc, etc.)\n4. Show a "workspace ready" confirmation\n5. Use timing for dramatic effect',
       minLines: 15,

@@ -37,6 +37,14 @@ export default {
       hint: 'The guard function needs to return',
     },
     {
+      type: 'fix',
+      prompt: 'The :npc3 function is supposed to greet using :npc1 first, then continue, but it uses goto instead of call so it never returns to finish its own lines. Fix it.',
+      code: '@echo off\ncall :npc3\npause\nexit /b\n\n:npc1\necho [GUARD]: Welcome, traveler.\nexit /b\n\n:npc3\ngoto :npc1\necho [SAGE]: I have been expecting you.\nexit /b',
+      answer: '@echo off\ncall :npc3\npause\nexit /b\n\n:npc1\necho [GUARD]: Welcome, traveler.\nexit /b\n\n:npc3\ncall :npc1\necho [SAGE]: I have been expecting you.\nexit /b',
+      hint: 'goto jumps away permanently and never comes back; you need a function call that returns.',
+      hint2: 'Change `goto :npc1` to `call :npc1` so :npc3 continues to its next echo line afterward.',
+    },
+    {
       type: 'build',
       prompt: 'Create a town with 3 NPCs:\n- :merchant (selling something, uses choice to buy/leave)\n- :guide (gives hints about the next sector)\n- :sentry (asks for a password, denies/allows entry)\n\nMain menu lets you choose which NPC to talk to.',
       minLines: 35,
