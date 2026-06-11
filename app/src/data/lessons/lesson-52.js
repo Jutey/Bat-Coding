@@ -43,6 +43,14 @@ export default {
       hint: 'Which command reads a file aloud to the terminal?',
     },
     {
+      type: 'fix',
+      prompt: 'This script tries to read a file before creating it. Fix it by adding the two lines that create save.txt before the type command.',
+      code: '@echo off\necho Loading data...\ntype save.txt\npause',
+      answer: '@echo off\necho Loading data...\necho PLAYER=Nova > save.txt\necho LEVEL=3 >> save.txt\ntype save.txt\npause',
+      hint: 'You cannot read a file that does not exist yet. Create it first.',
+      hint2: 'Use echo PLAYER=Nova > save.txt then echo LEVEL=3 >> save.txt before the type command.',
+    },
+    {
       type: 'build',
       prompt: 'Build a save-and-load demo:\n1. Write three lines of "game data" to save.txt\n2. Then use type to read and display that file\n3. Add a message before reading: "Loading saved data..."',
       minLines: 7,

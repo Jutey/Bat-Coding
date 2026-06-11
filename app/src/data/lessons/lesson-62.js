@@ -37,6 +37,14 @@ export default {
       hint: 'The function needs a return statement',
     },
     {
+      type: 'fix',
+      prompt: 'Three identical status blocks — but one has a typo. Find and fix it.',
+      code: '@echo off\necho ====================\necho SYSTEM STATUS: ONLINE\necho ====================\necho Sector 1: Active\necho ====================\necho SYSTEM STATUS: ONLNE\necho ====================\necho Sector 2: Active\necho ====================\necho SYSTEM STATUS: ONLINE\necho ====================\necho Sector 3: Active\npause',
+      answer: '@echo off\necho ====================\necho SYSTEM STATUS: ONLINE\necho ====================\necho Sector 1: Active\necho ====================\necho SYSTEM STATUS: ONLINE\necho ====================\necho Sector 2: Active\necho ====================\necho SYSTEM STATUS: ONLINE\necho ====================\necho Sector 3: Active\npause',
+      hint: 'Read each SYSTEM STATUS line carefully. One has a missing letter.',
+      hint2: 'Line 7: ONLNE is missing the letter I — it should be ONLINE.',
+    },
+    {
       type: 'build',
       prompt: 'Create a program with three separate "screens" (sections). Each screen calls a :header function at the top showing the app name. After the header, each screen shows different content. Use cls between screens and pause to wait.',
       minLines: 20,

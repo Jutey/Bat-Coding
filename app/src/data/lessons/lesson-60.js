@@ -8,7 +8,7 @@ export default {
     {
       type: 'learn',
       title: 'SECTOR 6 BOSS: THE CORRUPTED ARCHIVE',
-      body: 'The File Fortress central archive has been hit by a data corruption attack.\n\nFiles are being scrambled. Save data is being destroyed.\n\nYour mission: build a complete data management system that writes, reads, appends, and verifies file integrity.',
+      body: 'ALERT: The File Fortress central archive is corrupted.\n\nSomeone ran a broken script that keeps overwriting its own data. The header gets written with >>, entries get written with >, the wrong filename is being read, and the export runs before the archive even exists.\n\nPhase 1: Repair the broken archive script.\nPhase 2: Build a clean version from scratch.',
       code: null,
     },
     {
@@ -26,6 +26,14 @@ export default {
         { text: 'del to delete the file', correct: false, explanation: 'del removes the file entirely.' },
         { text: 'type to display it', correct: false, explanation: 'type only reads, it does not write.' },
       ],
+    },
+    {
+      type: 'fix',
+      prompt: 'This archive script has four bugs. Find and fix them all: wrong operator on line 2, wrong operator on line 3, typo in filename, and export before archive is ready.',
+      code: '@echo off\necho ARCHIVE START >> archive.dat\necho Entry one > archive.dat\ntype archives.dat\necho Exporting...\ncopy archive.dat report.txt\npause',
+      answer: '@echo off\necho ARCHIVE START > archive.dat\necho Entry one >> archive.dat\ntype archive.dat\necho Exporting...\ncopy archive.dat report.txt\npause',
+      hint: 'Check the operators on lines 2 and 3. One should start fresh, the other should append. Also check the filename on line 4.',
+      hint2: 'Line 2: use > (fresh start). Line 3: use >> (append). Line 4: archives.dat has a typo — it should be archive.dat.',
     },
     {
       type: 'build',

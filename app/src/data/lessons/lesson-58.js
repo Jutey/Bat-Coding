@@ -37,6 +37,14 @@ export default {
       hint: 'Each boot should add to the log, not replace it',
     },
     {
+      type: 'fix',
+      prompt: 'Both log lines use >. The second event erases the first. A log should keep everything. Fix it.',
+      code: '@echo off\necho Player opened menu > log.txt\necho Player bought item > log.txt\necho Log written.\ntype log.txt\npause',
+      answer: '@echo off\necho Player opened menu > log.txt\necho Player bought item >> log.txt\necho Log written.\ntype log.txt\npause',
+      hint: 'Logs should append, not overwrite. Only the first line should use >.',
+      hint2: 'Change the second > to >> so the second event is added after the first.',
+    },
+    {
       type: 'build',
       prompt: 'Build a system monitor log. Create a loop with a menu:\n1. Log "Scan complete"\n2. Log "Alert triggered"\n3. Log "System restart"\n4. View log\n5. Exit\n\nEach option (1-3) appends a formatted line to events.log. Option 4 displays it.',
       minLines: 20,

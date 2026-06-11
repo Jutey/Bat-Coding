@@ -37,6 +37,14 @@ export default {
       hint: 'The second line should add to the file, not replace it',
     },
     {
+      type: 'fix',
+      prompt: 'Every line uses >>. If you run this twice, the save file grows with old data. Fix the first line to use > so the save file is always fresh.',
+      code: '@echo off\nset name=Hero\nset hp=100\nset gold=50\necho name=%name% >> save.txt\necho hp=%hp% >> save.txt\necho gold=%gold% >> save.txt\necho Saved!\npause',
+      answer: '@echo off\nset name=Hero\nset hp=100\nset gold=50\necho name=%name% > save.txt\necho hp=%hp% >> save.txt\necho gold=%gold% >> save.txt\necho Saved!\npause',
+      hint: 'The first line of a save should start fresh. Only the first line needs the change.',
+      hint2: 'Change the first echo ... >> save.txt to echo ... > save.txt to overwrite on each save.',
+    },
+    {
       type: 'build',
       prompt: 'Build a complete save system. Ask the player for:\n- Their name\n- Current level (1-10)\n- Favorite weapon\n\nSave all three to character.sav, then read it back and display "SAVE FILE LOADED:"',
       minLines: 10,

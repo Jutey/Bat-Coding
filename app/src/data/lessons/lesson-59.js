@@ -37,6 +37,14 @@ export default {
       hint: 'Use a pipe character to separate the two fields',
     },
     {
+      type: 'fix',
+      prompt: 'This fake database uses three different formats for the same type of record. Fix all three lines to use consistent KEY=VALUE format.',
+      code: '@echo off\necho name Nova >> players.db\necho Level: 5 >> players.db\necho gold=120 >> players.db\necho Record added.\npause',
+      answer: '@echo off\necho NAME=Nova >> players.db\necho LEVEL=5 >> players.db\necho GOLD=120 >> players.db\necho Record added.\npause',
+      hint: 'All three lines should use the same format. Pick KEY=VALUE and apply it to all three.',
+      hint2: 'Change "name Nova" to "NAME=Nova" and "Level: 5" to "LEVEL=5" to match the consistent format.',
+    },
+    {
       type: 'build',
       prompt: 'Build an inventory database system:\n- Menu: Add Item / View All / Exit\n- Add Item: ask for name, quantity, type — save as pipe-delimited record to items.db\n- View All: display items.db with a header row\n- Loop until Exit',
       minLines: 20,

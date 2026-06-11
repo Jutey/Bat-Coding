@@ -43,6 +43,14 @@ export default {
       hint: 'Open Notepad using the start command',
     },
     {
+      type: 'fix',
+      prompt: 'A path with spaces breaks the start command. Fix it by adding quotes around the path.',
+      code: '@echo off\necho Opening editor...\nstart C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe\necho Opened.\npause',
+      answer: '@echo off\necho Opening editor...\nstart "" "C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe"\necho Opened.\npause',
+      hint: 'Spaces in paths break start. You need to quote the path.',
+      hint2: 'Use: start "" "C:\\Program Files\\Windows NT\\Accessories\\wordpad.exe" — the first "" is the window title.',
+    },
+    {
       type: 'build',
       prompt: 'Build a "Workspace Launcher" script. Ask the user which workspace to open:\n1. Writer workspace (opens Notepad)\n2. Math workspace (opens Calculator)\n3. Custom (ask for a program name and start it)\n4. Exit',
       minLines: 14,

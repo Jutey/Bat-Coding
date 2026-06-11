@@ -44,6 +44,14 @@ export default {
       hint: 'Use move to put notes.txt inside the Projects folder',
     },
     {
+      type: 'fix',
+      prompt: 'The move command fails if the TextFiles folder does not exist. Fix the script to create the folder first.',
+      code: '@echo off\necho Organizing files...\nmove *.txt TextFiles\\\necho Done.\npause',
+      answer: '@echo off\necho Organizing files...\nif not exist TextFiles mkdir TextFiles\nmove *.txt TextFiles\\\necho Done.\npause',
+      hint: 'You cannot move files into a folder that does not exist yet.',
+      hint2: 'Add: if not exist TextFiles mkdir TextFiles before the move command.',
+    },
+    {
       type: 'build',
       prompt: 'Build a workspace setup script that:\n1. Creates folders: Documents, Images, Scripts, Temp\n2. Creates a sample .txt file in the root\n3. Moves it into Documents\n4. Prints "Workspace initialized" with a folder listing',
       minLines: 10,

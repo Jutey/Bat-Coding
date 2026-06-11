@@ -37,6 +37,14 @@ export default {
       hint: 'Use the variable inside the filename with % signs',
     },
     {
+      type: 'fix',
+      prompt: 'Every player saves to the same file. Player 2 overwrites Player 1. Fix the filename to include the player\'s name.',
+      code: '@echo off\nset /p name=Enter your name: \necho PLAYER=%name% > profile.txt\necho Profile saved.\npause',
+      answer: '@echo off\nset /p name=Enter your name: \necho PLAYER=%name% > %name%_profile.txt\necho Profile saved.\npause',
+      hint: 'The filename should be different for each player. Use the name variable in the filename.',
+      hint2: 'Change profile.txt to %name%_profile.txt so each player gets their own file.',
+    },
+    {
       type: 'build',
       prompt: 'Build a profile system:\n1. Ask for name\n2. Ask for class (warrior/mage/scout)\n3. Based on class, set different starting stats (HP, attack, speed)\n4. Save all to [name].profile\n5. Display the profile',
       minLines: 14,

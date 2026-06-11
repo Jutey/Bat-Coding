@@ -44,6 +44,14 @@ export default {
       hint: 'What message should appear when there is no save file?',
     },
     {
+      type: 'fix',
+      prompt: 'This script crashes with an ugly error if save.txt does not exist. Fix it to check first.',
+      code: '@echo off\necho Loading...\ntype save.txt\necho Load complete.\npause',
+      answer: '@echo off\necho Loading...\nif exist save.txt (\ntype save.txt\necho Load complete.\n) else (\necho No save file found.\n)\npause',
+      hint: 'Use if exist save.txt to check before reading.',
+      hint2: 'Wrap the type command in: if exist save.txt ( ... ) else ( echo No save file found. )',
+    },
+    {
       type: 'build',
       prompt: 'Build a save/load system:\n1. If save.txt exists, display "LOADING..." then type the file\n2. If it does not exist, ask the player for their name and level, save them to save.txt, display "SAVED"\n\nThis simulates a real game save system.',
       minLines: 10,

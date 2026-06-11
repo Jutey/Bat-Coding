@@ -37,6 +37,14 @@ export default {
       hint: 'You want to add to the file, not replace it',
     },
     {
+      type: 'fix',
+      prompt: 'Both score lines use >. The second score deletes the first. Fix the second line.',
+      code: '@echo off\necho Nova - 900 > scores.txt\necho Kai - 700 > scores.txt\necho Scores saved.\ntype scores.txt\npause',
+      answer: '@echo off\necho Nova - 900 > scores.txt\necho Kai - 700 >> scores.txt\necho Scores saved.\ntype scores.txt\npause',
+      hint: 'The second score should be added to the file, not replace it.',
+      hint2: 'Change the second > to >> to append instead of overwrite.',
+    },
+    {
       type: 'build',
       prompt: 'Build a high score board with a menu:\n- Option 1: Add your score (ask name + score, append to scores.txt)\n- Option 2: View all scores (type scores.txt)\n- Option 3: Exit\n\nLoop until they choose Exit.',
       minLines: 18,
