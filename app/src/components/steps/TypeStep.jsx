@@ -12,10 +12,7 @@ export default function TypeStep({ step, onCorrect, onWrong }) {
   function handleCheck() {
     if (!value.trim() || locked) return;
     setLocked(true);
-    if (isCorrect) {
-      setTimeout(() => onCorrect(), 1200);
-    }
-    // wrong: user clicks TRY AGAIN
+    // wrong: user clicks TRY AGAIN; correct: user clicks CONTINUE
   }
 
   function handleRetry() {

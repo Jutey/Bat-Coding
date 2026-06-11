@@ -47,7 +47,6 @@ export default function PredictStep({ step, onCorrect, onWrong }) {
     setLocked(true);
     if (selected === correctIndex) {
       trackStat('predictionsCorrect', 1);
-      setTimeout(() => onCorrect(), 1400);
     }
   }
 

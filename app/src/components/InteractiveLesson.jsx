@@ -42,19 +42,19 @@ export default function InteractiveLesson({ lessonData, progress, onBack, onComp
   function renderStep() {
     switch (step.type) {
       case 'learn':
-        return <LearnStep step={step} onContinue={goNext} onSpeak={isSupported ? speak : null} />;
+        return <LearnStep key={stepIndex} step={step} onContinue={goNext} onSpeak={isSupported ? speak : null} />;
       case 'predict':
-        return <PredictStep step={step} onCorrect={goNext} onWrong={() => {}} />;
+        return <PredictStep key={stepIndex} step={step} onCorrect={goNext} onWrong={() => {}} />;
       case 'type':
-        return <TypeStep step={step} onCorrect={goNext} onWrong={() => {}} />;
+        return <TypeStep key={stepIndex} step={step} onCorrect={goNext} onWrong={() => {}} />;
       case 'fill':
-        return <FillStep step={step} onCorrect={goNext} onWrong={() => {}} />;
+        return <FillStep key={stepIndex} step={step} onCorrect={goNext} onWrong={() => {}} />;
       case 'fix':
-        return <FixStep step={step} onCorrect={goNext} onWrong={() => {}} />;
+        return <FixStep key={stepIndex} step={step} onCorrect={goNext} onWrong={() => {}} />;
       case 'build':
-        return <BuildStep step={step} onComplete={goNext} onTriggerAchievement={onTriggerAchievement} />;
+        return <BuildStep key={stepIndex} step={step} onComplete={goNext} onTriggerAchievement={onTriggerAchievement} />;
       case 'reward':
-        return <RewardStep step={step} lessonXp={lessonData.xp} alreadyDone={alreadyDone} onFinish={handleFinish} onTriggerAchievement={onTriggerAchievement} />;
+        return <RewardStep key={stepIndex} step={step} lessonXp={lessonData.xp} alreadyDone={alreadyDone} onFinish={handleFinish} onTriggerAchievement={onTriggerAchievement} />;
       default:
         return <div style={{ padding: 32, color: '#7a9a7a' }}>Unknown step type: {step.type}</div>;
     }

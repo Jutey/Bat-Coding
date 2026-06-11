@@ -23,11 +23,7 @@ export default function FillStep({ step, onCorrect, onWrong }) {
   function handleCheck() {
     if (!value.trim() || locked) return;
     setLocked(true);
-    if (isCorrect) {
-      setTimeout(() => onCorrect(), 1200);
-    } else {
-      // show feedback, allow retry
-    }
+    // correct: user clicks CONTINUE; wrong: user clicks TRY AGAIN
   }
 
   function handleRetry() {
