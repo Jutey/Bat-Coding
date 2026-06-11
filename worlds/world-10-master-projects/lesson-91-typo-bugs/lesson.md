@@ -1,4 +1,4 @@
-# Lesson 96 — Files Compared
+# Lesson 91 — Typo Bugs
 
 > Coming soon. See the world README for context.
 

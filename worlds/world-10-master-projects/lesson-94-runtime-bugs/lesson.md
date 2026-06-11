@@ -1,4 +1,4 @@
-# Lesson 93 — Logic Compared
+# Lesson 94 — Runtime Bugs
 
 > Coming soon. See the world README for context.
 

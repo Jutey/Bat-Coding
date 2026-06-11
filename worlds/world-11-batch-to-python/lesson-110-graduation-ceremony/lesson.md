@@ -1,0 +1,12 @@
+# Lesson 110 — Graduation Ceremony
+
+> Coming soon. See the world README for context.
+
+## Structure
+- LEARN
+- PREDICT
+- RUN
+- BREAK
+- FIX
+- CHALLENGE
+- REWARD

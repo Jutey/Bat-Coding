@@ -1,11 +1,11 @@
-# WORLD 10 — Master Projects
+# WORLD 10 — Debug Dungeon
 ## Sector: Master Control
 
 ---
 
 ### Grand Quest Context
 
-Nine sectors online. The Recon Network is active.  
+Nine sectors online. The Recon Network is active.
 You know the full picture now. The Cascade was deliberate. Something is waiting inside Master Control.
 
 But you also have everything you need:
@@ -21,79 +21,66 @@ But you also have everything you need:
 
 Every tool. Every skill. Every lesson.
 
-Now use them.
+Now use them — to fix what's broken.
 
 ---
 
 ### What This World Is
 
-World 10 is not lessons. There's no "new command" to learn.
+World 10 is the Debug Dungeon. There's no "new command" to learn.
 
-Each project is a full specification. You design. You plan. You build.  
-A.E.G.I.S. is available but won't structure the solution for you.
+Every lesson hands you code that's already broken — typos, bad variables,
+faulty logic, runtime crashes, math mistakes, and bugs that span every system
+you've learned. Your job is to find it, understand it, and fix it.
 
-These are the projects that go in the museum as the capstones — the proof that you can build real things.
+A.E.G.I.S. is available, but for the hardest bugs it goes quiet.
 
----
-
-### Projects
-
-| # | Project | Core Challenge |
-|---|---------|---------------|
-| 1 | Pokemon Clone | battle system + stats + random + save |
-| 2 | Trading Game | economy + files + dynamic pricing |
-| 3 | Tycoon Simulator | resource management + loops + files |
-| 4 | Zombie Survival | random events + health + inventory + saving |
-| 5 | Grade Manager | file I/O + math + display + input |
-| 6 | Password Vault | file encryption basics + security |
-| 7 | Operating System | full menu + all subsystems |
-| 8 | AI Chatbot | input + pattern matching + responses + files |
-| 9 | Economy Simulator | all systems + randomness |
-| 10 | **FINAL CAPSTONE** | *Build Anything* |
+This is the world where everything you've learned gets put to the test —
+the proof that you can read code, find what's wrong, and repair it.
 
 ---
 
-### Project 10 — Final Capstone: Build Anything
+### Lessons
 
-No specification. No requirements. No hints.
-
-Build one thing that:
-1. Solves a real problem OR tells a real story OR creates a real game
-2. Uses skills from at least 5 different worlds
-3. Is something you actually want to exist
-
-Past capstone projects from imaginary students:
-- A pet care tracker that reminds you when to feed your fish
-- A Minecraft-inspired survival game with permanent save states
-- A grade calculator that emails your parents (World 8)
-- A mystery story game where the villain is different every playthrough
-- A "morning routine" assistant that launches music, shows the weather, and reminds you what day it is
-
-The only rule: **it has to be yours.**
+| # | Lesson | The Bug |
+|---|--------|---------|
+| 91 | Typo Bugs | misspelled commands and variables |
+| 92 | Variable Bugs | wrong values, unset variables, scope mistakes |
+| 93 | Logic Bugs | code that runs but does the wrong thing |
+| 94 | Runtime Bugs | bugs that only appear while running |
+| 95 | Math Bugs | when numbers lie |
+| 96 | Multi-System Bugs | several systems failing at once |
+| 97 | Debugging Toolkit | building your own debugging techniques |
+| 98 | Final Debug Challenge | the hardest bugs you've seen |
+| 99 | Grand Quest Finale | Terminal Prime is almost restored |
+| 100 | **BOSS BATTLE — Terminal Prime** | the final boss itself |
 
 ---
 
-### The Boss — The Final Cascade
+### The Boss — Terminal Prime
 
-Before the capstone, there's one last boss.
+The system at the heart of Master Control has gone fully corrupted.
 
-The Final Cascade contains 10 bugs — one from each previous world.  
+Terminal Prime contains bugs from every previous world — typos, bad variables,
+broken logic, infinite loops, corrupted files, and more — all stacked into one
+final program.
+
 No hints available. A.E.G.I.S. goes silent for this one.
 
-It's the final exam that isn't an exam.  
+It's the final exam that isn't an exam.
 It's just you, a broken program, and everything you've learned.
 
 ---
 
 ### Grand Quest Resolution
 
-After the capstone, the choice you made in World 9 plays out.
+After Terminal Prime is repaired, the choice you made in World 9 plays out.
 
-If you built enough of the counter-systems during your projects:  
+If you built enough of the counter-systems along the way:
 The Cascade Protocol activates — and you're ready for it.
 
-If you spent World 10 building the bypass:  
+If you spent World 10 building the bypass:
 Master Control comes online a different way.
 
-Either ending unlocks the final A.E.G.I.S. message.  
+Either ending unlocks the final A.E.G.I.S. message.
 And World 11.

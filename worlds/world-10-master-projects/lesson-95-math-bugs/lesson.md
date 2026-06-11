@@ -1,4 +1,4 @@
-# Lesson 99 — You Know Python
+# Lesson 95 — Math Bugs
 
 > Coming soon. See the world README for context.
 

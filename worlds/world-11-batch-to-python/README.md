@@ -49,20 +49,20 @@ Same ideas. Different syntax.
 
 | # | Lesson | The Comparison |
 |---|--------|----------------|
-| 101 | Same Ideas | conceptual mapping |
-| 102 | Variables Compared | `set x=5` → `x = 5` |
-| 103 | Logic Compared | if syntax side-by-side |
-| 104 | Loops Compared | `goto` → `while` |
-| 105 | Functions Compared | `call :func` → `def func():` |
-| 106 | Files Compared | echo redirect → open/write |
-| 107 | First Python Program | Hello World in Python |
-| 108 | Python Game | text game rebuilt |
-| 109 | You Know Python | the realization moment |
-| 110 | What's Next | Python, web, games, AI |
+| 101 | Batch vs Python | conceptual mapping — you've outgrown Batch |
+| 102 | Variables in Python | `set x=5` → `x = 5` |
+| 103 | Input in Python | `set /p` → `input()` |
+| 104 | Loops in Python | `goto` → `while` / `for` |
+| 105 | Functions in Python | `call :func` → `def func():` |
+| 106 | Files in Python | echo redirect → `open()`/`.write()` |
+| 107 | Running Python from Batch | calling `python script.py` from a `.bat` |
+| 108 | Combining Languages | using Batch and Python together |
+| 109 | Final Project | the capstone project |
+| 110 | Graduation Ceremony | Terminal Prime: fully restored |
 
 ---
 
-### Lesson 109 — The Realization Moment
+### Lesson 109 — The Capstone Project
 
 This lesson has no new commands. It has no code to run.
 
@@ -91,7 +91,7 @@ The student reads:
 
 ---
 
-### Lesson 110 — What's Next
+### Lesson 110 — Graduation Ceremony
 
 A.E.G.I.S. delivers the final message:
 

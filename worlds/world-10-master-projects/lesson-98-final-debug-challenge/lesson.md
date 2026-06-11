@@ -1,4 +1,4 @@
-# Lesson 98 — Python Game
+# Lesson 98 — Final Debug Challenge
 
 > Coming soon. See the world README for context.
 

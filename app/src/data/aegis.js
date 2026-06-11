@@ -58,7 +58,7 @@ export const AEGIS_WORLD_INTROS = {
   'world-07': "Six sectors online. But every system is one giant script. Tangled. Fragile. Time to build the Core Functions — modular, reusable, maintainable.",
   'world-08': "The network processes run — but everything needs a human to start it. The Automation Grid makes it self-managing.",
   'world-09': "Eight sectors online. But who's watching? The Recon Network gives us eyes. And Cadet — what we're about to see will answer a lot of questions.",
-  'world-10': "All sectors online. All tools available. This is it — Master Control. Build something real.",
+  'world-10': "All sectors online. All tools available. Master Control is corrupted — and only you can fix it. Welcome to the Debug Dungeon.",
   'world-11': "The network is restored. But this isn't the end. It's a bridge. Everything you built in Batch — it all exists in Python too.",
 };
 

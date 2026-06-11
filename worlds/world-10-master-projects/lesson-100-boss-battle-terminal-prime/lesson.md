@@ -1,4 +1,4 @@
-# Lesson 100 — Whats Next
+# Lesson 100 — BOSS BATTLE — Terminal Prime
 
 > Coming soon. See the world README for context.
 

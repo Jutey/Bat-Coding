@@ -1,4 +1,4 @@
-# Lesson 94 — Loops Compared
+# Lesson 93 — Logic Bugs
 
 > Coming soon. See the world README for context.
 

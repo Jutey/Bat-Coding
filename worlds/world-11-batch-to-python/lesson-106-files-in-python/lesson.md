@@ -1,4 +1,4 @@
-# Lesson 92 — Variables Compared
+# Lesson 106 — Files in Python
 
 > Coming soon. See the world README for context.
 

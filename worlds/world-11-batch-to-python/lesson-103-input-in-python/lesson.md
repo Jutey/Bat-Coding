@@ -1,4 +1,4 @@
-# Lesson 95 — Functions Compared
+# Lesson 103 — Input in Python
 
 > Coming soon. See the world README for context.
 
